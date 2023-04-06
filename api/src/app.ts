@@ -31,10 +31,8 @@ app.get('/', (req, res) => {
 async function start() {
 	await connectDB(process.env.MONGO_URL)
 	console.log('Connected')
-
 	app.listen(4000)
+	// automation()
 }
 
 start()
-
-automation()

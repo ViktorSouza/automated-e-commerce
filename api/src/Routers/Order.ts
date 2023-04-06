@@ -1,3 +1,4 @@
 import express from 'express'
-const OrderRouter = express.Router()
-export  {OrderRouter}
+const route = express.Router()
+
+export  {route as OrderRouter}

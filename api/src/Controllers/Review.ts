@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import { Review } from '../Models'
+import { Product, Review } from '../Models'
 /**
  * @requires {
  *  comment:string
@@ -13,14 +13,17 @@ const createReview: RequestHandler = async (req, res) => {
 	const { comment, stars, product } = req.body
 	if (!product) throw new Error('No product provided')
 	if (!stars) throw new Error('No stars provided')
-	if (!comment) throw new Error('No comment provided')
+	const productDB = await Product.findOne({ _id: product }).exec()
+	if (!productDB) throw new Error('Product not found')
+	console.log(req.user._id)
+
 	const review = await Review.create({
 		product,
 		stars,
 		comment,
 		user: req.user._id,
 	})
-	res.send('updateReview')
+	res.json({ review })
 }
 const updateReview: RequestHandler = async (req, res) => {
 	res.send('updateReview')

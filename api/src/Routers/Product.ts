@@ -10,7 +10,8 @@ const {
 	getSingleProduct,
 } = Product
 route.get('/', getAllProducts)
+route.get('/AUTrandomProduct', AUTgetRandomProduct)
 route.get('/:id', getSingleProduct)
-route.post('/', Authorization, createProduct)
-route.delete('/:id', Authorization, deleteProduct)
+route.post('/', Authorization({}), createProduct)
+route.delete('/:id', Authorization({}), deleteProduct)
 export { route as ProductRouter }

@@ -10,6 +10,8 @@ const createProduct: RequestHandler = async (req, res) => {
 		colors?: string[]
 	}
 
+	console.log('create product')
+
 	if (!title || !description || !price || !colors) {
 		throw new Error('Provide all values')
 	}
@@ -42,7 +44,7 @@ const deleteProduct: RequestHandler = async (req, res) => {
 	//#TODO security - only the product owner can delete the product
 	const { id } = req.params
 	if (!mongoose.isValidObjectId(id)) throw new Error('Invalid ID')
-	const product = await Product.findOne({ _id: id })
+	const product = await Product.findOne({ _id: id }).exec()
 	if (!product) throw new Error('Product not found')
 	await product.delete()
 	res.send('Deleted')

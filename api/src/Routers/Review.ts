@@ -1,5 +1,6 @@
 import express from 'express'
 import { Review } from '../Controllers/'
+import { Authorization } from '../Middlewares'
 const {
 	createReview,
 	updateReview,
@@ -10,7 +11,7 @@ const {
 const route = express.Router()
 route.get('/', getAllReviews)
 route.get('/:id', getSingleReview)
-route.post('/', createReview)
-route.patch('/', updateReview)
-route.delete('/:id', deleteReview)
+route.post('/', Authorization({}), createReview)
+route.patch('/', Authorization({}), updateReview)
+route.delete('/:id', Authorization({}), deleteReview)
 export { route as ReviewRouter }

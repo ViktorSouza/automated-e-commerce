@@ -1,2 +1,3 @@
 import { connectDB } from './connectDB'
-export { connectDB }
+import { createJWT } from './createJWT'
+export { connectDB, createJWT }

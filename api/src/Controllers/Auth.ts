@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express'
 import JWT from 'jsonwebtoken'
 import { User } from '../Models'
+import { createJWT } from '../Utils'
 
 const registerUser: RequestHandler = async (req, res) => {
 	const { name, email, password } = req.body as {
@@ -8,15 +9,17 @@ const registerUser: RequestHandler = async (req, res) => {
 		email?: string
 		password?: string
 	}
+	const roles: string[] = []
 	if (!email) throw new Error('No email provided')
 	if (!password) throw new Error('No password provided')
 	if (!name?.first || !name.last) throw new Error('Incoplete name')
-	const user = await User.create({ email, password, name })
-	console.log('created Account')
 
-	res.cookie('token', JWT.sign(user.toJSON(), process.env.SECRET), {
-		signed: true,
-	})
+	if ((await User.countDocuments().exec()) === 0) {
+		roles.push('Admin')
+	}
+	const user = await User.create({ email, password, name, roles })
+	console.log('created Account')
+	createJWT({ res, user })
 	res.json({ user })
 }
 

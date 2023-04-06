@@ -3,6 +3,10 @@ import bcryptjs from 'bcryptjs'
 import validator from 'validator'
 const Schema = new mongoose.Schema(
 	{
+		roles: {
+			type: [String],
+			required: true,
+		},
 		email: {
 			type: String,
 			// required: true,
