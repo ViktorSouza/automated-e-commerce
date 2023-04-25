@@ -1,28 +1,36 @@
 import { RequestHandler } from 'express'
+import { MongooseError } from 'mongoose'
 import { Product, Review } from '../Models'
 /**
  * @requires {
  *  comment:string
- *  stars:number
+ *  rating:number
  *  product:string
  * }
  * @param req
  * @param res
  */
 const createReview: RequestHandler = async (req, res) => {
-	const { comment, stars, product } = req.body
+	const { comment, rating, product } = req.body
 	if (!product) throw new Error('No product provided')
-	if (!stars) throw new Error('No stars provided')
+	if (!rating) throw new Error('No rating provided')
 	const productDB = await Product.findOne({ _id: product }).exec()
 	if (!productDB) throw new Error('Product not found')
-	console.log(req.user._id)
 
-	const review = await Review.create({
+	const review = new Review({
 		product,
-		stars,
+		rating,
 		comment,
 		user: req.user._id,
 	})
+	try {
+		await review.save()
+	} catch (error) {
+		if (error instanceof MongooseError) {
+			throw new Error(error.name)
+		}
+		throw new Error('Server Internal Error')
+	}
 	res.json({ review })
 }
 const updateReview: RequestHandler = async (req, res) => {

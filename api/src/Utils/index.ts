@@ -1,3 +1,4 @@
 import { connectDB } from './connectDB'
 import { createJWT } from './createJWT'
-export { connectDB, createJWT }
+import { randomIntFromInterval } from './randomBtwFromInterval'
+export { connectDB, createJWT,randomIntFromInterval }

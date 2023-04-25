@@ -1,0 +1,86 @@
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { UserContext } from '../contexts/UserContext'
+
+function Login() {
+	const navigate = useNavigate()
+	const { login, isLogin, isLoading } = useContext(UserContext)
+	const email = useRef<HTMLInputElement>(null)
+	const password = useRef<HTMLInputElement>(null)
+	function handleLogin() {
+		if (email.current && password.current) {
+			const errors = []
+			if (!email.current.value) {
+				errors.push('Please provide the email')
+			}
+			if (!password.current.value) {
+				errors.push('Please provide the password')
+			}
+			console.log(errors)
+
+			if (errors.length) return
+			console.log('Nothing wrong')
+
+			login({ email: email.current.value, password: password.current.value })
+		}
+	}
+	useEffect(() => {
+		if (isLogin) {
+			navigate('/')
+		}
+	})
+	if (isLogin || !isLoading) return null
+	return (
+		<form
+			onSubmit={(e) => e.preventDefault()}
+			className='flex flex-col w-[500px] mx-auto rounded-md-lg p-10'>
+			<div className='mb-4'>
+				<h1 className='font-semibold text-h1'>Welcome back :D</h1>
+			</div>
+			<div className='mb-4'>
+				<label htmlFor='email'>Email</label>
+				<input
+					className='input  w-full'
+					type='email'
+					name='email'
+					defaultValue='viktor@gmail.com'
+					ref={email}
+					id='email'
+					placeholder='example@email.com'
+					required
+				/>
+			</div>
+			<div className='mb-4'>
+				<label htmlFor='password'>Password</label>
+				<input
+					className='p-2 w-full rounded-md placeholder:text-sm bg-slate-900'
+					type='password'
+					name='password'
+					defaultValue='123123'
+					ref={password}
+					placeholder='Type your password'
+					id='password'
+					required
+				/>
+			</div>
+			<div className='flex flex-row justify-between content-between mb-4'>
+				<Link
+					to='/create-account'
+					className='text-sky-500 hover:underline hover:text-sky-300'>
+					Create account
+				</Link>
+				<Link
+					to='/forget-password'
+					className='text-sky-500 hover:underline hover:text-sky-300'>
+					Forget the password?
+				</Link>
+			</div>
+			<button
+				className='bg-sky-500 hover:bg-sky-500 p-2 rounded-md'
+				onClick={handleLogin}>
+				Sign in
+			</button>
+		</form>
+	)
+}
+export default Login

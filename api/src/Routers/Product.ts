@@ -13,5 +13,5 @@ route.get('/', getAllProducts)
 route.get('/AUTrandomProduct', AUTgetRandomProduct)
 route.get('/:id', getSingleProduct)
 route.post('/', Authorization({}), createProduct)
-route.delete('/:id', Authorization({}), deleteProduct)
+route.delete('/:id', Authorization({ roles: ['Admin', 'Aoba'] }), deleteProduct)
 export { route as ProductRouter }

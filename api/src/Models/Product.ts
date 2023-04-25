@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import validator from 'validator'
-const Schema = new mongoose.Schema({
+import {IProduct} from 'shared/Types/IProduct'
+const Schema = new mongoose.Schema<IProduct>({
 	description: {
 		required: false,
 		type: String,
@@ -10,9 +11,13 @@ const Schema = new mongoose.Schema({
 		requried: true,
 		type: String,
 	},
+	image: {
+		requried: false,
+		type: String,
+	},
 	price: {
 		required: true,
-		type: String,
+		type: Number,
 	},
 	user: {
 		required: true,
@@ -36,3 +41,4 @@ const Schema = new mongoose.Schema({
 })
 const Product = mongoose.model('Product', Schema)
 export { Product }
+

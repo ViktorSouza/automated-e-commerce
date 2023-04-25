@@ -8,8 +8,8 @@ declare module 'express-serve-static-core' {
 				last: string
 			}
 			email: string
-			roles:string[]
-			_id:ObjectId
+			roles: string[]
+			_id: ObjectId
 		}
 	}
 }

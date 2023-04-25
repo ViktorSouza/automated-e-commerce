@@ -4,7 +4,6 @@ import { ObjectId } from 'mongoose'
 
 const Authorization = ({ roles }: { roles?: string[] }): RequestHandler => {
 	return (req, res, next) => {
-		//TODO make the token verification
 
 		if (!req.signedCookies.token && !req.cookies.token) {
 			throw new Error('No token provided')

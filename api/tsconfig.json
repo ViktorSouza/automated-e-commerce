@@ -3,7 +3,7 @@
 		"strict": true,
 		"target": "ES2022",
 		"forceConsistentCasingInFileNames": true,
-		"baseUrl": "./dist",
+		// "baseUrl": "./dist",
 		"checkJs": true,
 		"alwaysStrict": true,
 		"noEmitOnError": true,
@@ -12,7 +12,10 @@
 		// "noUnusedParameters": true,
 		"rootDir": "./src",
 		"skipLibCheck": true,
-		"module": "CommonJS"
+		"module": "CommonJS",
+		"paths": {
+			"shared/*": ["../shared/*"]
+		}
 	}
 	// "include": ["/.env"]
 }

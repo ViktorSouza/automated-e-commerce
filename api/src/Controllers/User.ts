@@ -1,10 +1,20 @@
+import { log } from 'console'
 import { RequestHandler } from 'express-serve-static-core'
+import { User } from '../Models'
 
 const showMe: RequestHandler = async (req, res) => {
-	res.send('showMe')
+	const user = await User.findOne({ _id: req.user._id }).exec()
+
+	if (!user) throw new Error('User not found ???????????????????')
+	const newUser: { password?: string } = { ...user.toJSON() }
+	delete newUser.password
+
+
+	res.send({ user: newUser })
 }
 const getAllUsers: RequestHandler = async (req, res) => {
-	res.send('getAllUsers')
+	const users = await User.find({}).exec()
+	res.json(users)
 }
 const getSingleUser: RequestHandler = async (req, res) => {
 	res.send('getSingleUser')

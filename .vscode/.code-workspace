@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "client",
+			"name": "Front-end"
+		},
+		{
+			"path": "api",
+			"name": "Back-end"
+		}
+	],
+	"settings": {
+		"editor.tabSize": 2
+	}
+}

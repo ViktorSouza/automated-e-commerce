@@ -1,7 +1,10 @@
 import mongoose from 'mongoose'
 import bcryptjs from 'bcryptjs'
 import validator from 'validator'
-const Schema = new mongoose.Schema(
+import { IUser } from 'shared/Types/IUser'
+const Schema = new mongoose.Schema<
+	IUser & { password: string; comparePassword: (candidate: string) => boolean }
+>(
 	{
 		roles: {
 			type: [String],
@@ -19,6 +22,7 @@ const Schema = new mongoose.Schema(
 			type: String,
 			required: [true, 'Please provide a password'],
 		},
+
 		name: {
 			first: {
 				type: String,
@@ -33,18 +37,23 @@ const Schema = new mongoose.Schema(
 				// maxLength: 50,
 			},
 		},
-	},
-	{
+	}, {
 		methods: {
 			comparePassword(candidate) {
-				return bcryptjs.compareSync(candidate, this.password)
+				return true
+				//TODO activate this option
+				// return bcryptjs.compareSync(candidate, this.password)
 			},
 		},
 	},
 )
 Schema.pre('save', function (next) {
-	this.password = bcryptjs.hashSync(this.password, 10)
+	if (this.isModified('password')) {
+		//TODO activate this and then test the isModified function
+		// this.password = bcryptjs.hashSync(this.password, 10)
+	}
 	next()
 })
 const User = mongoose.model('User', Schema)
+
 export { User }

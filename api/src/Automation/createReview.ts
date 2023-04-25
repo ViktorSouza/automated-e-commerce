@@ -1,0 +1,30 @@
+import { faker } from '@faker-js/faker'
+import { AxiosResponse } from 'axios'
+import { IProduct } from 'shared/Types/IProduct'
+import { getRandomUser } from './getRandomUser'
+import { UserReponseLogin, api, AUTOMATION_TIMES } from './index'
+
+export async function createReview(): Promise<void> {
+	const randomUser = (await getRandomUser()) as UserReponseLogin
+	const randomProduct: AxiosResponse<{ product: IProduct }> | undefined =
+		await api.get('/product/AUTrandomProduct')
+
+	if (!randomProduct?.data.product) return
+	if (!randomUser) return
+	const review = {
+		comment: faker.lorem.sentences(),
+		rating: (Math.random() * 5).toFixed(1),
+		product: randomProduct.data.product._id,
+	}
+
+	api
+		.post('/review', review, {
+			headers: {
+				Cookie: `token=${randomUser.token};`,
+			},
+		})
+		.catch((error) => {
+			// console.log(error)
+		})
+	setTimeout(createReview, ...AUTOMATION_TIMES.createReview)
+}

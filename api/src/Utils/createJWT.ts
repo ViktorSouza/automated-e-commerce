@@ -1,5 +1,6 @@
 import { Response } from 'express'
 import JWT from 'jsonwebtoken'
+import { IUser } from 'shared/Types/IUser'
 
 export function createJWT({
 	res,
@@ -8,10 +9,18 @@ export function createJWT({
 	res: Response
 	user: {
 		toJSON: () => {}
-	}
+	} & IUser
 }) {
-	//TODO afterward I'll make the "User" bigger, so you will need to remove some informations :D
-	res.cookie('token', JWT.sign(user.toJSON(), process.env.SECRET), {
-		signed: true,
-	})
+	const { email, roles, name, _id } = user
+	//TODO chage this settings
+	res.cookie(
+		'token',
+		JWT.sign({ email, roles, name, _id }, process.env.SECRET),
+		{
+			signed: true,
+			// sameSite: 'none',
+			// secure: true,
+			// httpOnly: true,
+		},
+	)
 }

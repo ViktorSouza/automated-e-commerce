@@ -13,7 +13,7 @@
 		{
 			"label": "Start React",
 			"type": "shell",
-			"command": "cd client && npm start",
+			"command": "cd client && npm run dev",
 			"problemMatcher": [],
 			"presentation": {
 				"group": "groupA"
