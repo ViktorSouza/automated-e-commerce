@@ -1,14 +1,19 @@
 import { Document, Types } from 'mongoose'
+import { IProduct } from './IProduct'
 
 export interface ICartItem {
-	product: Types.ObjectId
+	product: Types.ObjectId | string
 	quantity: number
 	price: number
 }
 
-export interface ICart extends Document {
-	user: Types.ObjectId
+export interface ICart {
+	user: Types.ObjectId | string
+	_id: Types.ObjectId | string
 	products: ICartItem[]
-	createdAt: Date
-	updatedAt: Date
+	createdAt?: Date
+	updatedAt?: Date
 }
+export type ICartPopulated = {
+	products: { product: IProduct; quantity: number; price: number }[]
+} & ICart

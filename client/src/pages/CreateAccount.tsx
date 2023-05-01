@@ -8,14 +8,14 @@ function CreateAccount() {
 	const email = useRef<HTMLInputElement>(null)
 	const password = useRef<HTMLInputElement>(null)
 	const navigate = useNavigate()
-	const { register, isLogin, isLoading } = useContext(UserContext)
+	const { register, isLogin, userStatus } = useContext(UserContext)
 
 	useEffect(() => {
 		if (isLogin) {
 			navigate('/')
 		}
 	}, [isLogin])
-	if (isLogin || !isLoading) return null
+	if (isLogin || userStatus === 'loading') return null
 
 	function handleCreateAccount() {
 		if (
@@ -38,7 +38,6 @@ function CreateAccount() {
 				errors.push('Password not provided')
 			}
 			if (errors.length) {
-				console.log(errors)
 				return
 			}
 			const data = {

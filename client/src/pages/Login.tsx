@@ -4,7 +4,7 @@ import { UserContext } from '../contexts/UserContext'
 
 function Login() {
 	const navigate = useNavigate()
-	const { login, isLogin, isLoading } = useContext(UserContext)
+	const { login, isLogin, userStatus } = useContext(UserContext)
 	const email = useRef<HTMLInputElement>(null)
 	const password = useRef<HTMLInputElement>(null)
 	function handleLogin() {
@@ -16,20 +16,23 @@ function Login() {
 			if (!password.current.value) {
 				errors.push('Please provide the password')
 			}
-			console.log(errors)
 
 			if (errors.length) return
-			console.log('Nothing wrong')
+			//TODO add pop up showing the errors :D
 
 			login({ email: email.current.value, password: password.current.value })
 		}
 	}
 	useEffect(() => {
 		if (isLogin) {
+			if (userStatus === 'loading') return
 			navigate('/')
 		}
 	})
-	if (isLogin || !isLoading) return null
+	console.log({ userStatus, isLogin })
+
+	if (isLogin) return null
+	if (userStatus === 'loading') return null
 	return (
 		<form
 			onSubmit={(e) => e.preventDefault()}
@@ -53,7 +56,7 @@ function Login() {
 			<div className='mb-4'>
 				<label htmlFor='password'>Password</label>
 				<input
-					className='p-2 w-full rounded-md placeholder:text-sm bg-slate-900'
+					className='p-2 w-full rounded-md placeholder:text-sm bg-zinc-900'
 					type='password'
 					name='password'
 					defaultValue='123123'

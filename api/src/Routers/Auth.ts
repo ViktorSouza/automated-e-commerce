@@ -5,5 +5,5 @@ const { registerUser, login, logout, AUTlogin } = Auth
 router.post('/register', registerUser)
 router.get('/logout', logout)
 router.post('/login', login)
-router.get('/AUTlogin', AUTlogin)
+router.post('/AUTlogin', AUTlogin)
 export { router as AuthRouter }

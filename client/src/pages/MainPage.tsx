@@ -1,54 +1,95 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link, useSearchParams, Route, Routes } from 'react-router-dom'
 import { getProducts } from '../services/product'
 import ProductCard from '../components/ProductCard'
+import { ProductContext } from '../contexts/ProductContext'
+import { useQueryClient } from '@tanstack/react-query'
+import { UserContext } from '../contexts/UserContext'
+import { ProductsFilter } from '../components/ProductsFilter'
+import { Pagination } from '../components/Pagination'
+import { Options } from '../components/Options'
 
 function MainPage() {
-	let [searchParams, setSearchParams] = useSearchParams()
-	const [products, setProducts] = useState<
-		{
-			_id: string
-			description: string
-			rating: number
-			image?: string
-			title: string
-			price: number
-			user: string
-			colors: string[]
-			__v: number
-		}[]
-	>([])
-	const [totalPages, setTotalPages] = useState(1)
-	const [currentPage, setCurrentPage] = useState(1)
+	const queryClient = useQueryClient()
+
+	const {
+		setSearchParams,
+		searchParams,
+		product,
+		currentPage,
+		setCurrentPage,
+		isProductsLoading,
+		// totalPages,
+		// setTotalPages,
+	} = useContext(ProductContext)
+	const { user } = useContext(UserContext)
+	console.log('totalPages', product.totalPages)
+
 	useEffect(() => {
-		setSearchParams({ page_number: currentPage.toString() })
-		getProducts(searchParams).then((data) => {
-			console.log(data)
-			setTotalPages(data.totalPages)
-			setProducts(data.products)
-		})
-	}, [currentPage])
+		searchParams.set('page_number', currentPage.toString())
+		setSearchParams(new URLSearchParams(searchParams.toString()))
+		// setTotalPages(product.totalPages)
+
+		queryClient.refetchQueries({ queryKey: ['products', currentPage] })
+	}, [product.totalPages, currentPage])
+	if (isProductsLoading) return null
+	function sortBy(by: string) {
+		searchParams.set('sort_by', by)
+		setSearchParams(new URLSearchParams(searchParams.toString()))
+	}
+	const options = [
+		{
+			name: 'Title',
+			onClick() {
+				sortBy('title')
+			},
+		},
+		{
+			name: 'Price',
+			onClick() {
+				sortBy('-price')
+			},
+		},
+		{
+			name: 'Most rated',
+			onClick() {
+				sortBy('-averageRating')
+			},
+		},
+	]
 	return (
 		<>
-			<main>
+			<main className='mb-10'>
 				<div className='flex items-center justify-between'>
 					<h1 className='text-h1 font-semibold py-4'>Products</h1>
-					<ProductsOptions
-						totalPages={totalPages}
-						currentPage={currentPage}
-						setCurrentPage={setCurrentPage}
-					/>
+					<span>{product.totalPages} results</span>
 				</div>
-				<div className='grid lg:grid-cols-3 2xl:grid-cols-4		 md:grid-cols-3  auto-cols-fr gap-12'>
-					{products.map((product) => {
-						// product.rating = randomStar()
-						return (
-							<ProductCard
-								key={product._id}
-								product={product}
-							/>
-						)
-					})}
+				<Options
+					options={options}
+					title='Sort by'
+				/>
+				<div className='grid grid-cols-5 gap-5'>
+					<ProductsFilter />
+					<div className='flex flex-col  col-span-4'>
+						<div className='grid lg:grid-cols-3 2xl:grid-cols-4 md:grid-cols-3  auto-cols-fr gap-12 '>
+							{product.products.map((product) => {
+								return (
+									<ProductCard
+										key={product._id}
+										product={product}
+										isWished={user.wishlist.some(
+											(wish) => wish._id == product._id,
+										)}
+									/>
+								)
+							})}
+						</div>
+						<Pagination
+							totalPages={product.totalPages}
+							setCurrentPage={setCurrentPage}
+							currentPage={currentPage}
+						/>
+					</div>
 				</div>
 			</main>
 		</>
@@ -56,43 +97,5 @@ function MainPage() {
 }
 
 export default MainPage
-
-function ProductsOptions({
-	totalPages,
-	currentPage,
-	setCurrentPage,
-}: {
-	totalPages: number
-	currentPage: number
-	setCurrentPage: (old: number) => void
-}) {
-	const [isOpened, setIsOpened] = useState(true)
-	return (
-		<div className='relative'>
-			<button onClick={() => setIsOpened(!isOpened)}>
-				<div className='input'>
-					Page {currentPage} <i className='bi bi-chevron-down'></i>
-				</div>
-			</button>
-			{isOpened && (
-				<div className='absolute z-10 bg-slate-900 w-16 right-0 mt-3 rounded overflow-y-scroll max-h-56'>
-					{Array(totalPages)
-						.fill('')
-						.map((_, index) => (
-							<div
-								key={index}
-								onClick={() => {
-									setCurrentPage(index)
-									setIsOpened(false)
-								}}
-								className='hover:bg-slate-800 py-1 px-2'>
-								{index}
-							</div>
-						))}
-				</div>
-			)}
-		</div>
-	)
-}
 
 const randomStar = (): number => parseFloat((Math.random() * 5).toFixed(1))

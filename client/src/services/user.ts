@@ -1,9 +1,19 @@
 import { IUser, RegisterUserRequest } from 'shared/Types/IUser'
 import { api } from './api'
 
+const defaultUser: IUser = {
+	roles: [''],
+	email: '',
+	wishlist: [],
+	name: {
+		first: '',
+		last: '',
+	},
+	_id: '',
+}
 export async function getUser(): Promise<IUser> {
 	const res = await api.get('/user/showMe')
-
+	if (res.status !== 200) return defaultUser
 	return res.data.user
 }
 export async function loginUser({
@@ -13,7 +23,11 @@ export async function loginUser({
 	email: string
 	password: string
 }): Promise<IUser> {
-	const res = await api.post('/auth/login', { email, password }, { headers: {} })
+	const res = await api.post(
+		'/auth/login',
+		{ email, password },
+		{ headers: {} },
+	)
 
 	return res.data.user
 }

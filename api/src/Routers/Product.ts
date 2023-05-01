@@ -3,15 +3,19 @@ const route = express.Router()
 import { Product } from '../Controllers'
 import { Authorization } from '../Middlewares'
 const {
+	updateProduct,
 	AUTgetRandomProduct,
 	createProduct,
 	deleteProduct,
 	getAllProducts,
 	getSingleProduct,
+	getOwnProducts,
 } = Product
 route.get('/', getAllProducts)
 route.get('/AUTrandomProduct', AUTgetRandomProduct)
-route.get('/:id', getSingleProduct)
+route.get('/own-products', Authorization({}), getOwnProducts)
 route.post('/', Authorization({}), createProduct)
+route.patch('/:id', Authorization({}), updateProduct)
+route.get('/:id', getSingleProduct)
 route.delete('/:id', Authorization({ roles: ['Admin', 'Aoba'] }), deleteProduct)
 export { route as ProductRouter }

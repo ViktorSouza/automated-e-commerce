@@ -17,10 +17,10 @@
 @layer components {
 	*,
 	*::after {
-		@apply text-slate-200;
+		@apply text-zinc-200;
 	}
 	.input {
-		@apply p-2 rounded-md placeholder:text-sm bg-slate-900;
+		@apply p-2 rounded-md placeholder:text-sm bg-zinc-900;
 	}
 	label {
 		@apply text-xs font-medium;
@@ -33,7 +33,7 @@
 
 	/* Track */
 	::-webkit-scrollbar-track {
-		@apply bg-slate-900;
+		@apply bg-zinc-900;
 	}
 
 	/* Handle */

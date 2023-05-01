@@ -1,9 +1,11 @@
 import mongoose, { ObjectId } from 'mongoose'
 import { ICart } from './ICart'
+import { IProduct } from './IProduct'
 
 export type IUser = {
 	roles: string[]
-	_id: ObjectId
+	wishlist: IProduct[]
+	_id: ObjectId | string
 	email: string | undefined
 	name: {
 		first: string

@@ -5,7 +5,8 @@ declare global {
 			NODE_ENV: 'development' | 'production'
 			PORT?: string
 			MONGO_URL: string
-			SECRET:string
+			SECRET: string
+			STRIPE_TOKEN: string
 		}
 	}
 }

@@ -1,20 +1,27 @@
 import { RequestHandler } from 'express'
 import mongoose from 'mongoose'
-import { Order } from '../Models'
-import { ICart, ICartItem } from 'shared/Types/ICart'
+import { Order, Product } from '../Models'
+import { ICart } from 'shared/Types/ICart'
 import { Stripe } from 'stripe'
-const stripe = new Stripe(
-	'sk_test_51MHA45BUgvuGZrQIYeReK0IIf2tnmRE2ZkDDUCnjGSGshedt4J9YIUPCLzNxeIi5feHZ6rnqSKzUdrTNsUeJD8iw00EC5wTq0W',
-	{ apiVersion: '2022-11-15' },
-)
-console.log('Hey')
+const stripe = new Stripe(process.env.STRIPE_TOKEN, {
+	apiVersion: '2022-11-15',
+})
 
-import { Product } from '../Models'
-
+//TODO make the IOrder and put here
+/**======================
+ **      Get All Orders
+ * @route GET /order/
+ * @response {orders:IOrder[]}
+ *========================**/
 const getAllOrders: RequestHandler = async (req, res) => {
 	const allOrders = await Order.find({ user: req.user._id }).exec()
 	res.json({ orders: allOrders })
 }
+/**======================
+ **      Get Single Order
+ * @route GET /order/:id
+ * @response {order:IOrder}
+ *========================**/
 const getSingleOrder: RequestHandler = async (req, res) => {
 	const { id } = req.params
 	if (!mongoose.isValidObjectId(id)) throw new Error('Invalid ID')
@@ -29,10 +36,14 @@ const getCurrentOrder: RequestHandler = async (req, res) => {
 	res.send('Hey')
 }
 
+/**======================
+ **      Create Order
+ * @route POST /order/
+ * @response {order:IOrder, clientSecret:string}
+ *========================**/
 const createOrder: RequestHandler = async (req, res) => {
 	const cart: ICart = req.body
 	const { products } = cart
-	// console.log(products)
 	//TODO change these values using a more real scenario
 	const shippingFee = 0
 	const tax = 0
@@ -42,7 +53,6 @@ const createOrder: RequestHandler = async (req, res) => {
 	let subtotal = 0
 
 	for (let item of products) {
-		console.log(item)
 		if (!mongoose.isValidObjectId(item.product)) throw new Error('Invalid Id')
 		const dbProduct = await Product.findOne({ _id: item.product }).exec()
 		if (!dbProduct) throw new Error('Product not found')
@@ -80,6 +90,7 @@ const createOrder: RequestHandler = async (req, res) => {
 	})
 }
 const updateOrder: RequestHandler = async (req, res) => {
+	//TODO create
 	res.send('Hey')
 }
 export default {

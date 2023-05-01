@@ -1,11 +1,15 @@
 import mongoose from 'mongoose'
-import bcryptjs from 'bcryptjs'
 import validator from 'validator'
 import { IUser } from 'shared/Types/IUser'
 const Schema = new mongoose.Schema<
 	IUser & { password: string; comparePassword: (candidate: string) => boolean }
 >(
 	{
+		wishlist: {
+			type: [],
+			ref: 'Product',
+			default: [],
+		},
 		roles: {
 			type: [String],
 			required: true,
@@ -37,7 +41,8 @@ const Schema = new mongoose.Schema<
 				// maxLength: 50,
 			},
 		},
-	}, {
+	},
+	{
 		methods: {
 			comparePassword(candidate) {
 				return true

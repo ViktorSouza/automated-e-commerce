@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import validator from 'validator'
-import {IProduct} from 'shared/Types/IProduct'
+import { IProduct } from 'shared/Types/IProduct'
+import { User } from './User'
 const Schema = new mongoose.Schema<IProduct>({
 	description: {
 		required: false,
@@ -39,6 +40,15 @@ const Schema = new mongoose.Schema<IProduct>({
 		},
 	},
 })
+Schema.post('remove', async function (doc) {
+	await User.updateMany(
+		{},
+		{
+			$pull: {
+				wishlist: doc._id,
+			},
+		},
+	).exec()
+})
 const Product = mongoose.model('Product', Schema)
 export { Product }
-

@@ -3,8 +3,6 @@ import { getRandomUser } from './getRandomUser'
 import { UserReponseLogin, api, AUTOMATION_TIMES } from './index'
 
 export async function createProduct(): Promise<void> {
-	console.log('hey')
-
 	const randomUser = (await getRandomUser()) as UserReponseLogin
 	const title = faker.commerce.product()
 	const product = {

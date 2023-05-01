@@ -1,9 +1,22 @@
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react'
 import { loginUser, getUser, logoutUser, createAccount } from '../services/user'
 import { IUser, RegisterUserRequest } from 'shared/Types/IUser'
+import { useCookies } from 'react-cookie'
+import {
+	useQuery,
+	useMutation,
+	useQueryClient,
+	UseMutationResult,
+	UseMutationOptions,
+} from '@tanstack/react-query'
+import { AxiosError } from 'axios'
+import { useLocation } from 'react-router-dom'
+import { addToWishlist, removeFromWishlist } from '../services/wishlist'
+
 const defaultUser: IUser = {
 	roles: [''],
 	email: '',
+	wishlist: [],
 	name: {
 		first: '',
 		last: '',
@@ -12,7 +25,19 @@ const defaultUser: IUser = {
 }
 type IUserAddon = {
 	isLogin: boolean
-	isLoading: boolean
+	userStatus: 'error' | 'success' | 'loading'
+	addToWishlistMutation: UseMutationResult<
+		unknown,
+		unknown,
+		{ product: string },
+		unknown
+	>
+	removeFromWishlistMutation: UseMutationResult<
+		unknown,
+		unknown,
+		{ product: string },
+		unknown
+	>
 	login: (userData: { email: string; password: string }) => Promise<void>
 	logout: () => Promise<void>
 	register: ({
@@ -24,9 +49,21 @@ type IUserAddon = {
 }
 const UserContext = createContext<{ user: IUser } & IUserAddon>({
 	isLogin: false,
+	addToWishlistMutation: {} as UseMutationResult<
+		unknown,
+		unknown,
+		{ product: string },
+		unknown
+	>,
+	removeFromWishlistMutation: {} as UseMutationResult<
+		unknown,
+		unknown,
+		{ product: string },
+		unknown
+	>,
 	login: async () => {},
 	logout: async () => {},
-	isLoading: true,
+	userStatus: 'loading',
 	register: async ({
 		firstName,
 		lastName,
@@ -35,6 +72,7 @@ const UserContext = createContext<{ user: IUser } & IUserAddon>({
 	}: RegisterUserRequest) => {},
 	user: {
 		roles: [''],
+		wishlist: [],
 		email: '',
 		name: {
 			first: '',
@@ -43,39 +81,48 @@ const UserContext = createContext<{ user: IUser } & IUserAddon>({
 		_id: '',
 	},
 })
-import { useCookies } from 'react-cookie'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
+
 const UserProvider = ({ children }: { children: ReactNode }) => {
 	const queryClient = useQueryClient()
-	const [cookies] = useCookies(['token'])
-	const {
-		data: user,
-		isLoading,
-		isSuccess,
-		isError,
-		error,
-	} = useQuery<IUser>({
+
+	// const [cookies] = useCookies(['token'])
+	const { data: user, status: userStatus } = useQuery<IUser>({
 		queryKey: ['user'],
-		initialData: defaultUser,
+		keepPreviousData: true,
+		staleTime: 5000,
 		retry: false,
-		onError: () => {
-			console.log('Error :D')
-			return defaultUser
-		},
-		queryFn: async () => {
-			const res = await getUser()
-			return res
-		},
-		enabled: !!cookies.token,
+		placeholderData: defaultUser,
+		queryFn: getUser,
+		// enabled: !!cookies.token,
 	})
 
-	const isLogin = !!user._id && !isLoading
-	console.log(isLogin)
+	// const isLogin = !!user._id
+	//TODO change this value
+	const isLogin = userStatus === 'success' && user._id !== ''
 
-	const mutation = useMutation({
-		mutationFn: ({ firstName, lastName, email, password }: RegisterUserRequest) =>
+	const userMutation = useMutation({
+		mutationFn: ({
+			firstName,
+			lastName,
+			email,
+			password,
+		}: RegisterUserRequest) =>
 			createAccount({ firstName, lastName, email, password }),
+		onSuccess() {
+			queryClient.invalidateQueries(['user'])
+		},
+	})
+
+	const addToWishlistMutation = useMutation({
+		mutationFn: ({ product }: { product: string }) =>
+			addToWishlist({ product }),
+		onSuccess: () => {
+			queryClient.invalidateQueries(['user'])
+		},
+	})
+	const removeFromWishlistMutation = useMutation({
+		mutationFn: ({ product }: { product: string }) =>
+			removeFromWishlist({ product }),
 		onSuccess() {
 			queryClient.invalidateQueries(['user'])
 		},
@@ -83,15 +130,14 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 
 	const login = async (userData: { email: string; password: string }) => {
 		const userRes = await loginUser(userData)
-		console.log('Heeey')
-
-		queryClient.invalidateQueries(['user'])
+		queryClient.invalidateQueries(['user', 'cart'])
 		queryClient.setQueryData(['user'], userRes)
 	}
+
 	const logout = async () => {
 		await logoutUser()
-		queryClient.invalidateQueries(['user'])
-		queryClient.resetQueries({ queryKey: ['user'] })
+		queryClient.invalidateQueries(['user', 'cart'])
+		queryClient.resetQueries(['user', 'cart'])
 	}
 	const register = async ({
 		firstName,
@@ -99,12 +145,34 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 		email,
 		password,
 	}: RegisterUserRequest) => {
-		mutation.mutate({ firstName, lastName, email, password })
+		userMutation.mutate({ firstName, lastName, email, password })
 	}
+	const value = useMemo(
+		() => ({
+			user: userStatus === 'success' ? user : defaultUser,
+			isLogin,
+			login,
+			logout,
+			register,
+			userStatus,
+			addToWishlistMutation,
+			removeFromWishlistMutation,
+		}),
+		[
+			user,
+			isLogin,
+			login,
+			logout,
+			register,
+			userStatus,
+			addToWishlistMutation,
+			removeFromWishlistMutation,
+		],
+	)
 	return (
 		<UserContext.Provider
 			// value={{ user, setUser, login, logout, addToCart, removeFromCart }}
-			value={{ user, isLogin, login, logout, register, isLoading }}>
+			value={value}>
 			{children}
 		</UserContext.Provider>
 	)

@@ -1,15 +1,17 @@
+import { AxiosError } from 'axios'
+import { log } from 'console'
 import { UserReponseLogin, api } from './index'
 
 export async function getRandomUser(): Promise<{}> {
 	let randomUser: UserReponseLogin | {} = {}
-	
+
 	await api
-		.get('/auth/AUTlogin')
+		.post('/auth/AUTlogin')
 		.then((res) => {
 			randomUser = res.data as UserReponseLogin
 		})
 		.catch((err) => {
-			console.log('Error on getRandomUser')
+			console.log(err)
 		})
 
 	return randomUser

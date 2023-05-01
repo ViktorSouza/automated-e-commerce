@@ -12,22 +12,34 @@ import { UserProvider } from './contexts/UserContext'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { CartProvider } from './contexts/CartContext'
+import { ProductProvider } from './contexts/ProductContext'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			staleTime: 1000 * 60,
+		},
+	},
+})
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
 			<CookiesProvider>
 				<BrowserRouter>
 					<UserProvider>
-						<div className='bg-slate-950 min-h-screen min-w-screen'>
-							<MainHeader />
-							<App />
-						</div>
+						<ProductProvider>
+							<CartProvider>
+								<div className='bg-zinc-950 min-h-screen min-w-screen'>
+									<MainHeader />
+									<App />
+								</div>
+							</CartProvider>
+						</ProductProvider>
 					</UserProvider>
 				</BrowserRouter>
-				<ReactQueryDevtools />
 			</CookiesProvider>
+			<ReactQueryDevtools />
 		</QueryClientProvider>
 	</React.StrictMode>,
 )

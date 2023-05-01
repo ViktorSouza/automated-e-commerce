@@ -2,6 +2,8 @@ import React, { Fragment, useContext, useEffect, useState } from 'react'
 import { useNavigate, Routes, Route, NavLink } from 'react-router-dom'
 import { UserContext } from '../contexts/UserContext'
 import { PersonalInfo } from '../components/PersonalInfo'
+import { Cart } from './Cart'
+import { Wishlist } from './Wishlist'
 
 function MyAccount() {
 	const { user, logout, isLogin } = useContext(UserContext)
@@ -20,9 +22,9 @@ function MyAccount() {
 		},
 		{
 			icon: 'bi bi-heart',
-			text: 'Favorites',
+			text: 'Wishlist',
 			// action: () => navigate('favorites'),
-			to: 'favorites',
+			to: 'wishlist',
 		},
 		{
 			icon: 'bi bi-file-text',
@@ -52,14 +54,14 @@ function MyAccount() {
 	return (
 		<div>
 			<h1 className='text-h2 font-semibold mb-5'>Account</h1>
-			<div className='flex flex-row gap-5'>
-				<div className='flex flex-col border border-slate-900 py-2 px-5 rounded w-2/12'>
+			<div className='flex flex-row gap-5 items-start'>
+				<div className='flex flex-col border border-zinc-900 py-2 px-5 rounded-lg w-2/12'>
 					<div className='flex flex-col items-center mb-4'>
-						<div className='h-12 w-12 rounded-full bg-slate-900 mb-3'></div>
+						<div className='h-12 w-12 rounded-full bg-zinc-900 mb-3'></div>
 						<p>
 							{user.name.first} {user.name.last}
 						</p>
-						<p className='text-slate-500 text-sm'>{user.email}</p>
+						<p className='text-zinc-500 text-sm'>{user.email}</p>
 					</div>
 					<div className='flex flex-col'>
 						{tabsData.map(({ icon, text, lineBreak, to, action }) => (
@@ -80,12 +82,14 @@ function MyAccount() {
 										</>
 									}
 								</NavLink>
-								{lineBreak && <hr className='h-px my-4 border-0 bg-slate-900'></hr>}
+								{lineBreak && (
+									<hr className='h-px my-4 border-0 bg-zinc-900'></hr>
+								)}
 							</Fragment>
 						))}
 					</div>
 				</div>
-				<div>
+				<div className='w-full'>
 					<Routes>
 						<Route
 							path='/'
@@ -100,8 +104,8 @@ function MyAccount() {
 							element={<Cart />}
 						/>
 						<Route
-							path='favorites'
-							element={<Favorites />}
+							path='wishlist'
+							element={<Wishlist />}
 						/>
 						<Route
 							path='orders'
@@ -112,25 +116,6 @@ function MyAccount() {
 			</div>
 		</div>
 	)
-}
-function Cart() {
-	const { user } = useContext(UserContext)
-	return (
-		<>
-			{user.cart.map((item) => (
-				<div
-					key={item.product.toString()}
-					className='bg-slate-900 mb-5 py-4 px-2'>
-					<div>{item.product.toString()}</div>
-					<div>{item.amount}</div>
-					<div>{item.total}</div>
-				</div>
-			))}
-		</>
-	)
-}
-function Favorites() {
-	return <>Favorites</>
 }
 function Orders() {
 	return <>Orders</>

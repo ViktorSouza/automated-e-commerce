@@ -1,40 +1,75 @@
 import { RequestHandler } from 'express'
 import JWT from 'jsonwebtoken'
+import { z } from 'zod'
+import { IUser } from '../../../shared/Types/IUser'
 import { Cart, User } from '../Models'
 import { createJWT } from '../Utils'
 
-const registerUser: RequestHandler = async (req, res) => {
-	const { name, email, password } = req.body as {
-		name?: { first?: string; last?: string }
-		email?: string
-		password?: string
-	}
-
+//============================================REGISTER
+const registerSchema = z.object({
+	name: z.object({
+		first: z
+			.string()
+			.max(255, 'First name is too long')
+			.nonempty('First name is required'),
+		last: z
+			.string()
+			.max(255, 'Last name is too long')
+			.nonempty('Last name is required'),
+	}),
+	password: z
+		.string()
+		//TODO add this after
+		// .regex(/^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$/, 'Invalid password')
+		.nonempty('Please provide an password'),
+	email: z
+		.string()
+		.email('Invalid email')
+		.nonempty('Please provide your email'),
+})
+/**
+ *@request {email:string, name:string, password:string}
+ *@response {user:IUser}
+ */
+const registerUser: RequestHandler<{}, { user: IUser }> = async (req, res) => {
+	const body = registerSchema.parse(req.body)
+	const { name, email, password } = body
 	const roles: string[] = []
 
-	if (!email) throw new Error('No email provided')
-	if (!password) throw new Error('No password provided')
-	if (!name?.first || !name.last) throw new Error('Incoplete name')
-
 	if ((await User.countDocuments().exec()) === 0) {
-		roles.push('Admin')
+		roles.push('admin')
 	} else {
 		roles.push('User')
 	}
 	const user = await User.create({ email, password, name, roles })
 	if (!user) throw new Error('Something goes wrong')
-	const cart = await Cart.create({
+	//Create the cart for user
+	await Cart.create({
 		user: user._id,
 	})
 	createJWT({ res, user })
 	res.json({ user })
 }
 
+/**----------------------
+ *    *Login
+ *------------------------**/
+const loginSchema = z.object({
+	email: z.string().email('Invalid email').nonempty('No email provided'),
+	password: z
+		.string()
+		//TODO add this after
+		// .regex(/^(?=.*[A-Za-z])(?=.*d)[A-Za-zd]{8,}$/i, 'Invalid password')
+		.nonempty('No password provided'),
+})
+/**
+ * @route POST /auth/login
+ * @request {email:string, password:string}
+ * @response {user:IUser}
+ */
 const login: RequestHandler = async (req, res) => {
-	const { email, password } = req.body as {
-		email?: string
-		password?: string
-	}
+	const body = loginSchema.parse(req.body)
+	const { email, password } = body
 
 	if (!email) throw new Error('No email provided')
 	if (!password) throw new Error('No password provided')
@@ -43,34 +78,47 @@ const login: RequestHandler = async (req, res) => {
 
 	if (!user) throw new Error('User not found')
 	if (!user.comparePassword(password)) throw new Error('Invalid password')
-	//TODO change this settings
 	createJWT({ res, user })
-	// res.cookie('token', JWT.sign(user.toJSON(), process.env.SECRET), {
-	// 	signed: true,
-	// 	// sameSite: 'none',
-	// 	// domain:req.hostname,
-	// 	// secure: true,
-	// 	// httpOnly: true,
-	// })
 	res.json({ user })
 }
-const logout: RequestHandler = (req, res) => {
+/**======================
+ *    *Logout
+ *========================**/
+/**
+ * @route POST /auth/logout
+ * @response {message:'OK'}
+ */
+const logout: RequestHandler<{}, { message: string }> = (req, res) => {
 	res.clearCookie('token')
 	res.json({ message: 'Ok' })
-	console.log('Uepaaaaaa')
 }
-const AUTlogin: RequestHandler = async (req, res) => {
-	const users = await User.find({
+/**----------------------
+ *    *Automatic Login
+ *------------------------**/
+/**
+ *
+ * @route POST /auth/AUTlogin
+ * @response {user:IUser, token:JWToken}
+ */
+const AUTlogin: RequestHandler<{}, { user: IUser; token: string }> = async (
+	req,
+	res,
+) => {
+	const count = await User.count().exec()
+	const random = Math.floor(Math.random() * count)
+	const user = await User.findOne({
 		roles: {
 			$nin: ['admin'],
 		},
-	}).exec()
-	const randomUser = users[Math.floor(Math.random() * users.length)]
-	if (!randomUser) console.log('Ixi kkkkk')
+	})
+		.skip(random)
+		.exec()
+	if (!user) throw new Error('No users yet')
 
+	createJWT({ res, user })
 	res.json({
-		user: randomUser,
-		token: JWT.sign(randomUser.toJSON(), process.env.SECRET),
+		user,
+		token: JWT.sign(user.toJSON(), process.env.SECRET),
 	})
 }
 export default { registerUser, login, logout, AUTlogin }
