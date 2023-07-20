@@ -4,10 +4,6 @@
 @tailwind utilities;
 :root {
 	font-family: 'Montserrat', sans-serif;
-	line-height: 1.5;
-	font-weight: 400;
-	color: rgba(255, 255, 255);
-	background-color: #030712;
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
@@ -15,13 +11,14 @@
 	-webkit-text-size-adjust: 100%;
 }
 @layer components {
-	*,
+	/* *,
 	*::after {
-		@apply text-zinc-200;
-	}
+		@apply dark:;
+	} */
 	.input {
-		@apply p-2 rounded-md placeholder:text-sm bg-zinc-900;
+		@apply p-2 rounded-md placeholder:text-sm dark:bg-zinc-900;
 	}
+
 	label {
 		@apply text-xs font-medium;
 	}

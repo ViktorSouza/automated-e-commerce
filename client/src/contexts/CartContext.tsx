@@ -34,12 +34,11 @@ const CartContext = createContext<{
 
 const CartProvider = ({ children }: { children: ReactNode }) => {
 	const queryClient = useQueryClient()
-	const { user } = useContext(UserContext)
-	//TODO uninstall the
+	const { isLogin } = useContext(UserContext)
 	const { data: cart, status: cartStatus } = useQuery<ICartPopulated>(
 		['cart'],
 		{
-			enabled: !!user._id,
+			enabled: isLogin,
 			keepPreviousData: true,
 			placeholderData: defaultCart,
 			queryFn: async () => (await api.get('/cart')).data.cart,

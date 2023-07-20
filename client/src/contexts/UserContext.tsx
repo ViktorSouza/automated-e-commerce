@@ -82,23 +82,23 @@ const UserContext = createContext<{ user: IUser } & IUserAddon>({
 	},
 })
 
-const UserProvider = ({ children }: { children: ReactNode }) => {
+const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 	const queryClient = useQueryClient()
-
-	// const [cookies] = useCookies(['token'])
 	const { data: user, status: userStatus } = useQuery<IUser>({
 		queryKey: ['user'],
 		keepPreviousData: true,
 		staleTime: 5000,
 		retry: false,
-		placeholderData: defaultUser,
 		queryFn: getUser,
-		// enabled: !!cookies.token,
+		onSuccess() {
+			setIsLogin(true)
+		},
 	})
 
-	// const isLogin = !!user._id
 	//TODO change this value
-	const isLogin = userStatus === 'success' && user._id !== ''
+	const [isLogin, setIsLogin] = useState<boolean>(
+		userStatus === 'success' && user._id !== '',
+	)
 
 	const userMutation = useMutation({
 		mutationFn: ({
@@ -132,12 +132,19 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 		const userRes = await loginUser(userData)
 		queryClient.invalidateQueries(['user', 'cart'])
 		queryClient.setQueryData(['user'], userRes)
+		setIsLogin(true)
 	}
+
+	console.log(user)
 
 	const logout = async () => {
 		await logoutUser()
-		queryClient.invalidateQueries(['user', 'cart'])
-		queryClient.resetQueries(['user', 'cart'])
+		//TODO the data is still available, so the data must be deleted
+		// queryClient.refetchQueries(['user'])
+		// queryClient.refetchQueries(['cart'])
+		queryClient.removeQueries(['user'])
+		queryClient.removeQueries(['cart'])
+		setIsLogin(false)
 	}
 	const register = async ({
 		firstName,

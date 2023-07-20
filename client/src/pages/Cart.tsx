@@ -19,18 +19,18 @@ export function Cart() {
 		},
 		{
 			title: 'Tax',
-			value: `${5}%` /* TODO it will be zero for a while */,
+			value: `${0}%` /* TODO it will be zero for a while */,
 		},
 	]
 	return (
 		<div className='flex gap-3'>
 			<div className='w-full'>
-				<div className='mb-5 px-2 grid-cols-8 grid gap-3 items-center justify-between text-sm font-medium text-zinc-300'>
+				<div className='mb-5 px-2 grid-cols-8 grid gap-3 items-center justify-between text-sm font-medium dark:'>
 					<p className='rounded-lg col-span-3 overflow-hidden '>Product</p>
 					<p className='justify-self-center col-span-2'>Quantity</p>
 					<p className='justify-self-end col-span-2'>Price</p>
 				</div>
-				<hr className='h-px my-4 border-0 bg-zinc-900' />
+				<hr className='h-px my-4 border-0 bg-zinc-200 dark:bg-zinc-900' />
 				{cart.products.map((item) => (
 					<div
 						key={item.product._id.toString()}
@@ -46,9 +46,16 @@ export function Cart() {
 								nonce={'yes'}>
 								<h2 className='text-lg font-medium'>{item.product.title}</h2>
 								{/* TODO add the color instead of quantity */}
-								<span className='text-zinc-300 text-sm'>Color:</span>
-								{/* <p>{item.color}</p> */}
-								{/* <p>{item.quantity}</p> */}
+								<span className='dark: text-sm'>Color:</span>
+								{/* TODO change this random */}
+								<div
+									className='w-8 h-8 rounded-lg'
+									style={{
+										background:
+											item.product.colors[
+												Math.floor(Math.random() * item.product.colors.length)
+											],
+									}}></div>
 							</Link>
 						</div>
 						<InputNumber
@@ -83,9 +90,9 @@ export function Cart() {
 					</div>
 				))}
 			</div>
-			<div className='border border-zinc-900 rounded-lg p-5 w-3/12 self-start'>
+			<div className='border dark:border-zinc-900 rounded-lg p-5 w-3/12 self-start'>
 				<h1 className='font-semibold'>Summary</h1>
-				<hr className='h-px my-4 border-0 bg-zinc-900' />
+				<hr className='h-px my-4 border-0 bg-zinc-200 dark:bg-zinc-900' />
 				<ul className='text-xs mb-5 space-y-2'>
 					{list.map((info) => (
 						<SummaryInfo
@@ -94,13 +101,18 @@ export function Cart() {
 						/>
 					))}
 				</ul>
-				<hr className='h-px my-4 border-0 bg-zinc-900' />
+				<hr className='h-px my-4 border-0 bg-zinc-200 dark:bg-zinc-900' />
 				<div className='flex justify-between my-4'>
 					<h2 className='font-semibold'>Total: </h2>
-					<h2 className='font-semibold'>$4930.99</h2>
+					<h2 className='font-semibold'>
+						{cart.products.reduce(
+							(prev, curr, index) => curr.price * curr.quantity + prev,
+							0,
+						)}
+					</h2>
 				</div>
 				<button className='bg-sky-500 w-full transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg'>
-					Add to cart
+					Check out
 				</button>
 			</div>
 		</div>

@@ -4,8 +4,7 @@ import { InputNumber } from './InputNumber'
 
 export function ProductsFilter() {
 	const [minValue, setMinValue] = useState<number>(0)
-	//TODO change this
-	const [maxValue, setMaxValue] = useState<number>(Number.MAX_SAFE_INTEGER)
+	const [maxValue, setMaxValue] = useState<number>(99999)
 	const { setSearchParams, searchParams } = useContext(ProductContext)
 
 	useEffect(() => {
@@ -15,7 +14,7 @@ export function ProductsFilter() {
 	}, [maxValue, minValue])
 
 	return (
-		<div className='border rounded-md p-2 border-zinc-900 flex flex-col gap-5 self-start'>
+		<div className='rounded-md p-2 px-4 dark:border-zinc-900 flex flex-col gap-5 self-start'>
 			<div>
 				<h2 className='font-medium mb-2'>Price Range</h2>
 				<div className='flex items-center gap-2'>
@@ -28,7 +27,7 @@ export function ProductsFilter() {
 						minValue={0}
 						maxValue={maxValue}
 					/>
-					<span className='text-zinc-500'>--</span>
+					<span className='dark:text-zinc-500'>-</span>
 					<InputNumber
 						onChange={(value) => setMaxValue(value)}
 						suffix='$'
@@ -40,28 +39,29 @@ export function ProductsFilter() {
 					/>
 				</div>
 			</div>
+			<hr className='h-px my-2 border-0 bg-zinc-900' />
 			<div>
-				<h2 className='font-medium mb-2'>Condition</h2>
-				<ul className='text-sm font-medium text-zinc-500'>
+				<h2 className='font-semibold mb-2'>Condition</h2>
+				<ul className='text-sm font-medium dark:text-zinc-500'>
 					<li>
-						<button>
+						<button onClick={() => {}}>
 							<span>New</span> <span>(1292)</span>
 						</button>
 					</li>
 					<li>
-						<button>
+						<button onClick={() => {}}>
 							<span>Used</span> <span>(192)</span>
 						</button>
 					</li>
 					<li>
-						<button>
+						<button onClick={() => {}}>
 							<span>Reconditioned</span> <span>(22)</span>
 						</button>
 					</li>
 				</ul>
 			</div>
 
-			<button className='border border-zinc-800 rounded-lg py-2 justify-self-center min-w-min'>
+			<button className='border dark:border-zinc-800 rounded-lg py-2 justify-self-center min-w-min'>
 				Reset settings
 			</button>
 		</div>

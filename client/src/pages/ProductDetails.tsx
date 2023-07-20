@@ -8,6 +8,7 @@ import { IReview } from 'shared/Types/IReview'
 import { getSingleProduct } from '../services/product'
 import { InputNumber } from '../components/InputNumber'
 import { CartContext } from '../contexts/CartContext'
+import { UserContext } from '../contexts/UserContext'
 
 function ProductDetails() {
 	const [infos, setInfos] = useState<{ product: IProduct; reviews: IReview[] }>(
@@ -18,14 +19,12 @@ function ProductDetails() {
 	useEffect(() => {
 		;(async () => {
 			const value = await getSingleProduct(id, { get_reviews: true })
-
 			setInfos(value)
 		})()
 	}, [])
-	console.log(
-		cart.products.find((cproduct) => cproduct.product._id == infos.product._id)
-			?.quantity,
-	)
+	const { user, addToWishlistMutation, removeFromWishlistMutation } =
+		useContext(UserContext)
+	const isWished = user.wishlist.some((wish) => wish._id == infos.product._id)
 	return (
 		<>
 			<section className='w-12/12'>
@@ -42,16 +41,18 @@ function ProductDetails() {
 							{' '}
 							<h1 className='text-h1 font-semibold '>{infos.product.title}</h1>
 							<RatingStars
-								className='text-yellow-400'
+								className='text-amber-600 dark:text-amber-400'
 								value={infos.product.averageRating || 0}
 							/>
-							<p className='my-2 text-zinc-400'>{infos.product.description}</p>
+							<p className='my-2 dark:text-zinc-400'>
+								{infos.product.description}
+							</p>
 						</div>
 
 						<div className='my-5 flex gap-2'>
 							<div>
 								<h3 className='text-1xl font-semibold'>Colors</h3>
-								<p className='text-zinc-400 text-xs'>in stock</p>
+								<p className='dark:text-zinc-400 text-xs'>in stock</p>
 							</div>
 							<div className='flex gap-2'>
 								{infos.product.colors.map((color) => {
@@ -69,7 +70,7 @@ function ProductDetails() {
 							<h2 className='text-h2 font-semibold'>
 								${infos.product.price.toFixed(2)}
 							</h2>
-							<p className='text-xs text-zinc-400 font-semibold'>
+							<p className='text-xs dark:text-zinc-400 font-semibold'>
 								in 12x of ${(infos.product.price / 12).toFixed(2)}
 							</p>
 						</div>
@@ -102,11 +103,9 @@ function ProductDetails() {
 											cartProduct.product._id == infos.product._id,
 									)?.quantity
 								}
-								//TODO make this
-								onChange={() => {}}
 							/>
 							<button
-								className='bg-sky-500 transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg'
+								className='bg-sky-500 transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg text-zinc-200 dark:text-inherit'
 								onClick={() =>
 									updateCart.mutate({
 										product: infos.product._id,
@@ -119,51 +118,110 @@ function ProductDetails() {
 								}>
 								Add to cart
 							</button>
-							<button className=' bg-zinc-900 transition ease-in-out hover:bg-zinc-800 px-10 p-2 rounded-lg'>
+							<button className=' dark:bg-zinc-900 dark:text-zinc-200 bg-zinc-200 dark:text-inherit transition ease-in-out hover:bg-zinc-800 px-10 p-2 rounded-lg'>
 								Buy Now
 							</button>
 						</div>
 						<div className='my-5 flex items-baseline gap-10'>
-							<div>
-								<i className='bi bi-heart mr-2 text-zinc-400'></i>
-								<span className='text-zinc-400 font-semibold'>Wishlist</span>
-							</div>
+							<button
+								onClick={() => {
+									isWished
+										? removeFromWishlistMutation.mutate({
+												product: infos.product._id,
+										  })
+										: addToWishlistMutation.mutate({
+												product: infos.product._id,
+										  })
+								}}>
+								<i
+									className={`bi bi-heart${isWished ? '-fill' : ''} mr-2 ${
+										isWished ? 'text-red-600' : 'dark:text-zinc-400'
+									}`}></i>
+								<span className='dark:text-zinc-400 font-semibold'>
+									Wishlist
+								</span>
+							</button>
 
-							<div className='flex items-baseline'>
-								<i className='bi bi-share-fill text-zinc-400 mr-2'></i>
-								<span className='text-zinc-400 font-semibold'>Share</span>
-							</div>
+							<button
+								className='flex items-baseline'
+								onClick={() =>
+									navigator.clipboard.writeText(window.location.href)
+								}>
+								<i className='bi bi-share-fill dark:text-zinc-400 mr-2'></i>
+								<span className='dark:text-zinc-400 font-semibold'>Share</span>
+							</button>
 						</div>
 						<CEPInput />
 					</div>
 				</div>
 				<div className=' flex flex-col mt-10'>
 					<h1 className='font-semibold text-h1 mb-4'>Reviews</h1>
+					<div className='flex w-full h-56 gap-5'>
+						<div className='space-y'>
+							<h2 className='text-7xl  font-medium'>
+								{infos.product.averageRating.toFixed(1)}
+							</h2>
+							<span className='sr-only'>stars</span>
+							<RatingStars
+								value={infos.product.averageRating}
+								className='text-amber-600 dark:text-amber-400'
+							/>
+							<p>{infos.product.numOfReviews} reviews</p>
+						</div>
+						<div className='flex flex-col-reverse justify-end'>
+							{infos.reviews
+								.reduce<number[]>(
+									(prev, curr, index) => {
+										const newValues = [...prev]
+										newValues[Number(curr.rating.toFixed(0))]++
+										return newValues
+									},
+									[0, 0, 0, 0, 0, 0],
+								)
+								.map((value, index) => {
+									return (
+										<div
+											key={index}
+											className='flex items-center gap-3'>
+											<RatingStars
+												value={index}
+												className='text-amber-600 dark:text-amber-400'
+											/>
+											<p>{value}</p>
+										</div>
+									)
+								})}
+						</div>
+					</div>
 					{infos.reviews.map((review) => (
 						<div
 							key={review._id}
-							className='pt-3 my-3 border-t border-zinc-900'>
+							className='pt-3 my-3 border-t dark:border-zinc-900'>
 							<div className='flex gap-14 items-center'>
 								<h3 className='text-lg font-medium'>{`${review.user.name.first} ${review.user.name.last}`}</h3>
 								<div className='flex gap-2'>
-									<p>{review.rating || 0}</p>
+									<p title={`${review.rating || 0} stars`}>
+										{review.rating || 0}
+									</p>
 									<RatingStars
 										key={review._id}
 										value={review.rating}
-										className='text-yellow-400'
+										className='text-amber-600 dark:text-amber-400'
 									/>
 								</div>
 							</div>
 							<div className=''>
-								<p className='text-zinc-300  mt-3'>{review.comment}</p>
+								<p className='dark:  mt-3'>{review.comment}</p>
 								<div className='flex flex-row gap-10 mt-3'>
-									<div className='cursor-pointer hover:bg-zinc-900 px-2 py-1 rounded transition-all'>
+									<div className='cursor-pointer dark:hover:bg-zinc-900 px-2 py-1 rounded transition-all'>
 										<i className='bi bi-chevron-up mr-2'></i>
-										<span className='text-zinc-400 text-sm font-medium'>0</span>
+										<span className='dark:text-zinc-400 text-sm font-medium'>
+											0
+										</span>
 									</div>
-									<div className='cursor-pointer hover:bg-zinc-900 px-2 py-1 rounded transition-all'>
+									<div className='cursor-pointer dark:hover:bg-zinc-900 px-2 py-1 rounded transition-all'>
 										<i className='bi bi-chat-left-text mr-2'></i>
-										<span className='text-zinc-400 text-sm font-medium'>
+										<span className='dark:text-zinc-400 text-sm font-medium'>
 											Comment
 										</span>
 									</div>
@@ -208,11 +266,10 @@ function CEPInput() {
 					onChange={handleChange}
 					value={inputValue}
 					id='cep'
-					// pattern='\d{4}-\d{3}'
 					title='Please enter a valid number pattern: 0000-000'
-					className='border mr-2 border-zinc-900 w-40 transition ease-in-out bg-transparent p-2 rounded-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none outline-none'
+					className='border mr-2 dark:border-zinc-900 w-40 transition ease-in-out bg-transparent p-2 rounded-lg  outline-none'
 				/>
-				<button className='p-2 px-3 bg-zinc-900 rounded-lg transition-all hover:bg-zinc-800 font-medium'>
+				<button className='p-2 px-3 bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-900 rounded-lg transition-all  dark:hover:bg-zinc-800 font-medium'>
 					Ok
 				</button>
 			</div>
@@ -230,24 +287,9 @@ const defaultData = {
 		title: '',
 		price: 0,
 		user: '',
-		colors: ['', ''],
+		colors: [],
 		__v: 1,
 	},
-	reviews: [
-		{
-			_id: '000000000000000000000000',
-			__v: 0,
-			product: '000000000000000000000000',
-			comment: '',
-			rating: 0,
-			user: {
-				name: {
-					first: '',
-					last: '',
-				},
-				_id: '000000000000000000000000',
-			},
-		},
-	],
+	reviews: [],
 }
 export default ProductDetails

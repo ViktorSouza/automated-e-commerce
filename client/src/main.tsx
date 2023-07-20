@@ -24,13 +24,18 @@ const queryClient = new QueryClient({
 })
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
+		<button
+			onClick={() => document.documentElement.classList.toggle('dark')}
+			className='fixed top-0 left-0 bg-slate-500 text-slate-900 '>
+			Toggle Theme
+		</button>
 		<QueryClientProvider client={queryClient}>
 			<CookiesProvider>
 				<BrowserRouter>
 					<UserProvider>
 						<ProductProvider>
 							<CartProvider>
-								<div className='bg-zinc-950 min-h-screen min-w-screen'>
+								<div className='min-h-screen bg-white min-w-screen dark:text-zinc-200 dark:bg-zinc-950 text-zinc-800 '>
 									<MainHeader />
 									<App />
 								</div>

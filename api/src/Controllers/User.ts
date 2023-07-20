@@ -48,7 +48,6 @@ const addToWishlist: RequestHandler<
 }
 const removeFromWishlist: RequestHandler<
 	{ id: string },
-	//TODO remember this :D
 	{},
 	{ product: mongoose.Types.ObjectId }
 > = async (req, res) => {

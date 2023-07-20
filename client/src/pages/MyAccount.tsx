@@ -6,7 +6,7 @@ import { Cart } from './Cart'
 import { Wishlist } from './Wishlist'
 
 function MyAccount() {
-	const { user, logout, isLogin } = useContext(UserContext)
+	const { user, logout, isLogin, userStatus } = useContext(UserContext)
 	const tabsData = [
 		{
 			icon: 'bi bi-person',
@@ -36,17 +36,18 @@ function MyAccount() {
 		{
 			icon: 'bi bi-box-arrow-right',
 			text: 'Logout',
-			action: logout,
+			action: async () => {
+				// navigate('/')
+				await logout()
+			},
 			//TODO patch this
-			to: 'logout',
+			to: '/',
 		},
 	]
-	const [selected, setSelected] = useState(0)
 	const navigate = useNavigate()
 
-	console.log(user)
 	useEffect(() => {
-		if (!isLogin) navigate('/')
+		if (!isLogin && userStatus == 'error') navigate('/')
 	})
 
 	if (!isLogin) return null
@@ -55,13 +56,13 @@ function MyAccount() {
 		<div>
 			<h1 className='text-h2 font-semibold mb-5'>Account</h1>
 			<div className='flex flex-row gap-5 items-start'>
-				<div className='flex flex-col border border-zinc-900 py-2 px-5 rounded-lg w-2/12'>
+				<div className='flex flex-col border dark:border-zinc-900 py-2 px-5 rounded-lg w-3/12'>
 					<div className='flex flex-col items-center mb-4'>
 						<div className='h-12 w-12 rounded-full bg-zinc-900 mb-3'></div>
 						<p>
 							{user.name.first} {user.name.last}
 						</p>
-						<p className='text-zinc-500 text-sm'>{user.email}</p>
+						<p className='dark:text-zinc-500 text-sm'>{user.email}</p>
 					</div>
 					<div className='flex flex-col'>
 						{tabsData.map(({ icon, text, lineBreak, to, action }) => (
@@ -72,7 +73,9 @@ function MyAccount() {
 									to={to}
 									className={({ isActive }) =>
 										`${
-											isActive && !action && 'bg-sky-500'
+											isActive &&
+											!action &&
+											'bg-sky-500 dark:text-inherit text-zinc-200'
 										} gap-2 flex items-center py-2 px-4 rounded-lg`
 									}>
 									{
@@ -83,7 +86,7 @@ function MyAccount() {
 									}
 								</NavLink>
 								{lineBreak && (
-									<hr className='h-px my-4 border-0 bg-zinc-900'></hr>
+									<hr className='h-px my-4 border-0 bg-zinc-200 dark:bg-zinc-900'></hr>
 								)}
 							</Fragment>
 						))}

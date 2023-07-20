@@ -4,6 +4,7 @@
 		"target": "ES2022",
 		"forceConsistentCasingInFileNames": true,
 		// "baseUrl": "./dist",
+		"noErrorTruncation": true,
 		"checkJs": true,
 		"alwaysStrict": true,
 		"noEmitOnError": true,

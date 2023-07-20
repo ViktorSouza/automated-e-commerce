@@ -34,7 +34,7 @@ const createProduct: RequestHandler = async (req, res) => {
 	res.json({ product })
 }
 /**======================
- **      Create Product
+ **      Get Products
  * @route GET /product/
  * @response {
 		products: IProduct[],
@@ -67,48 +67,42 @@ const getAllProducts: RequestHandler<
 		min_value = 0,
 		color = '',
 	} = req.query
-
+	search = z.string().parse(search)
 	page_number = page_number?.toString()
 	page_size = page_size?.toString()
 	const page = parseInt(page_number || '1')
 	const size = parseInt(page_size || '20')
-	const skipIndex = (page - 1) * size
-	let products = await Product.find({
-		price: {
-			$gte: min_value,
-			$lte: max_value,
-		},
+	const skipIndex = page * size
+	let query = /*  search
+		? */ Product.find({
+		price: { $gte: min_value, $lte: max_value },
+		...(search && {
+			$or: [
+				{ title: { $regex: search, $options: 'i' } },
+				{ description: { $regex: search, $options: 'i' } },
+			],
+		}),
 	})
-		.sort(sort_by)
-		.skip(skipIndex)
-		.limit(size)
-		.exec()
-	const count = await Product.countDocuments({
-		//TODO something here
-		// title: { $regex: search, $options: 'i' },
+
+	let amount = await Product.countDocuments({
+		price: { $gte: min_value, $lte: max_value },
+		...(search && {
+			$or: [
+				{ title: { $regex: search, $options: 'i' } },
+				{ description: { $regex: search, $options: 'i' } },
+			],
+		}),
 	}).exec()
+	let products = await query.skip(skipIndex).limit(size).exec()
 
-	const fuse = new Fuse(products, {
-		keys: ['title', 'description'],
-		fieldNormWeight: 2,
-		includeScore: false,
-		distance: 150,
-		shouldSort: true,
-		threshold: 0.5,
-	})
-
-	let totalPages = Math.ceil(count / size)
-	let results: any[] = []
-	if (search) {
-		results = fuse.search(search).map((pro) => pro.item)
-		totalPages = Math.ceil(results.length / size)
-	}
+	let totalPages = Math.ceil(amount / size)
 
 	res.json({
-		products: search ? results : products,
+		products: products,
 		totalPages,
 		currentPage: page,
-		totalResults: search ? results.length : products.length,
+		totalResults: products.length,
+		amount,
 	})
 }
 
@@ -118,13 +112,19 @@ const getAllProducts: RequestHandler<
  * @response {product:Iproduct, reviews?:IReview[]}
  *========================**/
 const getSingleProduct: RequestHandler = async (req, res) => {
-	//TODO use Zod to verify the req.query
-	const { get_reviews } = req.query
+	const query = z
+		.object({
+			get_reviews: z
+				.enum(['true', 'false'])
+				.transform((value) => value === 'true'),
+		})
+		.parse(req.query)
+	const { get_reviews } = query
 
 	const { id } = req.params
 	if (!mongoose.isValidObjectId(id)) throw new Error('Invalid ID')
 	const product = await Product.findOne({ _id: id }).exec()
-	if (!product) throw new Error('Produt not found')
+	if (!product) throw new Error('Product not found')
 	let reviews
 	if (get_reviews) {
 		reviews = await Review.find({ product: id })
@@ -140,7 +140,6 @@ const getSingleProduct: RequestHandler = async (req, res) => {
  * @response {message:'OK'}
  *========================**/
 const deleteProduct: RequestHandler = async (req, res) => {
-	//TODO analyse this after
 	const { id } = req.params
 	if (!mongoose.isValidObjectId(id)) throw new Error('Invalid ID')
 
@@ -181,7 +180,6 @@ const updateProduct: RequestHandler = async (req, res) => {
 	if (!mongoose.isObjectIdOrHexString(req.params.id))
 		throw new Error('Invalid ID')
 	const body = productSchema.partial().strict('Invalid input').parse(req.body)
-	console.log('Ops :D')
 
 	let product = await Product.findById(req.params.id).exec()
 

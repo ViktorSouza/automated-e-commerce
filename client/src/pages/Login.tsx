@@ -43,12 +43,12 @@ function Login() {
 			<div className='mb-4'>
 				<label htmlFor='email'>Email</label>
 				<input
-					className='input  w-full'
-					type='email'
-					name='email'
-					defaultValue='viktor@gmail.com'
+					className='input bg-zinc-100 w-full'
+					type='text'
+					name='username'
+					autoComplete='username'
 					ref={email}
-					id='email'
+					id='username'
 					placeholder='example@email.com'
 					required
 				/>
@@ -56,9 +56,10 @@ function Login() {
 			<div className='mb-4'>
 				<label htmlFor='password'>Password</label>
 				<input
-					className='p-2 w-full rounded-md placeholder:text-sm bg-zinc-900'
+					className='input bg-zinc-100 w-full'
 					type='password'
 					name='password'
+					autoComplete='current-password'
 					defaultValue='123123'
 					ref={password}
 					placeholder='Type your password'
@@ -79,7 +80,7 @@ function Login() {
 				</Link>
 			</div>
 			<button
-				className='bg-sky-500 hover:bg-sky-500 p-2 rounded-md'
+				className='bg-sky-500  p-2 rounded-md text-zinc-200 dark:text-inherit'
 				onClick={handleLogin}>
 				Sign in
 			</button>

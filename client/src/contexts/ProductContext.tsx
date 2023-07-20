@@ -10,9 +10,18 @@ import {
 import { URLSearchParamsInit, useSearchParams } from 'react-router-dom'
 import { IProduct } from 'shared/Types/IProduct'
 import { api } from '../services/api'
-import { getProducts } from '../services/product'
+import { getProducts, GetProductsResponse } from '../services/product'
+
+const defaultProduct: GetProductsResponse = {
+	amount: 0,
+	totalResults: 0,
+	totalPages: 0,
+	currentPage: 0,
+	products: [],
+}
 const ProductContext = createContext<{
 	product: {
+		amount: number
 		products: IProduct[]
 		totalPages: number
 		currentPage: number
@@ -25,11 +34,7 @@ const ProductContext = createContext<{
 	// totalPages: number
 	// setTotalPages: Dispatch<SetStateAction<number>>
 }>({
-	product: {
-		totalPages: 0,
-		currentPage: 0,
-		products: [],
-	},
+	product: defaultProduct,
 	currentPage: 1,
 	setCurrentPage(current) {
 		return 1
@@ -43,34 +48,27 @@ const ProductContext = createContext<{
 	// totalPages: 0,
 	// setTotalPages: () => {},
 })
-const defaultProduct = {
-	totalResults: 0,
-	totalPages: 0,
-	currentPage: 0,
-	products: [],
-}
+
 const ProductProvider = ({ children }: { children: ReactNode }) => {
 	let [searchParams, setSearchParams] = useSearchParams()
 
 	const [currentPage, setCurrentPage] = useState(
 		Number(searchParams.get('page_number')) || 1,
 	)
-	const { data: product, status: productStatus } = useQuery<{
-		products: IProduct[]
-		totalPages: number
-		currentPage: number
-		totalResults: number
-	}>(['products', Object.fromEntries(searchParams)], {
-		keepPreviousData: true,
-		placeholderData: defaultProduct,
-		queryFn: () => {
-			return getProducts(searchParams)
-		},
-		onSuccess(data) {},
-		onError: () => {
-			return { totalPages: 0, currentPage: 0, products: [] }
-		},
-	})
+	const { data: product, status: productStatus } =
+		useQuery<GetProductsResponse>(
+			['products', Object.fromEntries(searchParams)],
+			{
+				keepPreviousData: true,
+				placeholderData: defaultProduct,
+				queryFn: () => {
+					return getProducts(searchParams)
+				},
+				onError: () => {
+					return { totalPages: 0, currentPage: 0, products: [] }
+				},
+			},
+		)
 	// let totalPages = useMemo(()=>[product?.totalPages])
 	const value = useMemo(
 		() => ({
@@ -80,8 +78,6 @@ const ProductProvider = ({ children }: { children: ReactNode }) => {
 			currentPage,
 			setCurrentPage,
 			productStatus,
-			// totalPages,
-			// setTotalPages,
 		}),
 		[
 			searchParams,

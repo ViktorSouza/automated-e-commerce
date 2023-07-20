@@ -4,7 +4,7 @@ import { ObjectId } from 'mongoose'
 import { createAccount } from './createAccount'
 import { createReview } from './createReview'
 import { createProduct } from './createProduct'
-const BASE_URL = 'http://localhost:4000/api/v1'
+const BASE_URL = process.env.URL
 export const api = axios.create({
 	baseURL: BASE_URL,
 })

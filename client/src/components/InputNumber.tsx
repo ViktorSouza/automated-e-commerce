@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 export const InputNumber = ({
 	className,
-	onChange = ()=>{},
+	onChange = () => {},
 	minValue = 0,
 	maxValue = Number.MAX_SAFE_INTEGER,
 	initialNumber,
@@ -10,7 +10,6 @@ export const InputNumber = ({
 	value,
 	onClickDecrease,
 	prefix = '',
-	suffix = '',
 }: {
 	className?: string
 	initialNumber?: number
@@ -19,8 +18,6 @@ export const InputNumber = ({
 	minValue?: number
 	maxValue?: number
 	prefix?: string
-	//TODO the suffix is weird
-	suffix?: string
 
 	onClickIncrease?: () => any
 	onClickDecrease?: () => any
@@ -54,7 +51,7 @@ export const InputNumber = ({
 
 	return (
 		<div
-			className={`flex flex-row p-2 rounded-lg placeholder:text-sm border border-zinc-900 w-min justify-between items-center ${className}`}>
+			className={`flex flex-row p-2 rounded-lg placeholder:text-sm border dark:border-zinc-900 w-min justify-between items-center ${className}`}>
 			<span>{prefix}</span>
 			<input
 				type='number'
@@ -66,20 +63,19 @@ export const InputNumber = ({
 				className='[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none outline-none bg-transparent py-0  w-10 text-sm'
 				id='number-of-product'
 			/>
-			<span>{suffix}</span>
 			<div className='flex flex-col rounded overflow-hidden'>
 				<button
 					onClick={() => {
 						increaseValue()
 					}}
-					className='bg-zinc-900 hover:bg-zinc-700 px-1 text-zinc-400 text-[8px]'>
+					className='dark:bg-zinc-900 bg-zinc-200 dark:hover:bg-zinc-700 hover:bg-zinc-300 px-1 dark:text-zinc-400 text-[8px]'>
 					&#9650;
 				</button>
 				<button
 					onClick={() => {
 						decreaseValue()
 					}}
-					className='bg-zinc-900 hover:bg-zinc-700 px-1 text-zinc-400 text-[8px]'>
+					className='dark:bg-zinc-900 bg-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-700 px-1 dark:text-zinc-400 text-[8px]'>
 					&#9660;
 				</button>
 			</div>

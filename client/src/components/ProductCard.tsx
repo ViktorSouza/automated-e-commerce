@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react'
-import RatingStars from './RatingStars'
+import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IProduct } from 'shared/Types/IProduct'
+import { CartContext } from '../contexts/CartContext'
 import { UserContext } from '../contexts/UserContext'
+import RatingStars from './RatingStars'
 
 function ProductCard({
 	product,
@@ -12,13 +13,14 @@ function ProductCard({
 	isWished: boolean
 }) {
 	const [isHeartHovered, setHeartHovered] = useState(false)
+	const { updateCart } = useContext(CartContext)
 
 	const { addToWishlistMutation, removeFromWishlistMutation } =
 		useContext(UserContext)
 	return (
-		<div className='w-12/12 relative'>
+		<div className='relative'>
 			<button
-				className='right-2 top-1 absolute'
+				className='absolute z-10 right-2 top-1'
 				onClick={() => {
 					isWished
 						? removeFromWishlistMutation.mutate({ product: product._id })
@@ -32,35 +34,41 @@ function ProductCard({
 					} text-xl text-red-600`}></i>
 			</button>
 
-			<div className='overflow-hidden h-52 h-min-52 rounded bg-zinc-900'>
-				<img
-					className='object-cover'
-					// width={}
-					src={product.image}
-					alt='Image of the product'
-				/>
-			</div>
-			<div className='my-2'>
-				<h1 className='text-lg font-medium'>{product.title}</h1>
-				<div className='flex items-center gap-1'>
-					<RatingStars
-						value={product.averageRating || 0}
-						className='text-yellow-400 '
-					/>
-					<p className=' text-zinc-300 font-normal text-sm'>
-						({product.numOfReviews})
-					</p>
-				</div>
-				<p className='overflow-ellipsis line-clamp-1 text-sm font-light '>
-					{product.description}
-				</p>
-				<h2 className='font-semibold text-xl '>${product.price.toFixed(2)}</h2>
-			</div>
 			<Link to={`/product/${product._id}`}>
-				<p className='w-full text-center bg-sky-500 px-4 py-2 rounded-lg'>
-					Buy
-				</p>
+				<div className='relative overflow-hidden rounded-lg bg-zinc-900 min-h-[200px]'>
+					<img
+						className='object-cover '
+						height={200}
+						src={product.image}
+						alt='Image of the product'
+					/>
+				</div>
+				<div className='my-2'>
+					<h1 className='text-lg font-medium'>{product.title}</h1>
+					<div className='flex items-center gap-1'>
+						<RatingStars
+							value={product.averageRating || 0}
+							className='text-amber-600 dark:text-amber-400 '
+						/>
+						<p className='text-sm font-normal dark:'>
+							({product.numOfReviews})
+						</p>
+					</div>
+					<p className='text-sm font-light overflow-ellipsis line-clamp-1 '>
+						{product.description}
+					</p>
+					<h2 className='text-xl font-semibold '>
+						${product.price.toFixed(2)}
+					</h2>
+				</div>
 			</Link>
+			<button
+				className='w-full px-4 py-2 text-center transition-all border rounded-lg dark:border-zinc-800 dark:hover:bg-zinc-900'
+				onClick={() =>
+					updateCart.mutate({ product: product._id, quantity: 1 })
+				}>
+				<i className='mr-1 bi bi-cart'></i>Add to Cart
+			</button>
 		</div>
 	)
 }

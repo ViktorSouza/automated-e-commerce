@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import validator from 'validator'
+import bcryptjs from 'bcryptjs'
 import { IUser } from 'shared/Types/IUser'
 const Schema = new mongoose.Schema<
 	IUser & { password: string; comparePassword: (candidate: string) => boolean }
@@ -54,8 +55,8 @@ const Schema = new mongoose.Schema<
 )
 Schema.pre('save', function (next) {
 	if (this.isModified('password')) {
-		//TODO activate this and then test the isModified function
-		// this.password = bcryptjs.hashSync(this.password, 10)
+
+		this.password = bcryptjs.hashSync(this.password, 10)
 	}
 	next()
 })
