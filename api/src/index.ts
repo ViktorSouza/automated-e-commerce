@@ -82,7 +82,6 @@ const ErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 }
 app.use(ErrorHandler)
 
-app.use('/', router)
 async function start() {
 	await connectDB(process.env.MONGO_URL)
 	console.log('Connected')
