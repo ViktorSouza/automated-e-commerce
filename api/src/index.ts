@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 //Express dependencies
 require('express-async-errors')
 import helmet from 'helmet'
+import serverless from 'serverless-http'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
@@ -22,7 +23,7 @@ app.use(cookieParser(process.env.SECRET))
 app.use(express.json())
 app.use(
 	cors({
-		origin: 'http://127.0.0.1:5173',
+		origin: '*',
 		credentials: true,
 		// exposedHeaders:['set-cookie']
 	}),
@@ -41,12 +42,13 @@ import {
 } from './Routers'
 import { ZodError } from 'zod'
 import mongoose, { MongooseError } from 'mongoose'
-app.use('/api/v1/auth', AuthRouter)
-app.use('/api/v1/cart', CartRouter)
-app.use('/api/v1/review', ReviewRouter)
-app.use('/api/v1/user', UserRouter)
-app.use('/api/v1/order', OrderRouter)
-app.use('/api/v1/product', ProductRouter)
+const router = express.Router()
+router.use('/api/v1/auth', AuthRouter)
+router.use('/api/v1/cart', CartRouter)
+router.use('/api/v1/review', ReviewRouter)
+router.use('/api/v1/user', UserRouter)
+router.use('/api/v1/order', OrderRouter)
+router.use('/api/v1/product', ProductRouter)
 
 /**======================
  **    ERROR HANDLER
@@ -59,7 +61,6 @@ const ErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 		return
 	}
 
-	
 	if (err.type === 'entity.parse.failed') {
 		//* This error is thrown when the client sends an invalid JSON
 		res.status(400).json({ error: 'Failed to parse entity.' })
@@ -80,12 +81,13 @@ const ErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 		res.status(500).json({ error: err.message })
 	}
 }
-app.use(ErrorHandler)
+router.use(ErrorHandler)
 
-async function start() {
-	await connectDB(process.env.MONGO_URL)
-	console.log('Connected')
-	app.listen(4000)
-}
-
-start()
+app.use('/', router)
+// async function start() {
+// 	await connectDB(process.env.MONGO_URL)
+// 	console.log('Connected')
+// 	app.listen(4000)
+// }
+export const handler = serverless(app)
+// start()

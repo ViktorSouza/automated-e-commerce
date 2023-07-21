@@ -5,17 +5,19 @@
 	"main": "index.js",
 	"proxy": false,
 	"scripts": {
-		"start": "nodemon ./dist/app.js",
+		"start": "./node_modules/.bin/netlify-lambda server dist/app.js",
+		"build": "./node_modules/.bin/netlify-lambda build dist/app.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@netlify/functions": "^1.6.0",
 		"@types/bcryptjs": "^2.4.2",
 		"@types/cookie-parser": "^1.4.3",
 		"@types/dotenv": "^8.2.0",
-		"@types/express": "^4.17.15",
+		"@types/express": "^4.17.17",
 		"@types/express-serve-static-core": "^4.17.32",
 		"@types/jsonwebtoken": "^9.0.0",
 		"@types/node": "^18.15.11",
@@ -35,6 +37,7 @@
 		"mongoose": "^6.8.3",
 		"nodemon": "^2.0.20",
 		"react-paginate": "^8.2.0",
+		"serverless-http": "^3.2.0",
 		"stripe": "^12.0.0",
 		"validator": "^13.7.0",
 		"zod": "^3.21.4"
