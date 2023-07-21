@@ -42,13 +42,12 @@ import {
 } from './Routers'
 import { ZodError } from 'zod'
 import mongoose, { MongooseError } from 'mongoose'
-const router = express.Router()
-router.use('/api/v1/auth', AuthRouter)
-router.use('/api/v1/cart', CartRouter)
-router.use('/api/v1/review', ReviewRouter)
-router.use('/api/v1/user', UserRouter)
-router.use('/api/v1/order', OrderRouter)
-router.use('/api/v1/product', ProductRouter)
+app.use('/api/v1/auth', AuthRouter)
+app.use('/api/v1/cart', CartRouter)
+app.use('/api/v1/review', ReviewRouter)
+app.use('/api/v1/user', UserRouter)
+app.use('/api/v1/order', OrderRouter)
+app.use('/api/v1/product', ProductRouter)
 
 /**======================
  **    ERROR HANDLER
@@ -81,13 +80,12 @@ const ErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 		res.status(500).json({ error: err.message })
 	}
 }
-router.use(ErrorHandler)
+app.use(ErrorHandler)
 
 app.use('/', router)
-// async function start() {
-// 	await connectDB(process.env.MONGO_URL)
-// 	console.log('Connected')
-// 	app.listen(4000)
-// }
-export const handler = serverless(app)
-// start()
+async function start() {
+	await connectDB(process.env.MONGO_URL)
+	console.log('Connected')
+	app.listen(4000)
+}
+start()
