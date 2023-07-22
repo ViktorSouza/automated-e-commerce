@@ -1,9 +1,9 @@
 import { RequestHandler } from 'express'
 import mongoose from 'mongoose'
 import { Order, Product } from '../Models'
-import { ICart } from 'shared/Types/ICart'
+import { ICart } from '../../../shared/Types/ICart'
 import { Stripe } from 'stripe'
-const stripe = new Stripe(process.env.STRIPE_TOKEN, {
+const stripe = new Stripe(process.env.STRIPE_TOKEN ?? '', {
 	apiVersion: '2022-11-15',
 })
 

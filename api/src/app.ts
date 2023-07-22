@@ -19,7 +19,7 @@ dotenv.config({ path: './.env' })
 const app = express()
 app.disable('x-powered-by')
 app.use(helmet())
-app.use(cookieParser(process.env.SECRET))
+app.use(cookieParser(process.env.SECRET ?? ''))
 app.use(express.json())
 app.use(
 	cors({
@@ -56,7 +56,7 @@ app.use('/api/v1/product', ProductRouter)
 const ErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 	// return res.status(500).json({ error: err })
 	if (err instanceof TypeError) {
-		res.status(500).json({ error: err.cause, test: 'uguuuu' })
+		res.status(500).json({ error: err.message })
 		return
 	}
 
@@ -68,7 +68,7 @@ const ErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 	console.log(err)
 	if (err instanceof mongoose.Error) {
 		//TODO too much generic
-		res.status(500).json({ error: err.cause })
+		res.status(500).json({ error: err.message })
 		return
 	}
 	if (err instanceof ZodError) {
@@ -83,7 +83,7 @@ const ErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 app.use(ErrorHandler)
 
 async function start() {
-	await connectDB(process.env.MONGO_URL)
+	await connectDB(process.env.MONGO_URL ?? '')
 	console.log('Connected')
 	app.listen(4000)
 }

@@ -30,7 +30,6 @@ export function ProductsFilter() {
 					<span className='dark:text-zinc-500'>-</span>
 					<InputNumber
 						onChange={(value) => setMaxValue(value)}
-						suffix='$'
 						onClickDecrease={() => setMaxValue((curr) => curr - 1)}
 						onClickIncrease={() => setMaxValue((curr) => curr + 1)}
 						initialNumber={maxValue}

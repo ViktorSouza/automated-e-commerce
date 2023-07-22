@@ -14,6 +14,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { CartProvider } from './contexts/CartContext'
 import { ProductProvider } from './contexts/ProductContext'
+import ToggleTheme from './components/ToggleTheme'
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -24,11 +25,6 @@ const queryClient = new QueryClient({
 })
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
-		<button
-			onClick={() => document.documentElement.classList.toggle('dark')}
-			className='fixed top-0 left-0 bg-slate-500 text-slate-900 '>
-			Toggle Theme
-		</button>
 		<QueryClientProvider client={queryClient}>
 			<CookiesProvider>
 				<BrowserRouter>

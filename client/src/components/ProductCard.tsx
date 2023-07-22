@@ -20,6 +20,7 @@ function ProductCard({
 	return (
 		<div className='relative'>
 			<button
+				title='Add or remove from wishlist'
 				className='absolute z-10 right-2 top-1'
 				onClick={() => {
 					isWished
@@ -63,7 +64,7 @@ function ProductCard({
 				</div>
 			</Link>
 			<button
-				className='w-full px-4 py-2 text-center transition-all border rounded-lg dark:border-zinc-800 dark:hover:bg-zinc-900'
+				className='w-full px-4 py-2 text-center transition-all border rounded-lg dark:border-zinc-800 dark:hover:bg-zinc-900 hover:bg-zinc-200'
 				onClick={() =>
 					updateCart.mutate({ product: product._id, quantity: 1 })
 				}>

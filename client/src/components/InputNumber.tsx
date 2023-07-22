@@ -54,6 +54,7 @@ export const InputNumber = ({
 			className={`flex flex-row p-2 rounded-lg placeholder:text-sm border dark:border-zinc-900 w-min justify-between items-center ${className}`}>
 			<span>{prefix}</span>
 			<input
+				title='Number of products'
 				type='number'
 				min={minValue}
 				max={maxValue}

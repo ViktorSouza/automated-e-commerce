@@ -16,7 +16,9 @@
 		"module": "CommonJS",
 		"paths": {
 			"shared/*": ["../shared/*"]
-		}
-	}
+		},
+		"typeRoots": ["./src/Types"]
+	},
+	"include": ["./src/**/*.d.ts"]
 	// "include": ["/.env"]
 }

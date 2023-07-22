@@ -42,7 +42,7 @@ export function Wishlist() {
 								<h1 className='text-2xl font-medium'>${product.price}</h1>
 							</div>
 							<button
-								className='dark:hover:bg-zinc-800  bg-zinc-900 transition ease-in-out  px-10 p-2 rounded-lg col-span-2 justify-self-end'
+								className='dark:hover:bg-zinc-800  dark:bg-zinc-900 bg-zinc-200 hover:bg-zinc-300 transition ease-in-out  px-10 p-2 rounded-lg col-span-2 justify-self-end'
 								onClick={() =>
 									updateCart.mutate({
 										product: product._id,
@@ -59,7 +59,7 @@ export function Wishlist() {
 								onClick={() =>
 									removeFromWishlistMutation.mutate({ product: product._id })
 								}>
-								<i className='bi bi-x'></i>
+								<i className='bi bi-x text-xl'></i>
 							</button>
 						</div>
 					)

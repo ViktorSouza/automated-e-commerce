@@ -4,10 +4,10 @@
 		{
 			"label": "Start Api",
 			"type": "shell",
-			"command": "cd api && npm start",
+			"command": "cd api && npm run dev",
 			"problemMatcher": [],
 			"presentation": {
-				"group": "groupA",
+				"group": "groupA"
 			}
 		},
 		{

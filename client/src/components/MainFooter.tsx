@@ -83,6 +83,7 @@ function MainFooter() {
 				<ul className=' font-medium space-y-1'>
 					<li className='dark:'>
 						<a
+							rel='noopener'
 							className=' space-x-2'
 							href='https://www.instagram.com/viktor.dzn/'
 							target='_blank'>
@@ -92,6 +93,7 @@ function MainFooter() {
 					</li>
 					<li className='dark: '>
 						<a
+							rel='noopener'
 							className='space-x-2'
 							href='https://github.com/ViktorSouza/'
 							target='_blank'>
@@ -101,6 +103,7 @@ function MainFooter() {
 					</li>
 					<li className='dark: '>
 						<a
+							rel='noopener'
 							className='space-x-2'
 							href='https://wa.me/5516992891261'
 							target='_blank'>

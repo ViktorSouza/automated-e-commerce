@@ -12,17 +12,18 @@ export function Pagination({
 	setCurrentPage: (old: number) => void
 }) {
 	let actualPage = Number(currentPage)
-	console.log(totalPages)
 
 	return (
 		<div className='flex  my-10 rounded  text-2xl justify-between  items-center w-full'>
 			<div className='flex justify-start gap-8 items-center '>
 				<button
+					title='First page'
 					className='px-6 py-2'
 					onClick={() => setCurrentPage(0)}>
 					<i className='bi bi-chevron-double-left'></i>
 				</button>
 				<button
+					title='Previous page'
 					className='px-6 py-2'
 					onClick={() => setCurrentPage(Math.max(actualPage - 1, 0))}>
 					<i className='bi bi-chevron-left'></i>
@@ -77,11 +78,13 @@ export function Pagination({
 
 				<button
 					className='px-6 py-2'
+					title='Next page'
 					onClick={() => setCurrentPage(Math.min(actualPage + 1, totalPages))}>
 					<i className='bi bi-chevron-right'></i>
 				</button>
 				<button
 					className='px-6 py-2'
+					title='Last page'
 					onClick={() => setCurrentPage(totalPages - 1)}>
 					<i className='bi bi-chevron-double-right'></i>
 				</button>

@@ -1,14 +1,12 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+@import url(https://fonts.googleapis.com/css?family=Inter:100,200,300,regular,500,600,700,800,900);
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 :root {
-	font-family: 'Montserrat', sans-serif;
-	font-synthesis: none;
+	font-family: 'Inter', sans-serif;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	-webkit-text-size-adjust: 100%;
 }
 @layer components {
 	/* *,

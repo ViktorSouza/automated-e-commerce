@@ -37,6 +37,7 @@ export function Cart() {
 						className='mb-5  grid-cols-8 grid gap-3 items-center justify-between '>
 						<div className='col-span-3 items-center flex gap-3'>
 							<img
+								alt={item.product.title}
 								className='rounded-lg'
 								src={item.product.image}
 								width={150}
@@ -78,7 +79,9 @@ export function Cart() {
 						<p className='col-span-2 justify-self-end font-medium'>
 							${(item.price * item.quantity).toFixed(2)}
 						</p>
-						<button className='col-span-1 justify-self-center'>
+						<button
+							className='col-span-1 justify-self-center'
+							title='Add or remove from cart'>
 							<i
 								className='bi bi-x text-xl'
 								onClick={() => {
@@ -111,7 +114,7 @@ export function Cart() {
 						)}
 					</h2>
 				</div>
-				<button className='bg-sky-500 w-full transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg'>
+				<button className='bg-sky-500 text-zinc-100 dark:text-zinc-950 w-full transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg'>
 					Check out
 				</button>
 			</div>
@@ -126,6 +129,7 @@ function SummaryInfo({
 	return (
 		<li className='flex justify-between'>
 			<span className='font-medium'>{info.title}: </span>
+
 			<span className='font-semibold'>{info.value}</span>
 		</li>
 	)
