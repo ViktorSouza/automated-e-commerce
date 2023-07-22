@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import JWT from 'jsonwebtoken'
-import { IUser } from 'shared/Types/IUser'
+import { IUser } from '../types/IUser'
 
 type createJWTParams = {
 	res: Response
@@ -13,7 +13,7 @@ export function createJWT({ res, user }: createJWTParams) {
 	const { email, roles, name, _id } = user
 	res.cookie(
 		'token',
-		JWT.sign({ email, roles, name, _id }, process.env.SECRET),
+		JWT.sign({ email, roles, name, _id }, process.env.SECRET ?? ''),
 		{
 			//TODO chage this settings
 			signed: true,

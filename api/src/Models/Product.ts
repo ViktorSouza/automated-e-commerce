@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import validator from 'validator'
-import { IProduct } from 'shared/Types/IProduct'
+import { IProduct } from '../../../shared/Types/IProduct'
 import { User } from './User'
 const Schema = new mongoose.Schema<IProduct>({
 	description: {

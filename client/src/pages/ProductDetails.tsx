@@ -1,7 +1,5 @@
-import axios from 'axios'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import MainHeader from '../components/MainHeader'
 import RatingStars from '../components/RatingStars'
 import { IProduct } from 'shared/Types/IProduct'
 import { IReview } from 'shared/Types/IReview'
@@ -84,7 +82,7 @@ function ProductDetails() {
 											(cart.products.find(
 												(cartProduct) =>
 													cartProduct.product._id == infos.product._id,
-											)?.quantity || 0) + 1,
+											)?.quantity ?? 0) + 1,
 									})
 								}
 								onClickDecrease={() =>
@@ -94,7 +92,7 @@ function ProductDetails() {
 											(cart.products.find(
 												(cartProduct) =>
 													cartProduct.product._id == infos.product._id,
-											)?.quantity || 0) - 1,
+											)?.quantity ?? 0) - 1,
 									})
 								}
 								value={
@@ -113,7 +111,7 @@ function ProductDetails() {
 											(cart.products.find(
 												(cproduct) =>
 													cproduct.product._id === infos.product._id,
-											)?.quantity || 0) + 1,
+											)?.quantity ?? 0) + 1,
 									})
 								}>
 								Add to cart

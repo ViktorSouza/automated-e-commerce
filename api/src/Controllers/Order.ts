@@ -1,6 +1,6 @@
-import { RequestHandler } from 'express'
+import { Request, RequestHandler } from 'express'
 import mongoose from 'mongoose'
-import { Order, Product } from '../Models'
+import { Order, Product } from '../models'
 import { ICart } from '../../../shared/Types/ICart'
 import { Stripe } from 'stripe'
 const stripe = new Stripe(process.env.STRIPE_TOKEN ?? '', {
@@ -41,7 +41,7 @@ const getCurrentOrder: RequestHandler = async (req, res) => {
  * @route POST /order/
  * @response {order:IOrder, clientSecret:string}
  *========================**/
-const createOrder: RequestHandler = async (req, res) => {
+const createOrder: RequestHandler = async (req: Request, res) => {
 	const cart: ICart = req.body
 	const { products } = cart
 	//TODO change these values using a more real scenario

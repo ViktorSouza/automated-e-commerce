@@ -2,11 +2,9 @@ import dotenv from 'dotenv'
 //Express dependencies
 require('express-async-errors')
 import helmet from 'helmet'
-import serverless from 'serverless-http'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
-import automation from './Automation'
 import express, { ErrorRequestHandler } from 'express'
 import { connectDB } from './Utils'
 dotenv.config({ path: './.env' })
@@ -39,9 +37,9 @@ import {
 	CartRouter,
 	OrderRouter,
 	ProductRouter,
-} from './Routers'
+} from './routers'
 import { ZodError } from 'zod'
-import mongoose, { MongooseError } from 'mongoose'
+import mongoose from 'mongoose'
 app.use('/api/v1/auth', AuthRouter)
 app.use('/api/v1/cart', CartRouter)
 app.use('/api/v1/review', ReviewRouter)

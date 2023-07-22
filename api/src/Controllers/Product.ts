@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import Fuse from 'fuse.js'
 import mongoose from 'mongoose'
-import { Product, Review } from '../Models'
+import { Product, Review } from '../models'
 import { z } from 'zod'
 const productSchema = z.object({
 	title: z.string(),

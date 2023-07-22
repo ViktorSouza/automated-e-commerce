@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import { MongooseError } from 'mongoose'
-import { Product, Review } from '../Models'
+import { Product, Review } from '../models'
 /**
  * @requires {
  *  comment:string

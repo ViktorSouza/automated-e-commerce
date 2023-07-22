@@ -1,13 +1,14 @@
 {
 	"compilerOptions": {
 		"strict": true,
-		"target": "ES2022",
+		"target": "es2020",
 		"forceConsistentCasingInFileNames": true,
 		// "baseUrl": "./dist",
 		"noErrorTruncation": true,
 		"checkJs": true,
 		"alwaysStrict": true,
-		"noEmitOnError": true,
+		// "allowSyntheticDefaultImports": true,
+		"noEmitOnError": false,
 		"outDir": "./dist",
 		"esModuleInterop": true,
 		// "noUnusedParameters": true,
@@ -16,9 +17,6 @@
 		"module": "CommonJS",
 		"paths": {
 			"shared/*": ["../shared/*"]
-		},
-		"typeRoots": ["./src/Types"]
-	},
-	"include": ["./src/**/*.d.ts"]
-	// "include": ["/.env"]
+		}
+	}
 }

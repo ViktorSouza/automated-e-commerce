@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express'
-import JWT from 'jsonwebtoken'
+import * as JWT from 'jsonwebtoken'
 import { z } from 'zod'
-import { IUser } from '../../../shared/Types/IUser'
-import { Cart, User } from '../Models'
+import { IUser } from '../types/IUser'
+import { Cart, User } from '../models'
 import { createJWT } from '../Utils'
 
 //============================================REGISTER
@@ -43,6 +43,7 @@ const registerUser: RequestHandler<{}, { user: IUser }> = async (req, res) => {
 	}
 	const user = await User.create({ email, password, name, roles })
 	if (!user) throw new Error('Something goes wrong')
+
 	//Create the cart for user
 	await Cart.create({
 		user: user._id,
@@ -118,7 +119,7 @@ const AUTlogin: RequestHandler<{}, { user: IUser; token: string }> = async (
 	createJWT({ res, user })
 	res.json({
 		user,
-		token: JWT.sign(user.toJSON(), process.env.SECRET),
+		token: JWT.sign(user.toJSON(), process.env.SECRET ?? ''),
 	})
 }
 export default { registerUser, login, logout, AUTlogin }

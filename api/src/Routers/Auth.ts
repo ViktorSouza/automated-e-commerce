@@ -1,5 +1,5 @@
 import express from 'express'
-import { Auth } from '../Controllers'
+import { Auth } from '../controllers'
 const router = express.Router()
 const { registerUser, login, logout, AUTlogin } = Auth
 router.post('/register', registerUser)

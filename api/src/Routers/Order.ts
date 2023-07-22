@@ -1,6 +1,6 @@
 import express from 'express'
-import { Order } from '../Controllers'
-import { Authorization } from '../Middlewares'
+import { Order } from '../controllers'
+import { Authorization } from '../middlewares'
 const {
 	createOrder,
 	getAllOrders,
@@ -11,7 +11,7 @@ const {
 const route = express.Router()
 route.post('/', Authorization({}), createOrder)
 route.get('/', Authorization({ roles: ['Admin'] }), getAllOrders)
-route.get('/:id',Authorization({}), getSingleOrder)
-route.patch('/:id',Authorization({}), updateOrder)
+route.get('/:id', Authorization({}), getSingleOrder)
+route.patch('/:id', Authorization({}), updateOrder)
 
 export { route as OrderRouter }
