@@ -1,7 +1,7 @@
-import { ICart } from 'shared/Types/ICart'
+import { ICart } from '../Types/ICart'
 import { RequestHandler } from 'express'
 import mongoose from 'mongoose'
-import { Cart, Product } from '../models'
+import { Cart, Product } from '../Models'
 
 const getOwnCart: RequestHandler = async (req, res) => {
 	const cart = await Cart.findOne({ user: req.user._id })

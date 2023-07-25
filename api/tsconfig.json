@@ -3,7 +3,7 @@
 		"strict": true,
 		"target": "es2020",
 		"forceConsistentCasingInFileNames": true,
-		// "baseUrl": "./dist",
+		"baseUrl": "./dist",
 		"noErrorTruncation": true,
 		"checkJs": true,
 		"moduleResolution": "Node",

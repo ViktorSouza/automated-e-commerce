@@ -1,6 +1,6 @@
 import express from 'express'
-import { Review } from '../controllers'
-import { Authorization } from '../middlewares'
+import { Review } from '../Controllers'
+import { Authorization } from '../Middlewares'
 const {
 	createReview,
 	updateReview,

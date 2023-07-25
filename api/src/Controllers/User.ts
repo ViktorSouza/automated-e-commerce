@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express-serve-static-core'
 import mongoose from 'mongoose'
-import { User } from '../models'
+import { User } from '../Models'
 
 const showMe: RequestHandler = async (req, res) => {
 	const user = await User.findOne({ _id: req.user._id })

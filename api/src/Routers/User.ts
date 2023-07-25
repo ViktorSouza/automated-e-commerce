@@ -1,6 +1,6 @@
 import express from 'express'
-import { User } from '../controllers'
-import { Authorization } from '../middlewares'
+import { User } from '../Controllers'
+import { Authorization } from '../Middlewares'
 const router = express.Router()
 const {
 	deleteUser,

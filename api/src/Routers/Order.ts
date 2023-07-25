@@ -1,6 +1,6 @@
 import express from 'express'
-import { Order } from '../controllers'
-import { Authorization } from '../middlewares'
+import { Order } from '../Controllers'
+import { Authorization } from '../Middlewares'
 const {
 	createOrder,
 	getAllOrders,

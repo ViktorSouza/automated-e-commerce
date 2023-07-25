@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import JWT from 'jsonwebtoken'
-import { IUser } from '../types/IUser'
+import { IUser } from '../Types/IUser'
 
 type createJWTParams = {
 	res: Response

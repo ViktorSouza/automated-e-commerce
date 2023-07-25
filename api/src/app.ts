@@ -37,7 +37,7 @@ import {
 	CartRouter,
 	OrderRouter,
 	ProductRouter,
-} from './routers'
+} from './Routers'
 import { ZodError } from 'zod'
 import mongoose from 'mongoose'
 app.use('/api/v1/auth', AuthRouter)

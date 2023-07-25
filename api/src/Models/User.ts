@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import validator from 'validator'
 import * as bcryptjs from 'bcryptjs'
-import { IUser } from '../types/IUser'
+import { IUser } from '../Types/IUser'
 const Schema = new mongoose.Schema<
 	IUser & { password: string; comparePassword: (candidate: string) => boolean }
 >(

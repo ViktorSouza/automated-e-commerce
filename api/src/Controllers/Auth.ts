@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express'
 import * as JWT from 'jsonwebtoken'
 import { z } from 'zod'
-import { IUser } from '../types/IUser'
-import { Cart, User } from '../models'
+import { IUser } from '../Types/IUser'
+import { Cart, User } from '../Models'
 import { createJWT } from '../Utils'
 
 //============================================REGISTER

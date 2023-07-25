@@ -1,6 +1,6 @@
 import { Request, RequestHandler } from 'express'
 import mongoose from 'mongoose'
-import { Order, Product } from '../models'
+import { Order, Product } from '../Models'
 import { ICart } from '../../../shared/Types/ICart'
 import { Stripe } from 'stripe'
 const stripe = new Stripe(process.env.STRIPE_TOKEN ?? '', {

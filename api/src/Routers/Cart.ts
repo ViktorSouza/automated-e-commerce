@@ -1,6 +1,6 @@
 import express from 'express'
-import { Cart } from '../controllers'
-import { Authorization } from '../middlewares'
+import { Cart } from '../Controllers'
+import { Authorization } from '../Middlewares'
 const { addProductToCart, removeProductFromCart, getOwnCart } = Cart
 const route = express.Router()
 route.post('/', Authorization({}), addProductToCart)

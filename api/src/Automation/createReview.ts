@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { AxiosResponse } from 'axios'
-import { IProduct } from 'shared/Types/IProduct'
+import { IProduct } from '../Types/IProduct'
 import { getRandomUser } from './getRandomUser'
 import { UserReponseLogin, api, AUTOMATION_TIMES } from './index'
 

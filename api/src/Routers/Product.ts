@@ -1,7 +1,7 @@
 import express from 'express'
 const route = express.Router()
-import { Product } from '../controllers'
-import { Authorization } from '../middlewares'
+import { Product } from '../Controllers'
+import { Authorization } from '../Middlewares'
 const {
 	updateProduct,
 	AUTgetRandomProduct,
