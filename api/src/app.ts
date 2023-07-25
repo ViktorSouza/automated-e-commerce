@@ -43,6 +43,7 @@ import {
 } from './Routers'
 import { ZodError } from 'zod'
 import mongoose from 'mongoose'
+import automation from './Automation'
 app.use('/api/v1/auth', AuthRouter)
 app.use('/api/v1/cart', CartRouter)
 app.use('/api/v1/review', ReviewRouter)
@@ -85,6 +86,7 @@ app.use(ErrorHandler)
 
 async function start() {
 	await connectDB(process.env.MONGO_URL ?? '')
+	automation()
 	console.log('Connected')
 	app.listen(4000)
 }
