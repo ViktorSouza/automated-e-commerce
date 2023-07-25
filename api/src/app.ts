@@ -15,17 +15,20 @@ dotenv.config({ path: './.env' })
 //TODO make statistics, such as number of products, number of users, growth, etc
 
 const app = express()
-app.disable('x-powered-by')
-app.use(helmet())
-app.use(cookieParser(process.env.SECRET ?? ''))
-app.use(express.json())
 app.use(
 	cors({
-		origin: '*',
+		origin: [
+			'https://automated-e-commerce.vercel.app',
+			'http://localhost:5173',
+		],
 		credentials: true,
 		// exposedHeaders:['set-cookie']
 	}),
 )
+// app.disable('x-powered-by')
+app.use(helmet())
+app.use(cookieParser(process.env.SECRET ?? ''))
+app.use(express.json())
 
 /**======================
  **    ROUTERS
