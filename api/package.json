@@ -6,7 +6,7 @@
 	"proxy": false,
 	"scripts": {
 		"dev": "nodemon --exec ts-node --files src/app.ts",
-		"build": "tsc",
+		"build": "npm install && tsc",
 		"start": "node ./dist/app.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
