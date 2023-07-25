@@ -6,6 +6,7 @@
 		// "baseUrl": "./dist",
 		"noErrorTruncation": true,
 		"checkJs": true,
+		"moduleResolution": "Node",
 		"alwaysStrict": true,
 		// "allowSyntheticDefaultImports": true,
 		"noEmitOnError": false,
