@@ -7,13 +7,5 @@ export default ({ mode }) => {
 	process.env = { ...process.env, ...loadEnv(mode, process.cwd()) }
 	return defineConfig({
 		plugins: [react()],
-		server: {
-			proxy: {
-				'/api/v1/': {
-					target: process.env.VITE_API_URL,
-					changeOrigin: true,
-				},
-			},
-		},
 	})
 }

@@ -22,7 +22,8 @@ app.use(
 			'http://localhost:5173',
 		],
 		credentials: true,
-		// exposedHeaders:['set-cookie']
+		optionsSuccessStatus: 200,
+		exposedHeaders: ['set-cookie'],
 	}),
 )
 // app.disable('x-powered-by')
