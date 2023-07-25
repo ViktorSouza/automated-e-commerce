@@ -12,15 +12,35 @@ export function Pagination({
 	setCurrentPage: (old: number) => void
 }) {
 	let actualPage = Number(currentPage)
+	return (
+		<div className='flex my-10 rounded justify-between items-center'>
+			<p className='dark:text-zinc-400'>
+				{actualPage} of {totalPages} pages
+			</p>
+			<div className='space-x-3'>
+				<button
+					className='py-2 px-4 border border-zinc-800 rounded-md'
+					onClick={() => setCurrentPage(Math.max(actualPage - 1, 0))}>
+					Previous
+				</button>
+				<button
+					className='py-2 px-4 border border-zinc-800 rounded-md'
+					onClick={() => setCurrentPage(Math.max(actualPage + 1, 0))}>
+					Next
+				</button>
+			</div>
+		</div>
+	)
 
 	return (
-		<div className='flex  my-10 rounded  text-2xl justify-between  items-center w-full'>
+		<div className='flex  my-10 rounded   justify-between  items-center w-full'>
 			<div className='flex justify-start gap-8 items-center '>
 				<button
 					title='First page'
 					className='px-6 py-2'
 					onClick={() => setCurrentPage(0)}>
-					<i className='bi bi-chevron-double-left'></i>
+					{/* <i className='bi bi-chevron-double-left'></i> */}
+					First
 				</button>
 				<button
 					title='Previous page'
@@ -38,7 +58,7 @@ export function Pagination({
 								: 'visible',
 					}}></i>
 			</div>
-			<div className='flex items-center justify-around w-full'>
+			<div className='flex items-center justify-around w-full text-zinc-500'>
 				{array(Math.min(siblingCount, actualPage))
 					.map((value, index) => (
 						<button
@@ -53,7 +73,7 @@ export function Pagination({
 			<span className='px-10 justify-self-center font-medium'>
 				{actualPage + 1}
 			</span>
-			<div className='flex items-center justify-around w-full'>
+			<div className='flex items-center justify-around w-full text-zinc-500'>
 				{array(Math.min(siblingCount, totalPages - actualPage - 1)).map(
 					(value, index) => (
 						<button
@@ -83,10 +103,11 @@ export function Pagination({
 					<i className='bi bi-chevron-right'></i>
 				</button>
 				<button
-					className='px-6 py-2'
+					className='px-6 py-2 text-base'
 					title='Last page'
 					onClick={() => setCurrentPage(totalPages - 1)}>
-					<i className='bi bi-chevron-double-right'></i>
+					{/* <i className='bi bi-chevron-double-right'></i> */}
+					Last
 				</button>
 			</div>
 		</div>
