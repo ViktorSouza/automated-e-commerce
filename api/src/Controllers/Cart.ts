@@ -12,7 +12,7 @@ const getOwnCart: RequestHandler = async (req, res) => {
 
 /**
  **Add Product To Cart
- * @route POST /cart/
+ * @route POST /carts/
  * @requires { product:string, quantity:number }
  * @response {cart: ICart}
  */
@@ -73,7 +73,7 @@ const addProductToCart: RequestHandler<
 
 //============================================REMOVE PRODUCT FROM CART
 /**
- * @route DELETE /cart/:id
+ * @route DELETE /carts/:id
  * @params { id:string }
  * @response {message:'OK"}
  */

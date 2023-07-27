@@ -12,7 +12,7 @@ const defaultUser: IUser = {
 	_id: '',
 }
 export async function getUser(): Promise<IUser> {
-	const res = await api.get('/user/showMe')
+	const res = await api.get('/users/showMe')
 	if (res.status !== 200) return defaultUser
 	return res.data.user
 }

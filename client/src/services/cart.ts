@@ -8,7 +8,7 @@ export async function updateCart({
 	product: string
 	quantity: number
 }): Promise<ICartPopulated> {
-	const res = await api.post('/cart', {
+	const res = await api.post('/carts', {
 		product,
 		quantity: Math.max(0, quantity),
 	})
@@ -17,6 +17,6 @@ export async function updateCart({
 }
 
 export async function deleteProductFromCart({ product }: { product: string }) {
-	const res = await api.delete(`/cart/${product}`)
+	const res = await api.delete(`/carts/${product}`)
 	return res.status
 }

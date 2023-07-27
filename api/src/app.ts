@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 //Express dependencies
 require('express-async-errors')
 import helmet from 'helmet'
+import morgan from 'morgan'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
@@ -23,13 +24,14 @@ app.use(
 		],
 		credentials: true,
 		optionsSuccessStatus: 200,
-		exposedHeaders: ['set-cookie'],
+		// exposedHeaders: ['set-cookie'],
 	}),
 )
 // app.disable('x-powered-by')
 app.use(helmet())
 app.use(cookieParser(process.env.SECRET ?? ''))
 app.use(express.json())
+app.use(morgan('tiny'))
 
 /**======================
  **    ROUTERS
@@ -46,11 +48,11 @@ import { ZodError } from 'zod'
 import mongoose from 'mongoose'
 import automation from './Automation'
 app.use('/api/v1/auth', AuthRouter)
-app.use('/api/v1/cart', CartRouter)
-app.use('/api/v1/review', ReviewRouter)
-app.use('/api/v1/user', UserRouter)
-app.use('/api/v1/order', OrderRouter)
-app.use('/api/v1/product', ProductRouter)
+app.use('/api/v1/carts', CartRouter)
+app.use('/api/v1/reviews', ReviewRouter)
+app.use('/api/v1/users', UserRouter)
+app.use('/api/v1/orders', OrderRouter)
+app.use('/api/v1/products', ProductRouter)
 
 /**======================
  **    ERROR HANDLER
@@ -68,13 +70,14 @@ const ErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 		res.status(400).json({ error: 'Failed to parse entity.' })
 		return
 	}
-	console.log(err)
 	if (err instanceof mongoose.Error) {
 		//TODO too much generic
+		console.log(err.name)
 		res.status(500).json({ error: err.message })
 		return
 	}
 	if (err instanceof ZodError) {
+		console.log(err.errors)
 		res.status(500).json({ error: err.errors })
 		return
 	}

@@ -27,7 +27,7 @@ function App() {
 				/>
 				<Route
 					element={<ProductDetails />}
-					path='/product/:id'
+					path='/products/:id'
 				/>
 			</Routes>
 			{/* <Sign /> */}

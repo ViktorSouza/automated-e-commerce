@@ -7,7 +7,7 @@ import { UserReponseLogin, api, AUTOMATION_TIMES } from './index'
 export async function createReview(): Promise<void> {
 	const randomUser = (await getRandomUser()) as UserReponseLogin
 	const randomProduct: AxiosResponse<{ product: IProduct }> | undefined =
-		await api.get('/product/AUTrandomProduct')
+		await api.get('/products/AUTrandomProduct')
 
 	if (!randomProduct?.data.product) return
 	if (!randomUser) return
@@ -18,7 +18,7 @@ export async function createReview(): Promise<void> {
 	}
 
 	api
-		.post('/review', review, {
+		.post('/reviews', review, {
 			headers: {
 				Cookie: `token=${randomUser.token};`,
 			},

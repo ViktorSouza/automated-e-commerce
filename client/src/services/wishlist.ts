@@ -5,7 +5,7 @@ export async function addToWishlist({
 }: {
 	product: string
 }): Promise<{}> {
-	const data = await api.post('/user/wishlist', { product })
+	const data = await api.post('/users/wishlist', { product })
 	return data
 }
 
@@ -14,6 +14,6 @@ export async function removeFromWishlist({
 }: {
 	product: string
 }): Promise<{}> {
-	const data = await api.delete(`/user/wishlist/${product}`)
+	const data = await api.delete(`/users/wishlist/${product}`)
 	return data
 }

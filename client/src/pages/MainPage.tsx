@@ -86,7 +86,6 @@ function MainPage() {
 							totalPages={product.totalPages}
 							setCurrentPage={setCurrentPage}
 							currentPage={currentPage}
-							siblingCount={2}
 						/>
 					</div>
 				</div>

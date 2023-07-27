@@ -2,7 +2,7 @@ import { IProduct } from '../../../shared/Types/IProduct'
 import { api } from './api'
 
 export type GetProductsResponse = {
-	amount:number
+	amount: number
 	products: IProduct[]
 	currentPage: number
 	totalPages: number
@@ -11,7 +11,7 @@ export type GetProductsResponse = {
 
 export const getProducts =
 	async (queryParams: {}): Promise<GetProductsResponse> => {
-		const response = await api.get('/product', { params: queryParams })
+		const response = await api.get('/products', { params: queryParams })
 
 		return response.data as GetProductsResponse
 	}
@@ -19,7 +19,7 @@ export const getSingleProduct = async (
 	productId?: string,
 	queryParams?: {},
 ) => {
-	const response = await api.get(`/product/${productId}`, {
+	const response = await api.get(`/products/${productId}`, {
 		params: queryParams,
 	})
 	return response.data

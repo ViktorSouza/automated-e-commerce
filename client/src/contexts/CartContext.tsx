@@ -41,7 +41,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
 			enabled: isLogin,
 			keepPreviousData: true,
 			placeholderData: defaultCart,
-			queryFn: async () => (await api.get('/cart')).data.cart,
+			queryFn: async () => (await api.get('/carts')).data.cart,
 		},
 	)
 

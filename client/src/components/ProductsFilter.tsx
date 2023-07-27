@@ -60,7 +60,7 @@ export function ProductsFilter() {
 				</ul>
 			</div>
 
-			<button className='border dark:border-zinc-800 rounded-lg py-2 justify-self-center min-w-min'>
+			<button className='border dark:border-zinc-900 rounded-lg py-2 justify-self-center min-w-min'>
 				Reset settings
 			</button>
 		</div>

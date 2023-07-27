@@ -10,7 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_TOKEN ?? '', {
 //TODO make the IOrder and put here
 /**======================
  **      Get All Orders
- * @route GET /order/
+ * @route GET /orders/
  * @response {orders:IOrder[]}
  *========================**/
 const getAllOrders: RequestHandler = async (req, res) => {
@@ -19,7 +19,7 @@ const getAllOrders: RequestHandler = async (req, res) => {
 }
 /**======================
  **      Get Single Order
- * @route GET /order/:id
+ * @route GET /orders/:id
  * @response {order:IOrder}
  *========================**/
 const getSingleOrder: RequestHandler = async (req, res) => {
@@ -38,7 +38,7 @@ const getCurrentOrder: RequestHandler = async (req, res) => {
 
 /**======================
  **      Create Order
- * @route POST /order/
+ * @route POST /orders/
  * @response {order:IOrder, clientSecret:string}
  *========================**/
 const createOrder: RequestHandler = async (req: Request, res) => {

@@ -7,12 +7,16 @@ import { getSingleProduct } from '../services/product'
 import { InputNumber } from '../components/InputNumber'
 import { CartContext } from '../contexts/CartContext'
 import { UserContext } from '../contexts/UserContext'
+import { CEPInput } from './CEPInput'
+import Reviews from './Reviews'
 
 function ProductDetails() {
 	const [infos, setInfos] = useState<{ product: IProduct; reviews: IReview[] }>(
 		defaultData,
 	)
 	const { cart, updateCart } = useContext(CartContext)
+	const bah = useContext(CartContext)
+	console.log(bah)
 	const { id } = useParams()
 	useEffect(() => {
 		;(async () => {
@@ -152,126 +156,9 @@ function ProductDetails() {
 						<CEPInput />
 					</div>
 				</div>
-				<div className=' flex flex-col mt-10'>
-					<h1 className='font-semibold text-h1 mb-4'>Reviews</h1>
-					<div className='flex w-full h-56 gap-5'>
-						<div className='space-y'>
-							<h2 className='text-7xl  font-medium'>
-								{infos.product.averageRating.toFixed(1)}
-							</h2>
-							<span className='sr-only'>stars</span>
-							<RatingStars
-								value={infos.product.averageRating}
-								className='text-amber-600 dark:text-amber-400'
-							/>
-							<p>{infos.product.numOfReviews} reviews</p>
-						</div>
-						<div className='flex flex-col-reverse justify-end'>
-							{infos.reviews
-								.reduce<number[]>(
-									(prev, curr, index) => {
-										const newValues = [...prev]
-										newValues[Number(curr.rating.toFixed(0))]++
-										return newValues
-									},
-									[0, 0, 0, 0, 0, 0],
-								)
-								.map((value, index) => {
-									return (
-										<div
-											key={index}
-											className='flex items-center gap-3'>
-											<RatingStars
-												value={index}
-												className='text-amber-600 dark:text-amber-400'
-											/>
-											<p>{value}</p>
-										</div>
-									)
-								})}
-						</div>
-					</div>
-					{infos.reviews.map((review) => (
-						<div
-							key={review._id}
-							className='pt-3 my-3 border-t dark:border-zinc-900'>
-							<div className='flex gap-14 items-center'>
-								<h3 className='text-lg font-medium'>{`${review.user.name.first} ${review.user.name.last}`}</h3>
-								<div className='flex gap-2'>
-									<p title={`${review.rating || 0} stars`}>
-										{review.rating || 0}
-									</p>
-									<RatingStars
-										key={review._id}
-										value={review.rating}
-										className='text-amber-600 dark:text-amber-400'
-									/>
-								</div>
-							</div>
-							<div className=''>
-								<p className='dark:  mt-3'>{review.comment}</p>
-								<div className='flex flex-row gap-10 mt-3'>
-									<div className='cursor-pointer dark:hover:bg-zinc-900 px-2 py-1 rounded transition-all'>
-										<i className='bi bi-chevron-up mr-2'></i>
-										<span className='dark:text-zinc-400 text-sm font-medium'>
-											0
-										</span>
-									</div>
-									<div className='cursor-pointer dark:hover:bg-zinc-900 px-2 py-1 rounded transition-all'>
-										<i className='bi bi-chat-left-text mr-2'></i>
-										<span className='dark:text-zinc-400 text-sm font-medium'>
-											Comment
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					))}
-				</div>
+				<Reviews product={infos.product} />
 			</section>
 		</>
-	)
-}
-
-function CEPInput() {
-	const [inputValue, setInputValue] = useState('')
-
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		let input = e.target.value
-		// Remove any non-digit characters from the input value
-		input = input.replace(/\D/g, '')
-		// Format the input value as "00000-000"
-		if (input.length <= 5) {
-			setInputValue(input)
-		} else if (input.length > 5 && input.length <= 8) {
-			setInputValue(input.slice(0, 5) + '-' + input.slice(5))
-		} else if (input.length > 8) {
-			setInputValue(input.slice(0, 5) + '-' + input.slice(5, 8))
-		}
-	}
-	return (
-		<div className='flex flex-col gap-1'>
-			<label
-				htmlFor='cep'
-				className='text-xs'>
-				Consult your CEP
-			</label>
-			<div>
-				<input
-					type='text'
-					name='cep'
-					placeholder='0000-000'
-					onChange={handleChange}
-					value={inputValue}
-					id='cep'
-					title='Please enter a valid number pattern: 0000-000'
-					className='border mr-2 dark:border-zinc-900 w-40 transition ease-in-out bg-transparent p-2 rounded-lg  outline-none'
-				/>
-				<button className='p-2 px-3 bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-900 rounded-lg transition-all  dark:hover:bg-zinc-800 font-medium'>
-					Ok
-				</button>
-			</div>
-		</div>
 	)
 }
 

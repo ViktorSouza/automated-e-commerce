@@ -14,7 +14,7 @@ export async function createProduct(): Promise<void> {
 	}
 	if (!randomUser) return
 	api
-		.post('/product', product, {
+		.post('/products', product, {
 			headers: {
 				Cookie: `token=${randomUser.token};`,
 			},

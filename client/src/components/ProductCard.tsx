@@ -35,7 +35,7 @@ function ProductCard({
 					} text-xl text-red-600`}></i>
 			</button>
 
-			<Link to={`/product/${product._id}`}>
+			<Link to={`/products/${product._id}`}>
 				<div className='relative overflow-hidden rounded-lg bg-zinc-900 min-h-[200px]'>
 					<img
 						className='object-cover '
@@ -64,7 +64,7 @@ function ProductCard({
 				</div>
 			</Link>
 			<button
-				className='w-full px-4 py-2 text-center transition-all border rounded-lg dark:border-zinc-800 dark:hover:bg-zinc-900 hover:bg-zinc-200'
+				className='w-full px-4 py-2 text-center transition-all border rounded-lg dark:border-zinc-900 dark:hover:bg-zinc-900 hover:bg-zinc-200'
 				onClick={() =>
 					updateCart.mutate({ product: product._id, quantity: 1 })
 				}>
