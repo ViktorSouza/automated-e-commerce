@@ -8,7 +8,7 @@ import ProductDetails from './pages/ProductDetails'
 import MainFooter from './components/MainFooter'
 function App() {
 	return (
-		<div className='max-w-[1920px] w-full xl:w-[1280px] xl:mx-auto flex flex-col'>
+		<div className='max-w-[1920px] w-full xl:w-[1280px] px-5 xl:mx-auto flex flex-col'>
 			<Routes>
 				<Route
 					element={<MainPage />}

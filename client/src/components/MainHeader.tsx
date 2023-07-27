@@ -15,7 +15,7 @@ function MainHeader() {
 	}
 	return (
 		<header className='mb-5 border-b w-12/12 dark:border-zinc-900'>
-			<div className='w-[1280px] mx-auto p-4 px-0 hidden xl:flex justify-between items-center'>
+			<div className='xl:w-[1280px] w-full xl:mx-auto px-5 p-4 flex justify-between items-center'>
 				<Link to='/'>
 					<h1 className='text-xl font-medium'>Automated E-Commerce</h1>
 				</Link>
@@ -29,7 +29,7 @@ function MainHeader() {
 						placeholder='Search for something...'
 						id='product-seach'
 						aria-label='Search'
-						className='bg-transparent outline-none w-96'
+						className='bg-transparent outline-none xl:w-96'
 					/>
 					<i className='bi bi-search'></i>
 				</div>

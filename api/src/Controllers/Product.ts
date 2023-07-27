@@ -6,9 +6,7 @@ import { z } from 'zod'
 const productSchema = z.object({
 	title: z.string(),
 	description: z.string(),
-	price: z
-		.number({ required_error: 'Please provide the price' })
-		.nonpositive('Provide a positive number'),
+	price: z.string({ required_error: 'Please provide the price' }),
 	colors: z.array(z.string()),
 	image: z.string(),
 })

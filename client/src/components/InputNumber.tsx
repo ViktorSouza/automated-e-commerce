@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { clsx } from 'clsx'
 
 export const InputNumber = ({
 	className,
@@ -51,7 +52,10 @@ export const InputNumber = ({
 
 	return (
 		<div
-			className={`flex flex-row p-2 rounded-lg placeholder:text-sm border dark:border-zinc-900 w-min justify-between items-center ${className}`}>
+			className={clsx(
+				`flex flex-row p-2 rounded-lg placeholder:text-sm border dark:border-zinc-900 w-min justify-between items-center `,
+				className,
+			)}>
 			<span>{prefix}</span>
 			<input
 				title='Number of products'

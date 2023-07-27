@@ -15,8 +15,6 @@ function ProductDetails() {
 		defaultData,
 	)
 	const { cart, updateCart } = useContext(CartContext)
-	const bah = useContext(CartContext)
-	console.log(bah)
 	const { id } = useParams()
 	useEffect(() => {
 		;(async () => {
@@ -30,23 +28,24 @@ function ProductDetails() {
 	return (
 		<>
 			<section className='w-12/12'>
-				<div className='grid grid-cols-2  h-3/6 justify-items-stretch'>
-					<div className='flex justify-stretch rounded-lg overflow-hidden bg-zinc-900 h-[493px]'>
+				<div className='md:grid grid-cols-2  h-3/6 justify-items-stretch'>
+					<div className='flex justify-stretch rounded-lg overflow-hidden bg-zinc-900 md:h-[493px]'>
 						<img
 							className='object-cover h-12/12 w-12/12'
 							src={infos.product.image}
 							alt=''
 						/>
 					</div>
-					<div className='col-start-2 col-end-3 px-5'>
-						<div className='mb-5'>
-							{' '}
-							<h1 className='text-h1 font-semibold '>{infos.product.title}</h1>
+					<div className='col-start-2 col-end-3 md:px-5'>
+						<div className='mb-5 flex flex-col'>
+							<h1 className='text-h1 font-semibold order-2 md:order-1'>
+								{infos.product.title}
+							</h1>
 							<RatingStars
-								className='text-amber-600 dark:text-amber-400'
+								className='text-amber-600 order-1 md:order-2 dark:text-amber-400'
 								value={infos.product.averageRating || 0}
 							/>
-							<p className='my-2 dark:text-zinc-400'>
+							<p className='my-2 dark:text-zinc-400 order-3'>
 								{infos.product.description}
 							</p>
 						</div>
@@ -77,35 +76,41 @@ function ProductDetails() {
 							</p>
 						</div>
 
-						<div className='my-5 flex flex-row gap-5'>
-							<InputNumber
-								onClickIncrease={() =>
-									updateCart.mutate({
-										product: infos.product._id,
-										quantity:
-											(cart.products.find(
-												(cartProduct) =>
-													cartProduct.product._id == infos.product._id,
-											)?.quantity ?? 0) + 1,
-									})
-								}
-								onClickDecrease={() =>
-									updateCart.mutate({
-										product: infos.product._id,
-										quantity:
-											(cart.products.find(
-												(cartProduct) =>
-													cartProduct.product._id == infos.product._id,
-											)?.quantity ?? 0) - 1,
-									})
-								}
-								value={
-									cart.products.find(
-										(cartProduct) =>
-											cartProduct.product._id == infos.product._id,
-									)?.quantity
-								}
-							/>
+						<div className='my-5 flex flex-col-reverse md:flex-row gap-5'>
+							<div>
+								<span className='text-sm md:hidden pl-1 text-zinc-500'>
+									Items
+								</span>
+								<InputNumber
+									className='w-full'
+									onClickIncrease={() =>
+										updateCart.mutate({
+											product: infos.product._id,
+											quantity:
+												(cart.products.find(
+													(cartProduct) =>
+														cartProduct.product._id == infos.product._id,
+												)?.quantity ?? 0) + 1,
+										})
+									}
+									onClickDecrease={() =>
+										updateCart.mutate({
+											product: infos.product._id,
+											quantity:
+												(cart.products.find(
+													(cartProduct) =>
+														cartProduct.product._id == infos.product._id,
+												)?.quantity ?? 0) - 1,
+										})
+									}
+									value={
+										cart.products.find(
+											(cartProduct) =>
+												cartProduct.product._id == infos.product._id,
+										)?.quantity
+									}
+								/>
+							</div>
 							<button
 								className='bg-sky-500 transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg text-white dark:text-inherit'
 								onClick={() =>

@@ -20,7 +20,7 @@ export function CEPInput() {
 		<div className='flex flex-col gap-1'>
 			<label
 				htmlFor='cep'
-				className='text-xs'>
+				className='text-xs text-zinc-500 pl-1'>
 				Consult your CEP
 			</label>
 			<div>
