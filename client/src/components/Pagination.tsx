@@ -17,12 +17,12 @@ export function Pagination({
 			</p>
 			<div className='space-x-3'>
 				<button
-					className='py-2 px-4 border dark:border-zinc-900 rounded-md'
+					className='py-2 px-4 border text-zinc-900 dark:text-zinc-200 dark:border-zinc-900 rounded-md'
 					onClick={() => setCurrentPage(Math.max(actualPage - 1, 0))}>
 					Previous
 				</button>
 				<button
-					className='py-2 px-4 border dark:border-zinc-900 rounded-md'
+					className='py-2 px-4 border text-zinc-900 dark:text-zinc-200 dark:border-zinc-900 rounded-md'
 					onClick={() =>
 						setCurrentPage(Math.min(actualPage + 1, totalPages - 1))
 					}>

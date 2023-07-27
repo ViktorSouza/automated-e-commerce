@@ -38,7 +38,7 @@ function ProductDetails() {
 					</div>
 					<div className='col-start-2 col-end-3 md:px-5'>
 						<div className='mb-5 flex flex-col'>
-							<h1 className='text-h1 font-semibold order-2 md:order-1'>
+							<h1 className='text-h1 font-semibold order-2 md:order-1 text-zinc-900 dark:text-zinc-200'>
 								{infos.product.title}
 							</h1>
 							<RatingStars
@@ -52,7 +52,9 @@ function ProductDetails() {
 
 						<div className='my-5 flex gap-2'>
 							<div>
-								<h3 className='text-1xl font-semibold'>Colors</h3>
+								<h3 className='text-1xl font-semibold text-zinc-900 dark:text-zinc-200'>
+									Colors
+								</h3>
 								<p className='dark:text-zinc-400 text-xs'>in stock</p>
 							</div>
 							<div className='flex gap-2'>
@@ -68,7 +70,7 @@ function ProductDetails() {
 						</div>
 
 						<div className='my-5'>
-							<h2 className='text-h2 font-semibold'>
+							<h2 className='text-h2 font-semibold text-zinc-900 dark:text-zinc-200'>
 								${infos.product.price.toFixed(2)}
 							</h2>
 							<p className='text-xs dark:text-zinc-400 font-semibold'>
@@ -112,7 +114,7 @@ function ProductDetails() {
 								/>
 							</div>
 							<button
-								className='bg-sky-500 transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg text-white dark:text-inherit'
+								className='bg-sky-500 transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg text-zinc-900 dark:text-zinc-200 dark:text-inherit'
 								onClick={() =>
 									updateCart.mutate({
 										product: infos.product._id,
@@ -131,6 +133,7 @@ function ProductDetails() {
 						</div>
 						<div className='my-5 flex items-baseline gap-10'>
 							<button
+								className='text-zinc-900 dark:text-zinc-200'
 								onClick={() => {
 									isWished
 										? removeFromWishlistMutation.mutate({
@@ -142,20 +145,18 @@ function ProductDetails() {
 								}}>
 								<i
 									className={`bi bi-heart${isWished ? '-fill' : ''} mr-2 ${
-										isWished ? 'text-red-600' : 'dark:text-zinc-400'
+										isWished ? 'text-red-600' : 'dark:text-zinc-200'
 									}`}></i>
-								<span className='dark:text-zinc-400 font-semibold'>
-									Wishlist
-								</span>
+								<span className=' font-semibold'>Wishlist</span>
 							</button>
 
 							<button
-								className='flex items-baseline'
+								className='flex items-baseline text-zinc-900 dark:text-zinc-200'
 								onClick={() =>
 									navigator.clipboard.writeText(window.location.href)
 								}>
-								<i className='bi bi-share-fill dark:text-zinc-400 mr-2'></i>
-								<span className='dark:text-zinc-400 font-semibold'>Share</span>
+								<i className='bi bi-share-fill mr-2'></i>
+								<span className=' font-semibold'>Share</span>
 							</button>
 						</div>
 						<CEPInput />

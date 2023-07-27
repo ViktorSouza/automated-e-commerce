@@ -9,7 +9,7 @@ export function Options({
 }) {
 	const [isOpened, setIsOpened] = useState(false)
 	return (
-		<div className='relative'>
+		<div className='relative text-zinc-900 dark:text-zinc-200'>
 			<button
 				className='p-2 rounded-lg border dark:border-zinc-900 flex justify-center gap-1 items-baseline'
 				onClick={() => setIsOpened(!isOpened)}>
@@ -17,7 +17,7 @@ export function Options({
 				<i className={`bi bi-chevron-${isOpened ? 'up' : 'down'}`}></i>
 			</button>
 			{isOpened && (
-				<div className='absolute z-10 bg-zinc-950 w-16 right-0 mt-3 rounded overflow-y-auto max-h-56 min-w-max flex flex-col'>
+				<div className='absolute z-20 bg-zinc-100 dark:bg-zinc-900 w-16 right-0 mt-3 rounded px-4 py-2 overflow-y-auto max-h-56 min-w-max flex flex-col'>
 					{options.map((option, index) => (
 						<button
 							key={option.name}

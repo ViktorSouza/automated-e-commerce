@@ -51,7 +51,9 @@ export function Cart() {
 								<Link
 									to={`/product/${item.product._id}`}
 									nonce={'yes'}>
-									<h2 className='text-lg font-medium'>{item.product.title}</h2>
+									<h2 className='text-lg font-medium text-zinc-900 dark:text-zinc-200'>
+										{item.product.title}
+									</h2>
 									{/* TODO add the color instead of quantity */}
 									<span className='dark: text-sm'>Color:</span>
 									{/* TODO change this random */}
@@ -82,7 +84,7 @@ export function Cart() {
 									})
 								}
 							/>
-							<p className='col-span-2 justify-self-end font-medium'>
+							<p className='col-span-2 justify-self-end font-medium text-zinc-900 dark:text-zinc-200'>
 								${(item.price * item.quantity).toFixed(2)}
 							</p>
 							<button
@@ -105,7 +107,9 @@ export function Cart() {
 				/>
 			</div>
 			<div className='border dark:border-zinc-900 rounded-lg p-5 w-3/12 self-start'>
-				<h1 className='font-semibold'>Summary</h1>
+				<h1 className='font-semibold 	text-zinc-900 dark:text-zinc-200'>
+					Summary
+				</h1>
 				<hr className='h-px my-4 border-0 bg-zinc-200 dark:bg-zinc-900' />
 				<ul className='text-xs mb-5 space-y-2'>
 					{list.map((info) => (
@@ -118,14 +122,15 @@ export function Cart() {
 				<hr className='h-px my-4 border-0 bg-zinc-200 dark:bg-zinc-900' />
 				<div className='flex justify-between my-4'>
 					<h2 className='font-semibold'>Total: </h2>
-					<h2 className='font-semibold'>
+					<h2 className='font-semibold text-zinc-900 dark:text-zinc-200'>
+						$
 						{cart.products.reduce(
 							(prev, curr, index) => curr.price * curr.quantity + prev,
 							0,
 						)}
 					</h2>
 				</div>
-				<button className='bg-sky-500 text-zinc-100 dark:text-zinc-950 w-full transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg'>
+				<button className='bg-sky-500 text-zinc-100  w-full transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg'>
 					Check out
 				</button>
 			</div>
@@ -141,7 +146,9 @@ function SummaryInfo({
 		<li className='flex justify-between'>
 			<span className='font-medium'>{info.title}: </span>
 
-			<span className='font-semibold'>{info.value}</span>
+			<span className='font-semibold text-zinc-900 dark:text-zinc-200'>
+				{info.value}
+			</span>
 		</li>
 	)
 }

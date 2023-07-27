@@ -54,12 +54,14 @@ function MyAccount() {
 
 	return (
 		<div>
-			<h1 className='text-h2 font-semibold mb-5'>Account</h1>
+			<h1 className='text-h2 font-semibold mb-5 	text-zinc-900 dark:text-zinc-200'>
+				Account
+			</h1>
 			<div className='flex flex-row gap-5 items-start'>
 				<div className='flex flex-col border dark:border-zinc-900 py-2 px-5 rounded-lg w-3/12'>
 					<div className='flex flex-col items-center mb-4'>
 						<div className='h-12 w-12 rounded-full bg-zinc-900 mb-3'></div>
-						<p>
+						<p className='text-zinc-900 dark:text-zinc-200'>
 							{user.name.first} {user.name.last}
 						</p>
 						<p className='dark:text-zinc-500 text-sm'>{user.email}</p>
@@ -76,7 +78,7 @@ function MyAccount() {
 											isActive &&
 											!action &&
 											'bg-sky-500 dark:text-inherit text-zinc-200'
-										} gap-2 flex items-center py-2 px-4 rounded-lg`
+										} gap-2 flex items-center py-2 px-4 rounded-lg text-zinc-900 dark:text-zinc-200`
 									}>
 									{
 										<>

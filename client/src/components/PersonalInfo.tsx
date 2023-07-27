@@ -5,7 +5,9 @@ export function PersonalInfo() {
 	const { user } = useContext(UserContext)
 	return (
 		<div>
-			<h2 className='text-h3 font-medium mb-5'>Personal Info</h2>
+			<h2 className='text-h3 font-medium mb-5 text-zinc-900 dark:text-zinc-200'>
+				Personal Info
+			</h2>
 			<form>
 				<div className='grid grid-cols-2 gap-3 w-full mb-5'>
 					<div>
@@ -51,7 +53,7 @@ export function PersonalInfo() {
 						/>
 					</div>
 				</div>
-				<button className='flex items-center gap-3 w-full bg-sky-500 rounded-lg py-2 px-4 text-zinc-50 dark:text-zinc-950 justify-center'>
+				<button className='flex items-center gap-3 w-full bg-sky-500 rounded-lg py-2 px-4 text-zinc-50 justify-center'>
 					<i className='bi bi-cloud-download'></i>
 					Apply Changes
 				</button>

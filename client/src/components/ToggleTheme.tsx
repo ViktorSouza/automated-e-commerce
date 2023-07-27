@@ -5,6 +5,7 @@ export default function ToggleTheme() {
 	return (
 		<button
 			accessKey='t'
+			className='text-zinc-900 dark:text-zinc-200'
 			type='button'
 			onFocus={(e) => {
 				e.preventDefault()
@@ -17,7 +18,9 @@ export default function ToggleTheme() {
 			title='Toggle theme'>
 			<i
 				className={`bi bi-${
-					theme === 'dark' ? 'moon' : 'brightness-high'
+					theme === 'dark'
+						? 'moon'
+						: 'brightness-high text-zinc-900 dark:text-zinc-200'
 				} `}></i>
 		</button>
 	)

@@ -12,7 +12,9 @@ export function Wishlist() {
 	const { updateCart, cart } = useContext(CartContext)
 	return (
 		<>
-			<h1 className='text-h2 font-semibold mb-5'>Wishlist</h1>
+			<h1 className='text-h2 font-semibold mb-5 	text-zinc-900 dark:text-zinc-200'>
+				Wishlist
+			</h1>
 			<div className='flex gap-5 flex-col '>
 				{user.wishlist
 					.slice(currentPage * size, currentPage * size + size)
@@ -31,7 +33,9 @@ export function Wishlist() {
 										width={150}
 									/>
 									<div>
-										<h2 className='text-lg font-medium'>{product.title}</h2>
+										<h2 className='text-lg font-medium 	text-zinc-900 dark:text-zinc-200'>
+											{product.title}
+										</h2>
 										<div className='flex items-center'>
 											<RatingStars
 												value={product.averageRating}
@@ -44,10 +48,12 @@ export function Wishlist() {
 									</div>
 								</Link>
 								<div className='cols-span-2'>
-									<h1 className='text-2xl font-medium'>${product.price}</h1>
+									<h1 className='text-2xl font-medium 	text-zinc-900 dark:text-zinc-200'>
+										${product.price}
+									</h1>
 								</div>
 								<button
-									className='dark:hover:bg-zinc-800  dark:bg-zinc-900 bg-zinc-200 hover:bg-zinc-300 transition ease-in-out  px-10 p-2 rounded-lg col-span-2 justify-self-end'
+									className='dark:hover:bg-zinc-800  dark:bg-zinc-900 bg-zinc-200 hover:bg-zinc-300 	text-zinc-900 dark:text-zinc-200 transition ease-in-out  px-10 p-2 rounded-lg col-span-2 justify-self-end'
 									onClick={() =>
 										updateCart.mutate({
 											product: product._id,

@@ -45,7 +45,9 @@ function ProductCard({
 					/>
 				</div>
 				<div className='my-2'>
-					<h1 className='text-lg font-medium'>{product.title}</h1>
+					<h1 className='text-lg font-medium text-zinc-900 dark:text-zinc-200'>
+						{product.title}
+					</h1>
 					<div className='flex items-center gap-1'>
 						<RatingStars
 							value={product.averageRating || 0}
@@ -58,13 +60,13 @@ function ProductCard({
 					<p className='text-sm font-light overflow-ellipsis line-clamp-1 '>
 						{product.description}
 					</p>
-					<h2 className='text-xl font-semibold '>
+					<h2 className='text-xl font-semibold text-zinc-900 dark:text-zinc-200'>
 						${product.price.toFixed(2)}
 					</h2>
 				</div>
 			</Link>
 			<button
-				className='w-full px-4 py-2 text-center transition-all border rounded-lg dark:border-zinc-900 dark:hover:bg-zinc-900 hover:bg-zinc-200'
+				className='w-full px-4 py-2 text-center transition-all border rounded-lg dark:border-zinc-900 dark:hover:bg-zinc-900 hover:bg-zinc-200 text-zinc-900 dark:text-zinc-200'
 				onClick={() =>
 					updateCart.mutate({ product: product._id, quantity: 1 })
 				}>

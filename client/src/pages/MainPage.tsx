@@ -56,7 +56,9 @@ function MainPage() {
 		<>
 			<main className='w-full'>
 				<div className='flex items-center justify-between'>
-					<h1 className='py-4 font-semibold text-h1'>Products</h1>
+					<h1 className='py-4 font-semibold text-h1 text-zinc-900 dark:text-zinc-200'>
+						Products
+					</h1>
 					<span>{product.amount} results</span>
 					<Options
 						options={sortOptions}

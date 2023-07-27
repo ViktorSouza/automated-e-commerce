@@ -35,9 +35,9 @@ const ProductContext = createContext<{
 	// setTotalPages: Dispatch<SetStateAction<number>>
 }>({
 	product: defaultProduct,
-	currentPage: 1,
+	currentPage: 0,
 	setCurrentPage(current) {
-		return 1
+		return 0
 	},
 	searchParams: {} as URLSearchParams,
 	setSearchParams(current) {

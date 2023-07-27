@@ -31,7 +31,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 					<UserProvider>
 						<ProductProvider>
 							<CartProvider>
-								<div className='min-h-screen bg-white min-w-screen dark:text-zinc-200 dark:bg-zinc-950 text-zinc-800 '>
+								<div className='min-h-screen bg-white min-w-screen dark:text-zinc-400 dark:bg-zinc-950 text-zinc-700 '>
 									<MainHeader />
 									<App />
 								</div>

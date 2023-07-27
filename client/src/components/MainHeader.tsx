@@ -17,7 +17,9 @@ function MainHeader() {
 		<header className='mb-5 border-b w-12/12 dark:border-zinc-900'>
 			<div className='xl:w-[1280px] w-full xl:mx-auto px-5 p-4 flex justify-between items-center'>
 				<Link to='/'>
-					<h1 className='text-xl font-medium'>Automated E-Commerce</h1>
+					<h1 className='text-xl font-medium text-zinc-900 dark:text-zinc-200'>
+						Automated E-Commerce
+					</h1>
 				</Link>
 				<div className='px-4 transition duration-500 input dark:hover:bg-zinc-800 hover:bg-zinc-200 bg-zinc-100 rounded-full'>
 					<input
@@ -39,12 +41,14 @@ function MainHeader() {
 						<div className='flex items-center justify-between gap-4'>
 							<Link
 								to='my-account/cart'
-								className='px-2 py-1 border rounded-lg dark:hover:bg-zinc-900 dark:border-zinc-900'>
+								className='px-2 py-1 border rounded-lg dark:hover:bg-zinc-900 dark:border-zinc-900 text-zinc-900 dark:text-zinc-200'>
 								<i className='bi bi-bag text-1xl'></i>
 							</Link>
 							<div>
 								<Link to='/my-account'>
-									<h3>My Account</h3>
+									<h3 className='text-zinc-900 dark:text-zinc-200'>
+										My Account
+									</h3>
 								</Link>
 								<p className='text-xs dark:text-zinc-400'>View Profile</p>
 							</div>
