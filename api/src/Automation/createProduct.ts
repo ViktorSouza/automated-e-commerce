@@ -9,7 +9,7 @@ export async function createProduct(): Promise<void> {
 		image: faker.image.imageUrl(undefined, undefined, title, true),
 		title,
 		description: faker.lorem.sentence(9),
-		price: faker.commerce.price(),
+		price: Number(faker.commerce.price()),
 		colors: [faker.color.rgb({ prefix: '#' })],
 	}
 	if (!randomUser) return
