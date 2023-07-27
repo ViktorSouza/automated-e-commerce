@@ -20,10 +20,11 @@ const createProduct: RequestHandler = async (req, res) => {
 	const { title, description, price, colors, image } = productSchema.parse(
 		req.body,
 	)
+
 	const product = await Product.create({
 		title,
 		description,
-		price,
+		price: Number(price),
 		image,
 		colors,
 
@@ -92,7 +93,7 @@ const getAllProducts: RequestHandler<
 			],
 		}),
 	}).exec()
-	let products = await query.skip(skipIndex).limit(size).exec()
+	let products = await query.sort(sort_by).skip(skipIndex).limit(size).exec()
 
 	let totalPages = Math.ceil(amount / size)
 

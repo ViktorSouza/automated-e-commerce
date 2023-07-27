@@ -17,12 +17,12 @@ export function Options({
 				<i className={`bi bi-chevron-${isOpened ? 'up' : 'down'}`}></i>
 			</button>
 			{isOpened && (
-				<div className='absolute z-20 bg-zinc-100 dark:bg-zinc-900 w-16 right-0 mt-3 rounded px-4 py-2 overflow-y-auto max-h-56 min-w-max flex flex-col'>
+				<div className='absolute z-20 bg-white shadow-md dark:shadow-none dark:bg-zinc-900 w-16 right-0 mt-3 rounded overflow-y-auto max-h-56 min-w-max flex flex-col items-stretch'>
 					{options.map((option, index) => (
 						<button
 							key={option.name}
 							onClick={option.onClick}
-							className='dark:hover:bg-zinc-900 outline-none focus:bg-zinc-900 transition-all py-1 px-2'>
+							className='dark:hover:bg-zinc-900 outline-none dark:focus:bg-zinc-900 hover:bg-zinc-100 focus:bg-zinc-100 transition-all py-2 px-4'>
 							{option.name}
 						</button>
 					))}

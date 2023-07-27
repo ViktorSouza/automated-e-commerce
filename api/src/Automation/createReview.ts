@@ -17,6 +17,7 @@ export async function createReview(): Promise<void> {
 		product: randomProduct.data.product._id,
 	}
 
+	if (!randomUser) return
 	api
 		.post('/reviews', review, {
 			headers: {

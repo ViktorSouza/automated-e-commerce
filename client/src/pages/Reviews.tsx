@@ -54,7 +54,7 @@ export default function Reviews({ product }: { product: IProduct }) {
 			<div className='flex w-full h-56 gap-5'>
 				<div className='space-y'>
 					<h2 className='text-7xl  font-medium text-zinc-900 dark:text-zinc-200'>
-						{product.averageRating.toFixed(1)}
+						{Number(product.averageRating).toFixed(1)}
 					</h2>
 					<span className='sr-only'>stars</span>
 					<RatingStars

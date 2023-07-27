@@ -12,9 +12,9 @@ export const api = axios.create({
 export const AUTOMATION_TIMES: {
 	[key: string]: [min: number, max: number]
 } = {
-	createReview: [1000 * 4, 1000 * 8],
-	createAccount: [1000 * 60 * 2, 1000 * 60 * 6],
-	createProduct: [1000 * 60 * 2, 1000 * 60 * 6],
+	createReview: [1000 * 60 * 5, 1000 * 60 * 20],
+	createAccount: [1000 * 60 * 10, 1000 * 60 * 50],
+	createProduct: [1000 * 60 * 10, 1000 * 60 * 50],
 }
 
 export default function automation() {
