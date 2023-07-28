@@ -17,9 +17,9 @@ export function createJWT({ res, user }: createJWTParams) {
 		{
 			//TODO chage this settings
 			signed: true,
-			// sameSite: 'none',
-			// secure: true,
-			// httpOnly: true,
+			sameSite: 'none',
+			secure: true,
+			httpOnly: true,
 		},
 	)
 }
