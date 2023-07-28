@@ -38,7 +38,7 @@ function ProductCard({
 			<Link to={`/products/${product._id}`}>
 				<div className='relative overflow-hidden rounded-lg bg-zinc-900 min-h-[200px]'>
 					<img
-						className='object-cover '
+						className='object-cover w-full'
 						height={200}
 						src={product.image}
 						alt='Image of the product'

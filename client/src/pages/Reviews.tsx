@@ -54,14 +54,14 @@ export default function Reviews({ product }: { product: IProduct }) {
 			<div className='flex w-full h-56 gap-5'>
 				<div className='space-y'>
 					<h2 className='text-7xl  font-medium text-zinc-900 dark:text-zinc-200'>
-						{Number(product.averageRating).toFixed(1)}
+						{(Number(product.averageRating) || 0).toFixed(1)}
 					</h2>
 					<span className='sr-only'>stars</span>
 					<RatingStars
 						value={product.averageRating}
 						className='text-amber-600 dark:text-amber-400'
 					/>
-					<p>{product.numOfReviews} reviews</p>
+					<p>{product.numOfReviews || 0} reviews</p>
 				</div>
 				<div className='flex flex-col-reverse justify-end'>
 					{data.reviews

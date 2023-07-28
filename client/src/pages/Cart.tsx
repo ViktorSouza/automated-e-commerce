@@ -27,9 +27,9 @@ export function Cart() {
 	]
 
 	return (
-		<div className='flex gap-3'>
+		<div className='flex flex-col-reverse md:flex-row gap-3'>
 			<div className='w-full'>
-				<div className='mb-5 px-2 grid-cols-8 grid gap-3 items-center justify-between text-sm font-medium dark:'>
+				<div className='mb-5 px-2  grid-cols-8 grid gap-3 items-center justify-between text-sm font-medium dark:'>
 					<p className='rounded-lg col-span-3 overflow-hidden '>Product</p>
 					<p className='justify-self-center col-span-2'>Quantity</p>
 					<p className='justify-self-end col-span-2'>Price</p>
@@ -44,7 +44,7 @@ export function Cart() {
 							<div className='col-span-3 items-center flex gap-3'>
 								<img
 									alt={item.product.title}
-									className='rounded-lg'
+									className='rounded-lg hidden sm:block'
 									src={item.product.image}
 									width={150}
 								/>
@@ -106,7 +106,7 @@ export function Cart() {
 					totalPages={Math.ceil(cart.products.length / size)}
 				/>
 			</div>
-			<div className='border dark:border-zinc-900 rounded-lg p-5 w-3/12 self-start'>
+			<div className='border dark:border-zinc-900 rounded-lg p-5 w-full md:w-3/12 self-start'>
 				<h1 className='font-semibold 	text-zinc-900 dark:text-zinc-200'>
 					Summary
 				</h1>

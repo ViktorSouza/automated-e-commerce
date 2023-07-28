@@ -50,8 +50,10 @@ function CreateAccount() {
 		}
 	}
 	return (
-		<div className='flex flex-col w-[500px] mx-auto rounded-md-lg p-10'>
-			<h1 className='font-semibold text-h1 mb-4'>Welcome!</h1>
+		<div className='flex flex-col md:w-[500px] mx-auto rounded-md-lg md:p-10'>
+			<h1 className='font-semibold text-h1 mb-4 text-zinc-900 dark:text-zinc-200'>
+				Welcome!
+			</h1>
 			<div className='flex gap-3 justify-between mb-4'>
 				<div>
 					<label htmlFor='first-name'>First name</label>
@@ -99,19 +101,11 @@ function CreateAccount() {
 				/>
 			</div>
 			<button
-				className='bg-sky-500 hover:bg-sky-500 p-2 rounded-md'
+				className='bg-sky-500 hover:bg-sky-500 p-2 rounded-md text-zinc-200'
 				onClick={handleCreateAccount}>
 				Sign in
 			</button>
 		</div>
 	)
 }
-// {
-//     "name":{
-//         "first":"João Viktor",
-//         "last":"Souza"
-//     },
-//     "password":"123123",
-//     "email":"viktor@gmail.com"
-// }
 export default CreateAccount

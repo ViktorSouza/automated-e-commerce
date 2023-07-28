@@ -28,7 +28,7 @@ export function Wishlist() {
 									className='flex col-span-4 gap-3 items-center'>
 									<img
 										src={product.image}
-										className='rounded-lg'
+										className='rounded-lg hidden sm:block'
 										alt=''
 										width={150}
 									/>
@@ -53,14 +53,14 @@ export function Wishlist() {
 									</h1>
 								</div>
 								<button
-									className='dark:hover:bg-zinc-800  dark:bg-zinc-900 bg-zinc-200 hover:bg-zinc-300 	text-zinc-900 dark:text-zinc-200 transition ease-in-out  px-10 p-2 rounded-lg col-span-2 justify-self-end'
+									className='dark:hover:bg-zinc-800  dark:bg-zinc-900 bg-zinc-200 hover:bg-zinc-300 	text-zinc-900 dark:text-zinc-200 transition ease-in-out  px-10 p-2 rounded-lg col-span-2 justify-self-end w-max hidden'
 									onClick={() =>
 										updateCart.mutate({
 											product: product._id,
 											quantity:
 												(cart.products.find(
 													(cproduct) => cproduct.product._id === product._id,
-												)?.quantity || 0) + 1,
+												)?.quantity ?? 0) + 1,
 										})
 									}>
 									Add to cart

@@ -5,7 +5,7 @@ export default function ToggleTheme() {
 	return (
 		<button
 			accessKey='t'
-			className='text-zinc-900 dark:text-zinc-200'
+			className='text-zinc-900 dark:text-zinc-200 px-2'
 			type='button'
 			onFocus={(e) => {
 				e.preventDefault()

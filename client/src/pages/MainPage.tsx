@@ -55,20 +55,24 @@ function MainPage() {
 	return (
 		<>
 			<main className='w-full'>
-				<div className='flex items-center justify-between'>
+				<div className='sm:flex items-center justify-between'>
 					<h1 className='py-4 font-semibold text-h1 text-zinc-900 dark:text-zinc-200'>
 						Products
 					</h1>
-					<span>{product.amount} results</span>
-					<Options
-						options={sortOptions}
-						title='Sort by'
-					/>
+					<div className='flex gap-4 lg:mb-0 mb-5 items-center'>
+						<span className='justify-self-center'>
+							{product.amount} results
+						</span>
+						<Options
+							options={sortOptions}
+							title='Sort by'
+						/>
+					</div>
 				</div>
 				<div className='grid grid-cols-5 gap-5'>
 					{/* <ProductsFilter /> */}
 					<div className='flex flex-col col-span-5'>
-						<div className='grid gap-6 lg:grid-cols-3 2xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 auto-cols-fr'>
+						<div className='grid gap-6 lg:grid-cols-3 2xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 auto-cols-fr'>
 							{product.products.map((product) => {
 								{
 									/* {[].map((product) => { */

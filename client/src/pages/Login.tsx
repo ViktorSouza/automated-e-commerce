@@ -36,9 +36,11 @@ function Login() {
 	return (
 		<form
 			onSubmit={(e) => e.preventDefault()}
-			className='flex flex-col w-[500px] mx-auto rounded-md-lg p-10'>
+			className='flex flex-col md:w-[500px] mx-auto rounded-md-lg md:p-10'>
 			<div className='mb-4'>
-				<h1 className='font-semibold text-h1'>Welcome back :D</h1>
+				<h1 className='font-semibold text-h1 text-zinc-900 dark:text-zinc-200'>
+					Welcome back :D
+				</h1>
 			</div>
 			<div className='mb-4'>
 				<label htmlFor='email'>Email</label>
@@ -80,7 +82,7 @@ function Login() {
 				</Link>
 			</div>
 			<button
-				className='bg-sky-500  p-2 rounded-md text-zinc-200 dark:text-inherit'
+				className='bg-sky-500  p-2 rounded-md text-zinc-200'
 				onClick={handleLogin}>
 				Sign in
 			</button>
