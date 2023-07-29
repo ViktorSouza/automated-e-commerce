@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { getRandomUser } from './getRandomUser'
 import { UserReponseLogin, api, AUTOMATION_TIMES } from './index'
+import { randomIntFromInterval } from '../Utils'
 
 export async function createProduct(): Promise<void> {
 	const randomUser = (await getRandomUser()) as UserReponseLogin
@@ -23,5 +24,8 @@ export async function createProduct(): Promise<void> {
 		.catch((err) => {
 			console.log('Error :D')
 		})
-	setTimeout(createProduct, ...AUTOMATION_TIMES.createAccount)
+	setTimeout(
+		createProduct,
+		randomIntFromInterval(...AUTOMATION_TIMES.createOrder),
+	)
 }

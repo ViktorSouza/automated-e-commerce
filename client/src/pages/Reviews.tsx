@@ -101,6 +101,7 @@ export default function Reviews({ product }: { product: IProduct }) {
 								value={review.rating}
 								className='text-amber-600 dark:text-amber-400'
 							/>
+							{/* <span>{review}</span> */}
 						</div>
 					</div>
 					<div className=''>

@@ -12,6 +12,8 @@ export interface ICart {
 	_id: Types.ObjectId | string
 	products: ICartItem[]
 	createdAt?: Date
+	tax: number
+	shippingFee: number
 	updatedAt?: Date
 }
 export type ICartPopulated = {

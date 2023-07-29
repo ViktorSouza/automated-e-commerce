@@ -42,6 +42,7 @@ import {
 	UserRouter,
 	CartRouter,
 	OrderRouter,
+	AdminRouter,
 	ProductRouter,
 } from './Routers'
 import { ZodError } from 'zod'
@@ -51,6 +52,7 @@ app.use('/api/v1/auth', AuthRouter)
 app.use('/api/v1/carts', CartRouter)
 app.use('/api/v1/reviews', ReviewRouter)
 app.use('/api/v1/users', UserRouter)
+app.use('/api/v1/admin', AdminRouter)
 app.use('/api/v1/orders', OrderRouter)
 app.use('/api/v1/products', ProductRouter)
 

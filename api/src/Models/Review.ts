@@ -22,6 +22,7 @@ const Schema = new mongoose.Schema(
 		},
 	},
 	{
+		timestamps: true,
 		statics: {
 			async calculateAverageRating(productId) {
 				const result = await this.aggregate([

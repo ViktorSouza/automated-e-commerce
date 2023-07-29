@@ -1,8 +1,8 @@
 import { Request, RequestHandler } from 'express'
 import mongoose from 'mongoose'
 import { Order, Product } from '../Models'
-import { ICart } from '../../../shared/Types/ICart'
 import { Stripe } from 'stripe'
+import { loadStripe } from '@stripe/stripe-js'
 const stripe = new Stripe(process.env.STRIPE_TOKEN ?? '', {
 	apiVersion: '2022-11-15',
 })
@@ -36,35 +36,50 @@ const getCurrentOrder: RequestHandler = async (req, res) => {
 	res.send('Hey')
 }
 
+interface IOrder {
+	products: Item[]
+	tax: number
+	shippingFee: number
+}
+
+interface Item {
+	product: string
+	amount: number
+}
 /**======================
  **      Create Order
  * @route POST /orders/
  * @response {order:IOrder, clientSecret:string}
  *========================**/
-const createOrder: RequestHandler = async (req: Request, res) => {
-	const cart: ICart = req.body
+const createOrder: RequestHandler = async (req, res) => {
+	const cart = req.body as IOrder
+
 	const { products } = cart
 	//TODO change these values using a more real scenario
-	const shippingFee = 0
-	const tax = 0
-	if (!products || products.length < 1) throw new Error('No itens provided')
+	const shippingFee = 1
+	const tax = 1
+	if (!products || products.length < 1) throw new Error('No items provided')
 	if (!tax || !shippingFee) throw new Error('No tax or shipping fee provided')
 	const orderItems = []
 	let subtotal = 0
 
-	for (let item of products) {
-		if (!mongoose.isValidObjectId(item.product)) throw new Error('Invalid Id')
-		const dbProduct = await Product.findOne({ _id: item.product }).exec()
+	console.log(cart)
+	for (let product of products) {
+		if (!mongoose.isValidObjectId(product.product))
+			throw new Error('Invalid Id')
+		const dbProduct = await Product.findOne({ _id: product.product }).exec()
 		if (!dbProduct) throw new Error('Product not found')
-		const { title, _id, price, image } = dbProduct
+		let { title, _id, price, image } = dbProduct
+		price = Number(price)
+
 		const singleOrder = {
-			quantity: item.quantity,
+			quantity: Number(product.amount),
 			title,
 			_id,
 			price,
 			image,
 		}
-		subtotal += dbProduct.price * item.quantity
+		subtotal += price * Number(product.amount)
 		orderItems.push(singleOrder)
 	}
 	const total = subtotal + tax + shippingFee
@@ -74,6 +89,9 @@ const createOrder: RequestHandler = async (req: Request, res) => {
 		currency: 'brl',
 		automatic_payment_methods: { enabled: true },
 	})
+
+	await stripe.paymentIntents.confirm(paymentIntent.id)
+
 	const order = await Order.create({
 		orderItems,
 		total,
@@ -89,6 +107,13 @@ const createOrder: RequestHandler = async (req: Request, res) => {
 		clientSecret: order.clientSecret,
 	})
 }
+
+const AUTgetRandomOrder: RequestHandler = async (req, res) => {
+	const count = await Order.count().exec()
+	const random = Math.floor(Math.random() * count)
+	const order = await Order.findOne().skip(random).exec()
+	res.json({ product: order })
+}
 const updateOrder: RequestHandler = async (req, res) => {
 	//TODO create
 	res.send('Hey')
@@ -99,4 +124,5 @@ export default {
 	getCurrentOrder,
 	createOrder,
 	updateOrder,
+	AUTgetRandomOrder,
 }

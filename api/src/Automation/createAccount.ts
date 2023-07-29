@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { api, AUTOMATION_TIMES } from './index'
+import { randomIntFromInterval } from '../Utils'
 
 export function createAccount() {
 	const firstName = faker.name.firstName()
@@ -16,5 +17,8 @@ export function createAccount() {
 	api.post('/auth/register', informations).catch((err) => {
 		console.log('Error on createAccount')
 	})
-	setTimeout(createAccount, ...AUTOMATION_TIMES.createAccount)
+	setTimeout(
+		createAccount,
+		randomIntFromInterval(...AUTOMATION_TIMES.createOrder),
+	)
 }

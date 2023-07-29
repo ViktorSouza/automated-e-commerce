@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios'
 import { IProduct } from '../Types/IProduct'
 import { getRandomUser } from './getRandomUser'
 import { UserReponseLogin, api, AUTOMATION_TIMES } from './index'
+import { randomIntFromInterval } from '../Utils'
 
 export async function createReview(): Promise<void> {
 	const randomUser = (await getRandomUser()) as UserReponseLogin
@@ -27,5 +28,8 @@ export async function createReview(): Promise<void> {
 		.catch((error) => {
 			// console.log(error)
 		})
-	setTimeout(createReview, ...AUTOMATION_TIMES.createReview)
+	setTimeout(
+		createReview,
+		randomIntFromInterval(...AUTOMATION_TIMES.createOrder),
+	)
 }

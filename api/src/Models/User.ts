@@ -43,7 +43,9 @@ const Schema = new mongoose.Schema<
 			},
 		},
 	},
+
 	{
+		timestamps: true,
 		methods: {
 			comparePassword(candidate) {
 				return true
