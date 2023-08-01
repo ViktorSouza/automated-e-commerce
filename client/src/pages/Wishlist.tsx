@@ -53,7 +53,7 @@ export function Wishlist() {
 									</h1>
 								</div>
 								<button
-									className='dark:hover:bg-zinc-800  dark:bg-zinc-900 bg-zinc-200 hover:bg-zinc-300 	text-zinc-900 dark:text-zinc-200 transition ease-in-out  px-10 p-2 rounded-lg col-span-2 justify-self-end w-max hidden'
+									className='dark:hover:bg-zinc-800  dark:bg-zinc-900 bg-zinc-200 hover:bg-zinc-300 	text-zinc-900 dark:text-zinc-200 transition ease-in-out  px-10 p-2 rounded-lg col-span-2 justify-self-end w-max '
 									onClick={() =>
 										updateCart.mutate({
 											product: product._id,

@@ -1,4 +1,11 @@
-import { createContext, ReactNode, useEffect, useMemo, useState } from 'react'
+import {
+	createContext,
+	ReactNode,
+	SetStateAction,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react'
 import { loginUser, getUser, logoutUser, createAccount } from '../services/user'
 import { IUser, RegisterUserRequest } from 'shared/Types/IUser'
 import { useCookies } from 'react-cookie'
@@ -25,6 +32,7 @@ const defaultUser: IUser = {
 }
 type IUserAddon = {
 	isLogin: boolean
+	setIsLogin: React.Dispatch<SetStateAction<boolean>>
 	userStatus: 'error' | 'success' | 'loading'
 	addToWishlistMutation: UseMutationResult<
 		unknown,
@@ -49,6 +57,7 @@ type IUserAddon = {
 }
 const UserContext = createContext<{ user: IUser } & IUserAddon>({
 	isLogin: false,
+	setIsLogin() {},
 	addToWishlistMutation: {} as UseMutationResult<
 		unknown,
 		unknown,
@@ -157,6 +166,7 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 	const value = useMemo(
 		() => ({
 			user: userStatus === 'success' ? user : defaultUser,
+			setIsLogin,
 			isLogin,
 			login,
 			logout,
@@ -168,6 +178,7 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 		[
 			user,
 			isLogin,
+			setIsLogin,
 			login,
 			logout,
 			register,

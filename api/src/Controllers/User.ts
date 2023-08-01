@@ -30,10 +30,7 @@ const addToWishlist: RequestHandler<
 > = async (req, res) => {
 	const { product } = req.body
 
-	console.log(req.user)
-
 	if (!mongoose.isValidObjectId(product)) throw new Error('Invalid ProductID')
-	// console.log(Product.exists({ _id: product }))
 	const user = await User.findOneAndUpdate(
 		{ _id: req.user._id || '' },
 		{

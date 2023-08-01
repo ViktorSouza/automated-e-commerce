@@ -6,13 +6,15 @@ const {
 	getAllOrders,
 	getCurrentOrder,
 	getSingleOrder,
+	createCheckoutSession,
 	AUTgetRandomOrder,
 	updateOrder,
 } = Order
 const route = express.Router()
 route.post('/', Authorization({}), createOrder)
+route.post('/create-checkout-session', Authorization({}), createCheckoutSession)
 route.post('/AUTrandomProduct', AUTgetRandomOrder)
-route.get('/', Authorization({ roles: ['Admin'] }), getAllOrders)
+route.get('/', Authorization({}), getAllOrders)
 route.get('/:id', Authorization({}), getSingleOrder)
 route.patch('/:id', Authorization({}), updateOrder)
 

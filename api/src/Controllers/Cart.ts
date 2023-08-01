@@ -66,7 +66,6 @@ const addProductToCart: RequestHandler<
 	}
 	await cart.save()
 	await cart.populate('products.product')
-	console.log(cart.products[0].quantity)
 
 	res.json({ cart })
 }

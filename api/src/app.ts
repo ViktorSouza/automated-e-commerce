@@ -4,6 +4,7 @@ require('express-async-errors')
 import helmet from 'helmet'
 import morgan from 'morgan'
 import cors from 'cors'
+import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 
 import express, { ErrorRequestHandler } from 'express'
@@ -27,7 +28,41 @@ app.use(
 		// exposedHeaders: ['set-cookie'],
 	}),
 )
-// app.disable('x-powered-by')
+import { Stripe } from 'stripe'
+import { Order } from './Models'
+const stripe = new Stripe(process.env.STRIPE_TOKEN ?? '', {
+	apiVersion: '2022-11-15',
+})
+const endpointSecret = process.env.API_ENDPOINT_SECRET ?? ''
+
+app.post(
+	'/webhook',
+	bodyParser.raw({ type: 'application/json' }),
+	async (request, response) => {
+		console.log('Hallo')
+		const sig = request.headers['stripe-signature'] ?? ''
+
+		let event
+
+		try {
+			event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret)
+		} catch (err: any) {
+			return response.status(400).send(`Webhook Error: ${err.message}`)
+		}
+
+		if (event.type === 'checkout.session.completed') {
+			await Order.updateOne(
+				//@ts-ignore
+				{ clientSecret: event.data.object.id as string },
+				//@ts-ignore
+				{ status: event.data.object.payment_status as string },
+			).exec()
+		}
+
+		response.status(200).end()
+	},
+)
+
 app.use(helmet())
 app.use(cookieParser(process.env.SECRET ?? ''))
 app.use(express.json())

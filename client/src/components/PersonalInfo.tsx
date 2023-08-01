@@ -17,7 +17,7 @@ export function PersonalInfo() {
 							name='first-name'
 							placeholder={user.name.first}
 							id='first-name'
-							className='input bg-zinc-100 w-full'
+							className='input  w-full'
 						/>
 					</div>
 					<div>
@@ -27,7 +27,7 @@ export function PersonalInfo() {
 							name='last-name'
 							placeholder={user.name.last}
 							id='last-name'
-							className='input bg-zinc-100 w-full'
+							className='input  w-full'
 						/>
 					</div>
 				</div>
@@ -39,7 +39,7 @@ export function PersonalInfo() {
 							autoComplete='current-password'
 							name='current-password'
 							id='current-password'
-							className='input bg-zinc-100 w-full'
+							className='input  w-full'
 						/>
 					</div>
 					<div>
@@ -49,7 +49,7 @@ export function PersonalInfo() {
 							autoComplete='new-password'
 							name='new-password'
 							id='new-password'
-							className='input bg-zinc-100 w-full'
+							className='input  w-full'
 						/>
 					</div>
 				</div>

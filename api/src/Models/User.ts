@@ -48,9 +48,7 @@ const Schema = new mongoose.Schema<
 		timestamps: true,
 		methods: {
 			comparePassword(candidate) {
-				return true
-				//TODO activate this option
-				// return bcryptjs.compareSync(candidate, this.password)
+				return bcryptjs.compareSync(candidate, this.password)
 			},
 		},
 	},

@@ -50,8 +50,8 @@ function CreateAccount() {
 		}
 	}
 	return (
-		<div className='flex flex-col md:w-[500px] mx-auto rounded-md-lg md:p-10'>
-			<h1 className='font-semibold text-h1 mb-4 text-zinc-900 dark:text-zinc-200'>
+		<div className='flex flex-col w-full md:w-[500px] mx-auto rounded-md-lg md:p-10'>
+			<h1 className='font-semibold text-4xl mb-4 text-zinc-900 dark:text-zinc-200'>
 				Welcome!
 			</h1>
 			<div className='flex gap-3 justify-between mb-4'>
@@ -101,7 +101,7 @@ function CreateAccount() {
 				/>
 			</div>
 			<button
-				className='bg-sky-500 hover:bg-sky-500 p-2 rounded-md text-zinc-200'
+				className='bg-sky-500 hover:bg-sky-500 p-2 rounded-md text-white'
 				onClick={handleCreateAccount}>
 				Sign in
 			</button>

@@ -13,7 +13,7 @@ export function Pagination({
 	return (
 		<div className='flex my-10 rounded justify-between items-center'>
 			<p className='dark:text-zinc-400'>
-				{actualPage} of {Math.max(totalPages - 1, 0)} pages
+				{actualPage} of {Math.max(totalPages - 1, 0)} pages{' '}
 			</p>
 			<div className='space-x-3'>
 				<button

@@ -8,13 +8,10 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
 @layer components {
-	/* *,
-	*::after {
-		@apply dark:;
-	} */
 	.input {
-		@apply p-2 rounded-md placeholder:text-sm dark:bg-zinc-900;
+		@apply p-2 rounded-md placeholder:text-sm bg-zinc-100 dark:bg-zinc-900;
 	}
 
 	label {

@@ -114,7 +114,7 @@ function ProductDetails() {
 								/>
 							</div>
 							<button
-								className='bg-sky-500 transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg text-zinc-900 dark:text-zinc-200 dark:text-inherit'
+								className='bg-sky-500 transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg text-zinc-200 dark:text-inherit'
 								onClick={() =>
 									updateCart.mutate({
 										product: infos.product._id,

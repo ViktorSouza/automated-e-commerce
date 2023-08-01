@@ -14,7 +14,7 @@ function RatingStars({
 				.map((_s, index) => {
 					let starType: '-fill' | '-half' | ''
 
-					if (value > index + 1) {
+					if (value >= index + 1) {
 						starType = '-fill'
 					} else if (value > index && value < index + 2) {
 						starType = '-half'

@@ -4,6 +4,7 @@ import { UserContext } from '../contexts/UserContext'
 import { PersonalInfo } from '../components/PersonalInfo'
 import { Cart } from './Cart'
 import { Wishlist } from './Wishlist'
+import { Orders } from './Orders'
 
 function MyAccount() {
 	const { user, logout, isLogin, userStatus } = useContext(UserContext)
@@ -121,8 +122,5 @@ function MyAccount() {
 			</div>
 		</div>
 	)
-}
-function Orders() {
-	return <>Orders</>
 }
 export default MyAccount

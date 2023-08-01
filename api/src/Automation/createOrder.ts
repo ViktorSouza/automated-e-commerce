@@ -1,8 +1,5 @@
-import { faker } from '@faker-js/faker'
 import { getRandomUser } from './getRandomUser'
-import { UserReponseLogin, api, AUTOMATION_TIMES } from './index'
-import { AxiosResponse } from 'axios'
-import { IProduct } from '../Types/IProduct'
+import { AUTOMATION_TIMES, UserReponseLogin, api } from './index'
 import { Product } from '../Models'
 import { randomIntFromInterval } from '../Utils'
 
@@ -15,20 +12,6 @@ export async function createOrder(): Promise<void> {
 		.skip(randomProductsValue)
 		.limit(Math.floor(Math.random() * 5))
 		.exec()
-	/* {
-    "products": [
-        {
-            "product": "644f1460d377993ec32d8abe",
-            "amount": 3
-        },
-                {
-            "product": "64484640d6681a98f93810e1",
-            "amount": 5
-        }
-    ],
-    "tax": 5000,    
-    "shippingFee": 5000
-} */
 	const order = {
 		products: randomProducts.map((product) => ({
 			product: product._id,
@@ -38,16 +21,20 @@ export async function createOrder(): Promise<void> {
 		shippingFee: 500,
 	}
 	api
-		.post('/orders', order, {
-			headers: {
-				Cookie: `token=${randomUser.token};`,
+		.post(
+			'/orders',
+			{ ...order, automatic: true },
+			{
+				headers: {
+					Cookie: `token=${randomUser.token};`,
+				},
 			},
-		})
+		)
 		.catch((err) => {
-			console.log('Error :D')
+			console.error(err)
 		})
-	// setTimeout(
-	// 	createOrder,
-	// 	randomIntFromInterval(...AUTOMATION_TIMES.createOrder),
-	// )
+	setTimeout(
+		createOrder,
+		randomIntFromInterval(...AUTOMATION_TIMES.createOrder),
+	)
 }

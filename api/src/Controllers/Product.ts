@@ -59,7 +59,7 @@ const getAllProducts: RequestHandler<
 > = async (req, res) => {
 	//page_number=2&page_size=20&facet_filters=&sort=most_searched
 	let {
-		page_number = 1,
+		page_number = 0,
 		page_size = 20,
 		search = '',
 		sort_by = 'title',
@@ -70,7 +70,7 @@ const getAllProducts: RequestHandler<
 	search = z.string().parse(search)
 	page_number = page_number?.toString()
 	page_size = page_size?.toString()
-	const page = parseInt(page_number || '1')
+	const page = parseInt(page_number || '0')
 	const size = parseInt(page_size || '20')
 	const skipIndex = page * size
 	let query = /*  search
@@ -122,7 +122,7 @@ const getReviewsFromProduct: RequestHandler = async (req, res) => {
 		page_size = '20',
 		sort_by = 'title',
 	} = querySchema.parse(req.query) ?? {}
-	const page = parseInt(page_number || '1')
+	const page = parseInt(page_number || '0')
 	const size = 20
 	const { id } = req.params
 	const skipIndex = page * size

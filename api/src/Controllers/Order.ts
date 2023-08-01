@@ -1,8 +1,8 @@
-import { Request, RequestHandler } from 'express'
+import { RequestHandler, RequestParamHandler } from 'express'
 import mongoose from 'mongoose'
-import { Order, Product } from '../Models'
+import { Cart, Order, Product } from '../Models'
+import { ICartPopulated } from '../Types/ICart'
 import { Stripe } from 'stripe'
-import { loadStripe } from '@stripe/stripe-js'
 const stripe = new Stripe(process.env.STRIPE_TOKEN ?? '', {
 	apiVersion: '2022-11-15',
 })
@@ -14,7 +14,25 @@ const stripe = new Stripe(process.env.STRIPE_TOKEN ?? '', {
  * @response {orders:IOrder[]}
  *========================**/
 const getAllOrders: RequestHandler = async (req, res) => {
-	const allOrders = await Order.find({ user: req.user._id }).exec()
+	let {
+		page_number = 0,
+		page_size = 20,
+		search = '',
+		sort_by = 'title',
+		max_value = Number.MAX_SAFE_INTEGER,
+		min_value = 0,
+		color = '',
+	} = req.query
+	page_number = page_number?.toString()
+	page_size = page_size?.toString()
+	//TODO limit the page size to 50
+	const page = parseInt(page_number || '0')
+	const size = parseInt(page_size || '20')
+	const skipIndex = page * size
+	const allOrders = await Order.find({ user: req.user._id })
+		// .skip(skipIndex)
+		// .limit(size)
+		.exec()
 	res.json({ orders: allOrders })
 }
 /**======================
@@ -46,14 +64,25 @@ interface Item {
 	product: string
 	amount: number
 }
+
 /**======================
- **      Create Order
- * @route POST /orders/
+ **      Create Ckeckout
+ * @route POST /orders/create-checkout-session
  * @response {order:IOrder, clientSecret:string}
  *========================**/
-const createOrder: RequestHandler = async (req, res) => {
-	const cart = req.body as IOrder
+const createCheckoutSession: RequestHandler = async (req, res) => {
+	const userCart = (await Cart.findOne({
+		user: req.user._id,
+	})
+		.populate('products.product')
+		.exec()) as unknown as ICartPopulated | null
 
+	if (!userCart) return res.json({ message: 'No cart found' })
+
+	const cart = await Cart.findOne({
+		user: req.user._id,
+	}).exec()
+	if (!cart) return res.status(400).json({ message: 'Please provide a cart' })
 	const { products } = cart
 	//TODO change these values using a more real scenario
 	const shippingFee = 1
@@ -63,7 +92,78 @@ const createOrder: RequestHandler = async (req, res) => {
 	const orderItems = []
 	let subtotal = 0
 
-	console.log(cart)
+	for (let product of products) {
+		if (!mongoose.isValidObjectId(product.product))
+			throw new Error('Invalid Id')
+		const dbProduct = await Product.findOne({ _id: product.product }).exec()
+		if (!dbProduct) throw new Error('Product not found')
+		let { title, _id, price, image } = dbProduct
+		price = Number(price)
+
+		const singleOrder = {
+			quantity: Number(product.quantity),
+			title,
+			_id,
+			price,
+			image,
+		}
+		subtotal += price * Number(product.quantity)
+		orderItems.push(singleOrder)
+	}
+	const total = subtotal + tax + shippingFee
+
+	const session = await stripe.checkout.sessions.create({
+		line_items: [
+			...userCart.products.map((product) => {
+				console.log(product)
+				return {
+					price_data: {
+						currency: 'brl',
+						product_data: {
+							name: product.product.title,
+							images: [product.product.image],
+						},
+						unit_amount: product.price * 100,
+					},
+					quantity: product.quantity,
+				}
+			}),
+		],
+		mode: 'payment',
+		success_url: new URL('/sucess', process.env.CLIENT_URL).toString(),
+		cancel_url: new URL('/cancel', process.env.CLIENT_URL).toString(),
+	})
+
+	await Order.create({
+		orderItems,
+		total,
+		shippingFee,
+		subtotal,
+		status: 'pendent',
+		user: req.user._id,
+		clientSecret: session.id,
+	})
+	// await Cart.updateOne({ user: req.user._id }, { products: [] }).exec()
+
+	res.redirect(303, session.url ?? '')
+}
+/**======================
+ **      Create Order
+ * @route POST /orders/
+ * @response {order:IOrder, clientSecret:string}
+ *========================**/
+const createOrder: RequestHandler = async (req, res) => {
+	const cart = req.body as IOrder & { automatic: boolean }
+
+	const { products, automatic } = cart
+	//TODO change these values using a more real scenario
+	const shippingFee = 1
+	const tax = 1
+	if (!products || products.length < 1) throw new Error('No items provided')
+	if (!tax || !shippingFee) throw new Error('No tax or shipping fee provided')
+	const orderItems = []
+	let subtotal = 0
+
 	for (let product of products) {
 		if (!mongoose.isValidObjectId(product.product))
 			throw new Error('Invalid Id')
@@ -87,10 +187,10 @@ const createOrder: RequestHandler = async (req, res) => {
 	const paymentIntent = await stripe.paymentIntents.create({
 		amount: total,
 		currency: 'brl',
-		automatic_payment_methods: { enabled: true },
+		...(automatic && { confirm: true }),
+		...(automatic && { capture_method: 'automatic' }),
+		payment_method: 'pm_card_visa',
 	})
-
-	await stripe.paymentIntents.confirm(paymentIntent.id)
 
 	const order = await Order.create({
 		orderItems,
@@ -125,4 +225,5 @@ export default {
 	createOrder,
 	updateOrder,
 	AUTgetRandomOrder,
+	createCheckoutSession,
 }

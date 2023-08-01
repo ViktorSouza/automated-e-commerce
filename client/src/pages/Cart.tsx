@@ -130,9 +130,15 @@ export function Cart() {
 						)}
 					</h2>
 				</div>
-				<button className='bg-sky-500 text-zinc-100  w-full transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg'>
-					Check out
-				</button>
+				<form
+					action={`${
+						import.meta.env.VITE_API_URL
+					}/api/v1/orders/create-checkout-session`}
+					method='POST'>
+					<button className='bg-sky-500 text-zinc-100  transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg w-max'>
+						Check out
+					</button>
+				</form>
 			</div>
 		</div>
 	)
