@@ -36,6 +36,61 @@ const createReview: RequestHandler = async (req, res) => {
 const updateReview: RequestHandler = async (req, res) => {
 	res.send('updateReview')
 }
+const likeReview: RequestHandler = async (req, res) => {
+	let reviewExists = await Review.exists({ _id: req.params.id }).exec()
+	if (!reviewExists)
+		return res.status(404).json({ message: 'Product not found' })
+	let review = await Review.findOneAndUpdate(
+		{
+			_id: req.params.id,
+
+			'votes.user': {
+				$ne: req.user._id,
+			},
+		},
+		{
+			$addToSet: {
+				votes: {
+					user: req.user._id,
+					votedAt: new Date(Date.now()),
+				},
+			},
+		},
+		{ new: true },
+	).exec()
+	if (!review)
+		return res.status(403).json({ message: "You've already liked this review" })
+	res.json({ review })
+}
+
+const unlikeReview: RequestHandler = async (req, res) => {
+	let reviewExists = await Review.exists({ _id: req.params.id }).exec()
+	if (!reviewExists)
+		return res.status(404).json({ message: 'Product not found' })
+
+	let review = await Review.findOneAndUpdate(
+		{
+			_id: req.params.id,
+
+			'votes.user': req.user._id,
+		},
+		{
+			$unset: {
+				votes: {
+					user: req.user._id,
+					votedAt: new Date(Date.now()),
+				},
+			},
+		},
+		{ new: true },
+	).exec()
+	if (!review)
+		return res
+			.status(403)
+			.json({ message: 'You can not unlike a that you do not liked' })
+	res.json({ review })
+}
+
 const deleteReview: RequestHandler = async (req, res) => {
 	res.send('deleteReview')
 }
@@ -51,4 +106,6 @@ export default {
 	deleteReview,
 	getAllReviews,
 	getSingleReview,
+	likeReview,
+	unlikeReview,
 }

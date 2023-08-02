@@ -10,6 +10,10 @@ import { api } from '../services/api'
 import { updateCart as updateProductFromCart } from '../services/cart'
 import { UserContext } from './UserContext'
 const defaultCart: ICartPopulated = {
+	createdAt: new Date(0),
+	shippingFee: 0,
+	updatedAt: new Date(0),
+	tax: 0,
 	products: [],
 	user: '',
 	_id: '',

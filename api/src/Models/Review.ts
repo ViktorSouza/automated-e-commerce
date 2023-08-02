@@ -5,6 +5,20 @@ const Schema = new mongoose.Schema(
 			type: String,
 			maxlength: 300,
 		},
+		votes: {
+			type: [
+				{
+					votedAt: {
+						type: Date,
+					},
+					user: {
+						type: mongoose.Schema.Types.ObjectId,
+						ref: 'User',
+					},
+				},
+			],
+			default: [],
+		},
 		rating: {
 			type: Number,
 			max: 5,

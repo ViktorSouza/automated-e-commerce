@@ -1,7 +1,13 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { IReview } from '../../../shared/Types/IReview'
+import { api } from '../services/api'
 import RatingStars from './RatingStars'
+import { useContext } from 'react'
+import { UserContext } from '../contexts/UserContext'
 
 export default function Review({ review }: { review: IReview }) {
+	const queryClient = useQueryClient()
+	const { user } = useContext(UserContext)
 	return (
 		<div
 			key={review._id}
@@ -16,15 +22,27 @@ export default function Review({ review }: { review: IReview }) {
 					/>
 					<p title={`${review.rating || 0} stars`}>{review.rating || 0}</p>
 				</div>
-				<span>{new Date(Date.now()).toLocaleDateString()}</span>
+				<span>{new Date(review.createdAt).toLocaleDateString()}</span>
 			</div>
 			<div className=''>
 				<p className='dark:  mt-3'>{review.comment}</p>
 				<div className='flex flex-row gap-10 mt-3'>
-					<div className='cursor-pointer dark:hover:bg-zinc-900 px-2 py-1 rounded transition-all text-zinc-900 dark:text-zinc-200'>
+					<button
+						onClick={() => {
+							review.votes.some((vote) => vote.user === user._id)
+								? api.delete(`/reviews/${review._id}/votes`).then(() => {
+										queryClient.invalidateQueries(['reviews'])
+								  })
+								: api.put(`/reviews/${review._id}/votes`).then(() => {
+										queryClient.invalidateQueries(['reviews'])
+								  })
+						}}
+						className='cursor-pointer dark:hover:bg-zinc-900 px-2 py-1 rounded transition-all text-zinc-900 dark:text-zinc-200'>
 						<i className='bi bi-chevron-up mr-2'></i>
-						<span className='dark:text-zinc-400 text-sm font-medium'>0</span>
-					</div>
+						<span className='dark:text-zinc-400 text-sm font-medium'>
+							{review.votes.length}
+						</span>
+					</button>
 					<div className='cursor-pointer dark:hover:bg-zinc-900 text-zinc-900 dark:text-zinc-200 px-2 py-1 rounded transition-all'>
 						<i className='bi bi-chat-left-text mr-2'></i>
 						<span className='dark:text-zinc-400 text-sm font-medium'>

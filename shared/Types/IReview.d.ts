@@ -3,6 +3,8 @@
 export type IReview = {
 	_id: string
 	comment: string
+	votes: { createdAt: Date; user: string }[]
+	createdAt: string
 	rating: number
 	product: string
 	user: User

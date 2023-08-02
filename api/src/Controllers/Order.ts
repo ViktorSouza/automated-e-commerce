@@ -130,7 +130,7 @@ const createCheckoutSession: RequestHandler = async (req, res) => {
 			}),
 		],
 		mode: 'payment',
-		success_url: new URL('/sucess', process.env.CLIENT_URL).toString(),
+		success_url: new URL('/success', process.env.CLIENT_URL).toString(),
 		cancel_url: new URL('/cancel', process.env.CLIENT_URL).toString(),
 	})
 
