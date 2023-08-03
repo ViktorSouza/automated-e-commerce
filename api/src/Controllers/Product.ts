@@ -27,7 +27,6 @@ const createProduct: RequestHandler = async (req, res) => {
 		price: Number(price),
 		image,
 		colors,
-
 		user: req.user._id,
 	})
 	res.json({ product })

@@ -12,10 +12,12 @@ export async function createOrder(): Promise<void> {
 		.skip(randomProductsValue)
 		.limit(Math.floor(Math.random() * 5))
 		.exec()
+	if (!randomProducts) return
+
 	const order = {
 		products: randomProducts.map((product) => ({
 			product: product._id,
-			amount: Math.floor(Math.random() * 15),
+			amount: Math.floor((Math.random() * 15) / (product.price / 10)),
 		})),
 		tax: 0,
 		shippingFee: 500,

@@ -7,7 +7,7 @@ export async function createProduct(): Promise<void> {
 	const randomUser = (await getRandomUser()) as UserReponseLogin
 	const title = faker.commerce.product()
 	const product = {
-		image: faker.image.imageUrl(undefined, undefined, title, true),
+		image: faker.image.imageUrl(undefined, undefined, 'chicken', true),
 		title,
 		description: faker.lorem.sentence(9),
 		price: faker.commerce.price(),

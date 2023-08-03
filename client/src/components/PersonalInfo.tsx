@@ -1,8 +1,20 @@
 import React, { useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
+import { useForm } from 'react-hook-form'
 
 export function PersonalInfo() {
 	const { user } = useContext(UserContext)
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm<{ firstName: string; lastName: string }>({
+		values: {
+			firstName: '',
+			lastName: '',
+		},
+	})
 	return (
 		<div>
 			<h2 className='text-h3 font-medium mb-5 text-zinc-900 dark:text-zinc-200'>
@@ -14,19 +26,19 @@ export function PersonalInfo() {
 						<label htmlFor='first-name'>First Name</label>
 						<input
 							type='text'
-							name='first-name'
 							placeholder={user.name.first}
-							id='first-name'
+							{...register('firstName', {})}
 							className='input  w-full'
+							autoComplete='given-name'
 						/>
 					</div>
 					<div>
 						<label htmlFor='last-name'>Last Name</label>
 						<input
 							type='text'
-							name='last-name'
+							autoComplete='family-name'
 							placeholder={user.name.last}
-							id='last-name'
+							{...register('lastName')}
 							className='input  w-full'
 						/>
 					</div>

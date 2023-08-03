@@ -29,82 +29,94 @@ export function Cart() {
 	return (
 		<div className='flex flex-col-reverse md:flex-row gap-3'>
 			<div className='w-full'>
-				<div className='mb-5 px-2  grid-cols-8 grid gap-3 items-center justify-between text-sm font-medium dark:'>
-					<p className='rounded-lg col-span-3 overflow-hidden '>Product</p>
-					<p className='justify-self-center col-span-2'>Quantity</p>
-					<p className='justify-self-end col-span-2'>Price</p>
-				</div>
-				<hr className='h-px my-4 border-0 bg-zinc-200 dark:bg-zinc-900' />
-				{cart.products
-					.slice(currentPage * size, currentPage * size + size)
-					.map((item) => (
-						<div
-							key={item.product._id.toString()}
-							className='mb-5  grid-cols-8 grid gap-3 items-center justify-between '>
-							<div className='col-span-3 items-center flex gap-3'>
-								<img
-									alt={item.product.title}
-									className='rounded-lg hidden sm:block'
-									src={item.product.image}
-									width={150}
-								/>
-								<Link
-									to={`/product/${item.product._id}`}
-									nonce={'yes'}>
-									<h2 className='text-lg font-medium text-zinc-900 dark:text-zinc-200'>
-										{item.product.title}
-									</h2>
-									{/* TODO add the color instead of quantity */}
-									<span className='dark: text-sm'>Color:</span>
-									{/* TODO change this random */}
-									<div
-										className='w-8 h-8 rounded-lg'
-										style={{
-											background:
-												item.product.colors[
-													Math.floor(Math.random() * item.product.colors.length)
-												],
-										}}></div>
-								</Link>
-							</div>
-							<InputNumber
-								initialNumber={item.quantity}
-								value={item.quantity}
-								className='col-span-2 justify-self-center'
-								onClickIncrease={() =>
-									updateCart.mutate({
-										product: item.product._id,
-										quantity: item.quantity + 1,
-									})
-								}
-								onClickDecrease={() =>
-									updateCart.mutate({
-										product: item.product._id,
-										quantity: item.quantity - 1,
-									})
-								}
-							/>
-							<p className='col-span-2 justify-self-end font-medium text-zinc-900 dark:text-zinc-200'>
-								${(item.price * item.quantity).toFixed(2)}
-							</p>
-							<button
-								className='col-span-1 justify-self-center'
-								title='Add or remove from cart'>
-								<i
-									className='bi bi-x text-xl'
-									onClick={() => {
-										updateCart.mutate({
-											product: item.product._id,
-										})
-									}}></i>
-							</button>
+				<h2 className='text-h3 font-medium mb-5 text-zinc-900 dark:text-zinc-200'>
+					Cart
+				</h2>
+				{cart.products.length ? (
+					<>
+						<div className='mb-5 px-2  grid-cols-8 grid gap-3 items-center justify-between text-sm font-medium dark:'>
+							<p className='rounded-lg col-span-3 overflow-hidden '>Product</p>
+							<p className='justify-self-center col-span-2'>Quantity</p>
+							<p className='justify-self-end col-span-2'>Price</p>
 						</div>
-					))}
-				<Pagination
-					currentPage={currentPage}
-					setCurrentPage={setCurrentPage}
-					totalPages={Math.ceil(cart.products.length / size)}
-				/>
+						<hr className='h-px my-4 border-0 bg-zinc-200 dark:bg-zinc-900' />
+						{cart.products
+							.slice(currentPage * size, currentPage * size + size)
+							.map((item) => (
+								<div
+									key={item.product._id.toString()}
+									className='mb-5  grid-cols-8 grid gap-3 items-center justify-between '>
+									<div className='col-span-3 items-center flex gap-3'>
+										<img
+											alt={item.product.title}
+											className='rounded-lg hidden sm:block'
+											src={item.product.image}
+											width={150}
+										/>
+										<Link
+											to={`/product/${item.product._id}`}
+											nonce={'yes'}>
+											<h2 className='text-lg font-medium text-zinc-900 dark:text-zinc-200'>
+												{item.product.title}
+											</h2>
+											{/* TODO add the color instead of quantity */}
+											<span className='dark: text-sm'>Color:</span>
+											{/* TODO change this random */}
+											<div
+												className='w-8 h-8 rounded-lg'
+												style={{
+													background:
+														item.product.colors[
+															Math.floor(
+																Math.random() * item.product.colors.length,
+															)
+														],
+												}}></div>
+										</Link>
+									</div>
+									<InputNumber
+										initialNumber={item.quantity}
+										value={item.quantity}
+										className='col-span-2 justify-self-center'
+										onClickIncrease={() =>
+											updateCart.mutate({
+												product: item.product._id,
+												quantity: item.quantity + 1,
+											})
+										}
+										onClickDecrease={() =>
+											updateCart.mutate({
+												product: item.product._id,
+												quantity: item.quantity - 1,
+											})
+										}
+									/>
+									<p className='col-span-2 justify-self-end font-medium text-zinc-900 dark:text-zinc-200'>
+										${(item.price * item.quantity).toFixed(2)}
+									</p>
+									<button
+										className='col-span-1 justify-self-center'
+										title='Add or remove from cart'>
+										<i
+											className='bi bi-x text-xl'
+											onClick={() => {
+												updateCart.mutate({
+													product: item.product._id,
+												})
+											}}></i>
+									</button>
+								</div>
+							))}
+
+						<Pagination
+							currentPage={currentPage}
+							setCurrentPage={setCurrentPage}
+							totalPages={Math.ceil(cart.products.length / size)}
+						/>
+					</>
+				) : (
+					"You dont't have any product in the cart yet :("
+				)}
 			</div>
 			<div className='border dark:border-zinc-900 rounded-lg p-5 w-full md:w-3/12 self-start'>
 				<h1 className='font-semibold 	text-zinc-900 dark:text-zinc-200'>

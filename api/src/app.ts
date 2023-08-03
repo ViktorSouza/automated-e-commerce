@@ -28,39 +28,12 @@ app.use(
 		// exposedHeaders: ['set-cookie'],
 	}),
 )
-import { Stripe } from 'stripe'
-import { Order } from './Models'
-const stripe = new Stripe(process.env.STRIPE_TOKEN ?? '', {
-	apiVersion: '2022-11-15',
-})
-const endpointSecret = process.env.API_ENDPOINT_SECRET ?? ''
 
+import { webHookController } from './Controllers/Webhook'
 app.post(
 	'/webhook',
 	bodyParser.raw({ type: 'application/json' }),
-	async (request, response) => {
-		console.log('Hallo')
-		const sig = request.headers['stripe-signature'] ?? ''
-
-		let event
-
-		try {
-			event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret)
-		} catch (err: any) {
-			return response.status(400).send(`Webhook Error: ${err.message}`)
-		}
-
-		if (event.type === 'checkout.session.completed') {
-			await Order.updateOne(
-				//@ts-ignore
-				{ clientSecret: event.data.object.id as string },
-				//@ts-ignore
-				{ status: event.data.object.payment_status as string },
-			).exec()
-		}
-
-		response.status(200).end()
-	},
+	webHookController,
 )
 
 app.use(helmet())
