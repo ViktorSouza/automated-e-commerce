@@ -1,4 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from '@/components/ui/accordion'
 import { useParams } from 'react-router-dom'
 import RatingStars from '../components/RatingStars'
 import { IProduct } from 'shared/Types/IProduct'
@@ -38,16 +44,13 @@ function ProductDetails() {
 					</div>
 					<div className='col-start-2 col-end-3 md:px-5'>
 						<div className='mb-5 flex flex-col'>
-							<h1 className='text-h1 font-semibold order-2 md:order-1 text-zinc-900 dark:text-zinc-200'>
+							<h1 className='text-4xl font-semibold order-2 md:order-1 text-zinc-900 dark:text-zinc-200'>
 								{infos.product.title}
 							</h1>
 							<RatingStars
 								className='text-amber-600 order-1 md:order-2 dark:text-amber-400'
 								value={infos.product.averageRating || 0}
 							/>
-							<p className='my-2 dark:text-zinc-400 order-3'>
-								{infos.product.description}
-							</p>
 						</div>
 
 						<div className='my-5 flex gap-2'>
@@ -70,7 +73,7 @@ function ProductDetails() {
 						</div>
 
 						<div className='my-5'>
-							<h2 className='text-h2 font-semibold text-zinc-900 dark:text-zinc-200'>
+							<h2 className='text-3xl font-semibold text-zinc-900 dark:text-zinc-200'>
 								${infos.product.price.toFixed(2)}
 							</h2>
 							<p className='text-xs dark:text-zinc-400 font-semibold'>
@@ -113,8 +116,11 @@ function ProductDetails() {
 									}
 								/>
 							</div>
+							<button className='bg-sky-500 transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg text-white'>
+								Buy Now
+							</button>
 							<button
-								className='bg-sky-500 transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg text-white'
+								className=' dark:bg-zinc-900 dark:text-zinc-200 bg-zinc-200 dark:text-inherit transition ease-in-out hover:bg-zinc-800 px-10 p-2 rounded-lg'
 								onClick={() =>
 									updateCart.mutate({
 										product: infos.product._id,
@@ -126,9 +132,6 @@ function ProductDetails() {
 									})
 								}>
 								Add to cart
-							</button>
-							<button className=' dark:bg-zinc-900 dark:text-zinc-200 bg-zinc-200 dark:text-inherit transition ease-in-out hover:bg-zinc-800 px-10 p-2 rounded-lg'>
-								Buy Now
 							</button>
 						</div>
 						<div className='my-5 flex items-baseline gap-10'>
@@ -162,6 +165,16 @@ function ProductDetails() {
 						<CEPInput />
 					</div>
 				</div>
+				<Accordion
+					type='single'
+					collapsible>
+					<AccordionItem value='item-1'>
+						<AccordionTrigger className='text-zinc-900 dark:text-zinc-200'>
+							Description
+						</AccordionTrigger>
+						<AccordionContent>{infos.product.description}</AccordionContent>
+					</AccordionItem>
+				</Accordion>
 				<Reviews product={infos.product} />
 			</section>
 		</>

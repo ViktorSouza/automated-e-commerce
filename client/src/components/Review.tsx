@@ -22,7 +22,9 @@ export default function Review({ review }: { review: IReview }) {
 					/>
 					<p title={`${review.rating || 0} stars`}>{review.rating || 0}</p>
 				</div>
-				<span>{new Date(review.createdAt || 0).toLocaleDateString()}</span>
+				<span className='text-sm'>
+					{new Date(review.createdAt || 0).toLocaleDateString()}
+				</span>
 			</div>
 			<div className=''>
 				<p className='dark:  mt-3'>{review.comment}</p>

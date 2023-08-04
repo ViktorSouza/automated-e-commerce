@@ -12,7 +12,7 @@ export function Wishlist() {
 	const { updateCart, cart } = useContext(CartContext)
 	return (
 		<>
-			<h1 className='text-h2 font-semibold mb-5 	text-zinc-900 dark:text-zinc-200'>
+			<h1 className='text-3xl font-semibold mb-5 	text-zinc-900 dark:text-zinc-200'>
 				Wishlist
 			</h1>
 			<div className='flex gap-5 flex-col '>

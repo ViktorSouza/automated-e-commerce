@@ -49,7 +49,7 @@ export default function Reviews({ product }: { product: IProduct }) {
 	if (!data) return null
 	return (
 		<div className=' flex flex-col mt-10'>
-			<h1 className='font-semibold text-h1 mb-4 text-zinc-900 dark:text-zinc-200'>
+			<h1 className='font-semibold text-4xl mb-4 text-zinc-900 dark:text-zinc-200'>
 				Reviews
 			</h1>
 			<div className='flex w-full h-56 gap-5'>

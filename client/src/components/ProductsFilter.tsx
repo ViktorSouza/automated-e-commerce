@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { ProductContext } from '../contexts/ProductContext'
 import { InputNumber } from './InputNumber'
+import { Slider } from '@/components/ui/slider'
+import { cn } from '../lib/utils'
 
-export function ProductsFilter() {
+export function ProductsFilter({ className }: { className?: string }) {
 	const [minValue, setMinValue] = useState<number>(0)
 	const [maxValue, setMaxValue] = useState<number>(99999)
+	const [range, setRange] = useState([0, 1000])
 	const { setSearchParams, searchParams } = useContext(ProductContext)
 
 	useEffect(() => {
@@ -14,33 +17,31 @@ export function ProductsFilter() {
 	}, [maxValue, minValue])
 
 	return (
-		<div className='rounded-md p-2 px-4 dark:border-zinc-900 flex flex-col gap-5 self-start'>
+		<div
+			className={cn(
+				'rounded-md  dark:border-zinc-900 flex flex-col gap-5 self-start',
+				className,
+			)}>
 			<div>
-				<h2 className='font-medium mb-2'>Price Range</h2>
-				<div className='flex items-center gap-2'>
-					<InputNumber
-						onChange={(value) => setMinValue(value)}
-						prefix='$'
-						initialNumber={minValue}
-						onClickDecrease={() => setMinValue((curr) => curr - 1)}
-						onClickIncrease={() => setMinValue((curr) => curr + 1)}
-						minValue={0}
-						maxValue={maxValue}
-					/>
-					<span className='dark:text-zinc-500'>-</span>
-					<InputNumber
-						onChange={(value) => setMaxValue(value)}
-						onClickDecrease={() => setMaxValue((curr) => curr - 1)}
-						onClickIncrease={() => setMaxValue((curr) => curr + 1)}
-						initialNumber={maxValue}
-						minValue={minValue}
-						maxValue={10000}
-					/>
-				</div>
+				<h2 className='font-medium mb-4 text-zinc-800 dark:text-zinc-200'>
+					Price Range ({range[0]} ~ {range[1]})
+				</h2>
+				<Slider
+					onValueChange={setRange}
+					max={1000}
+					onValueCommit={(value) => {
+						setMinValue(value[0])
+						setMaxValue(value[1])
+					}}
+					defaultValue={[0, 1000]}
+					step={1}
+				/>
 			</div>
-			<hr className='h-px my-2 border-0 bg-zinc-900' />
+			<hr className='h-px my-2 border-0 bg-zinc-200 dark:bg-zinc-900' />
 			<div>
-				<h2 className='font-semibold mb-2'>Condition</h2>
+				<h2 className='font-semibold mb-2 text-zinc-800 dark:text-zinc-200'>
+					Condition
+				</h2>
 				<ul className='text-sm font-medium dark:text-zinc-500'>
 					<li>
 						<button onClick={() => {}}>
@@ -60,7 +61,13 @@ export function ProductsFilter() {
 				</ul>
 			</div>
 
-			<button className='border dark:border-zinc-900 rounded-lg py-2 justify-self-center min-w-min'>
+			<button
+				className='border dark:border-zinc-900 rounded-lg py-2 justify-self-center min-w-min'
+				onClick={() => {
+					setMaxValue(1000)
+					setMinValue(0)
+					setRange([0, 1000])
+				}}>
 				Reset settings
 			</button>
 		</div>

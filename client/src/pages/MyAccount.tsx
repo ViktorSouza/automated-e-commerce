@@ -55,7 +55,7 @@ function MyAccount() {
 
 	return (
 		<div>
-			<h1 className='text-h2 font-semibold mb-5	text-zinc-900 dark:text-zinc-200'>
+			<h1 className='text-3xl font-semibold mb-5	text-zinc-900 dark:text-zinc-200'>
 				Account
 			</h1>
 			<div className='flex flex-col lg:flex-row gap-5 items-start'>

@@ -29,7 +29,7 @@ export function Cart() {
 	return (
 		<div className='flex flex-col-reverse md:flex-row gap-3'>
 			<div className='w-full'>
-				<h2 className='text-h3 font-medium mb-5 text-zinc-900 dark:text-zinc-200'>
+				<h2 className='text-2xl font-medium mb-5 text-zinc-900 dark:text-zinc-200'>
 					Cart
 				</h2>
 				{cart.products.length ? (

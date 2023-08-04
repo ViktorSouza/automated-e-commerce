@@ -1,4 +1,12 @@
 import { useContext, useEffect } from 'react'
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog'
 import ProductCard from '../components/ProductCard'
 import { ProductContext } from '../contexts/ProductContext'
 import { useQueryClient } from '@tanstack/react-query'
@@ -56,17 +64,26 @@ function MainPage() {
 		<>
 			<main className='w-full'>
 				<div className='sm:flex items-center justify-between'>
-					<h1 className='py-4 font-semibold text-h1 text-zinc-900 dark:text-zinc-200'>
+					<h1 className='py-4 font-semibold text-4xl text-zinc-900 dark:text-zinc-200'>
 						Products
 					</h1>
+					<span className='justify-self-center'>{product.amount} results</span>
 					<div className='flex gap-4 lg:mb-0 mb-5 items-center'>
-						<span className='justify-self-center'>
-							{product.amount} results
-						</span>
 						<Options
 							options={sortOptions}
 							title='Sort by'
 						/>
+						<Dialog>
+							<DialogTrigger className='text-zinc-900 dark:text-zinc-200'>
+								Filter Products
+							</DialogTrigger>
+							<DialogContent>
+								<DialogHeader>
+									<DialogTitle>Filter Products</DialogTitle>
+								</DialogHeader>
+								<ProductsFilter />
+							</DialogContent>
+						</Dialog>
 					</div>
 				</div>
 				<div className='grid grid-cols-5 gap-5'>

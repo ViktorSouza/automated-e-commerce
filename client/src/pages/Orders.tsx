@@ -24,7 +24,7 @@ export function Orders() {
 	console.log(data)
 	return (
 		<div>
-			<h1 className='text-h2 font-semibold mb-5 	text-zinc-900 dark:text-zinc-200'>
+			<h1 className='text-3xl font-semibold mb-5 	text-zinc-900 dark:text-zinc-200'>
 				Orders
 			</h1>
 

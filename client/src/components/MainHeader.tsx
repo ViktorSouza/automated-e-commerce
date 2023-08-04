@@ -15,19 +15,21 @@ function MainHeader() {
 	}
 	return (
 		<header className='mb-5 border-b w-12/12 dark:border-zinc-900'>
-			<div className='xl:w-[1280px] w-full xl:mx-auto px-5 p-4 flex justify-between items-center'>
-				<Link to='/'>
+			<div className='xl:w-[1280px] w-full xl:mx-auto px-5 p-4 gap-5 flex justify-between items-center'>
+				<Link
+					to='/'
+					className='shrink-0'>
 					<h1 className='md:text-xl font-medium text-zinc-900 dark:text-zinc-200'>
 						Automated E-Commerce
 					</h1>
 				</Link>
-				<div className='relative'>
+				<div className='relative  sm:w-full'>
 					<button
 						title='search'
 						className='sm:hidden text-zinc-900 dark:text-zinc-200 peer'>
 						<i className='bi bi-search'></i>
 					</button>
-					<div className='px-4 transition hidden peer-focus-within:flex sm:flex focus-within:flex hover:flex max-sm:left-1/2 max-sm:-translate-x-1/2 absolute sm:relative duration-500 input dark:hover:bg-zinc-800 hover:bg-zinc-200 bg-zinc-100 rounded-full'>
+					<div className=' transition hidden peer-focus-within:flex sm:flex focus-within:flex hover:flex max-sm:fixed max-sm:w-screen max-sm:left-0 max-sm:top-16 sm:relative duration-500 input dark:hover:bg-zinc-800 hover:bg-zinc-200 bg-zinc-100 rounded-md sm:px-4 p-2 '>
 						<input
 							type='text'
 							disabled={location.pathname !== '/'}
@@ -37,13 +39,13 @@ function MainHeader() {
 							placeholder='Search for something...'
 							id='product-seach'
 							aria-label='Search'
-							className='bg-transparent outline-none xl:w-96'
+							className='bg-transparent outline-none w-full sm:p-0'
 						/>
-						<i className='bi bi-search'></i>
+						<i className='bi bi-search sm:p-0'></i>
 					</div>
 				</div>
 
-				<div className='flex gap-2 lg:gap-6 items-center'>
+				<div className='flex gap-2 lg:gap-6 items-center shrink-0'>
 					<ToggleTheme />
 					{isLogin ? (
 						<>

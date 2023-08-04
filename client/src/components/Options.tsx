@@ -11,7 +11,7 @@ export function Options({
 	return (
 		<div className='relative text-zinc-900 dark:text-zinc-200'>
 			<button
-				className='p-2 rounded-lg border dark:border-zinc-900 flex justify-center gap-1 items-baseline'
+				className='p-1 px-3 rounded-lg   flex justify-center gap-1 items-baseline'
 				onClick={() => setIsOpened(!isOpened)}>
 				{title}
 				<i className={`bi bi-chevron-${isOpened ? 'up' : 'down'}`}></i>
