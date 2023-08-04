@@ -3,6 +3,7 @@
 *node_modules
 
 
+.VSCodeCounter
 logs
 *.log
 npm-debug.log*

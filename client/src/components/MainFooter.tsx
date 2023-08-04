@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom'
 
 function MainFooter() {
 	return (
-		<footer className='w-full mb-10 mt-32 flex gap-64'>
+		<footer className=' mb-10 mt-16 md:mt-32 grid grid-cols-2 gap-12 sm:grid-cols-3 md:gap-64'>
 			<div>
-				<h1 className='font-semibold mb-3 text-xl'>About the Project</h1>
-				<ul className=' font-medium space-y-1'>
+				<h1 className='font-semibold mb-3 text-xl text-primary'>
+					About the Project
+				</h1>
+				<ul className=' space-y-1'>
 					<li className='dark: space-x-2'>
 						<i className='bi bi-github'></i>
 						{/* TODO put the link here */}
@@ -17,16 +19,17 @@ function MainFooter() {
 						</a>
 					</li>
 					<li className='py-5'>
-						Front-end
+						<h2 className='font-medium text-primary'>Front-end</h2>
 						<ul className='ml-5'>
 							<li>React</li>
 							<li>TanStack Query</li>
 							<li>TypeScript</li>
 							<li>Axios</li>
+							<li>Shadcn/ui</li>
 						</ul>
 					</li>
 					<li className=''>
-						Back-end
+						<h1 className='font-medium text-primary'>Back-end</h1>
 						<ul className='ml-5'>
 							<li>ExpressJS</li>
 							<li>TypeScript</li>
@@ -42,8 +45,8 @@ function MainFooter() {
 				</ul>
 			</div>
 			<div>
-				<h1 className='font-semibold mb-3 text-xl'>Profile</h1>
-				<ul className=' font-medium space-y-1'>
+				<h1 className='font-semibold mb-3 text-xl  text-primary'>Profile</h1>
+				<ul className=' space-y-1'>
 					<li className='dark:'>
 						<Link
 							className=' space-x-2'
@@ -79,8 +82,8 @@ function MainFooter() {
 				</ul>
 			</div>
 			<div>
-				<h1 className='font-semibold mb-3 text-xl'>About me</h1>
-				<ul className=' font-medium space-y-1'>
+				<h1 className='font-semibold mb-3 text-xl text-primary'>About me</h1>
+				<ul className=' space-y-1'>
 					<li className='dark:'>
 						<a
 							rel='noopener'

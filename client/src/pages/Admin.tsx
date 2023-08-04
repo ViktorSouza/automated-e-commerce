@@ -21,22 +21,18 @@ export default function Admin() {
 	return (
 		<div className=''>
 			<span className='text-red-500'>*still working on it</span>
-			<h1 className='py-4 font-semibold text-4xl text-zinc-900 dark:text-zinc-200'>
-				Admin
-			</h1>
+			<h1 className='py-4 font-semibold text-4xl text-primary'>Admin</h1>
 			<ul className='grid grid-cols-4'>
 				{data.infos?.map((info) => (
 					<li
 						key={info.title}
 						className=''>
 						<h1 className='text-sm'>{info.title}</h1>
-						<p className='text-zinc-900 dark:text-zinc-200 font-semibold text-3xl'>
-							{info.value}
-						</p>
+						<p className='text-primary font-semibold text-3xl'>{info.value}</p>
 					</li>
 				))}
 				<li>
-					<h1 className='text-3xl font-semibold mb-5 	text-zinc-900 dark:text-zinc-200'>
+					<h1 className='text-3xl font-semibold mb-5 	text-primary'>
 						Newest Product
 					</h1>
 					{data.newestProduct && (
@@ -48,7 +44,7 @@ export default function Admin() {
 				</li>
 			</ul>
 			<div>
-				<h1 className='text-3xl font-semibold mb-5 	text-zinc-900 dark:text-zinc-200'>
+				<h1 className='text-3xl font-semibold mb-5 	text-primary'>
 					Newest Review
 				</h1>
 				{data.newestReview && <Review review={data.newestReview} />}

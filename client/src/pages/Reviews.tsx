@@ -49,12 +49,10 @@ export default function Reviews({ product }: { product: IProduct }) {
 	if (!data) return null
 	return (
 		<div className=' flex flex-col mt-10'>
-			<h1 className='font-semibold text-4xl mb-4 text-zinc-900 dark:text-zinc-200'>
-				Reviews
-			</h1>
+			<h1 className='font-semibold text-4xl mb-4 text-primary'>Reviews</h1>
 			<div className='flex w-full h-56 gap-5'>
 				<div className='space-y'>
-					<h2 className='text-7xl  font-medium text-zinc-900 dark:text-zinc-200'>
+					<h2 className='text-7xl  font-medium text-primary'>
 						{(Number(product.averageRating) || 0).toFixed(1)}
 					</h2>
 					<span className='sr-only'>stars</span>

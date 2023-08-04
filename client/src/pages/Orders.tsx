@@ -24,9 +24,7 @@ export function Orders() {
 	console.log(data)
 	return (
 		<div>
-			<h1 className='text-3xl font-semibold mb-5 	text-zinc-900 dark:text-zinc-200'>
-				Orders
-			</h1>
+			<h1 className='text-3xl font-semibold mb-5 	text-primary'>Orders</h1>
 
 			<ul className='divide-y dark:divide-zinc-900  flex flex-col-reverse'>
 				{data?.orders.map((order) => {
@@ -35,9 +33,7 @@ export function Orders() {
 							key={order._id}
 							className='grid grid-cols-5 justify-between p-3'>
 							<div>
-								<h1 className='text-zinc-900 dark:text-zinc-200 font-medium mb-3'>
-									Status
-								</h1>
+								<h1 className='text-primary font-medium mb-3'>Status</h1>
 								<span
 									className={`${
 										order.status === 'pendent'
@@ -48,21 +44,15 @@ export function Orders() {
 								</span>
 							</div>
 							<div>
-								<h1 className='text-zinc-900 dark:text-zinc-200 font-medium mb-3'>
-									Date
-								</h1>
+								<h1 className='text-primary font-medium mb-3'>Date</h1>
 								<span>{new Date(order.createdAt).toLocaleDateString()}</span>
 							</div>
 							<div>
-								<h1 className='text-zinc-900 dark:text-zinc-200 font-medium mb-3'>
-									Total
-								</h1>
+								<h1 className='text-primary font-medium mb-3'>Total</h1>
 								<span>{order.total}</span>
 							</div>
 							<div>
-								<h1 className='text-zinc-900 dark:text-zinc-200 font-medium'>
-									Details
-								</h1>
+								<h1 className='text-primary font-medium'>Details</h1>
 							</div>
 						</li>
 					)

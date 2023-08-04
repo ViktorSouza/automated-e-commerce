@@ -29,9 +29,7 @@ export function Cart() {
 	return (
 		<div className='flex flex-col-reverse md:flex-row gap-3'>
 			<div className='w-full'>
-				<h2 className='text-2xl font-medium mb-5 text-zinc-900 dark:text-zinc-200'>
-					Cart
-				</h2>
+				<h2 className='text-2xl font-medium mb-5 text-primary'>Cart</h2>
 				{cart.products.length ? (
 					<>
 						<div className='mb-5 px-2  grid-cols-8 grid gap-3 items-center justify-between text-sm font-medium dark:'>
@@ -56,7 +54,7 @@ export function Cart() {
 										<Link
 											to={`/product/${item.product._id}`}
 											nonce={'yes'}>
-											<h2 className='text-lg font-medium text-zinc-900 dark:text-zinc-200'>
+											<h2 className='text-lg font-medium text-primary'>
 												{item.product.title}
 											</h2>
 											{/* TODO add the color instead of quantity */}
@@ -91,7 +89,7 @@ export function Cart() {
 											})
 										}
 									/>
-									<p className='col-span-2 justify-self-end font-medium text-zinc-900 dark:text-zinc-200'>
+									<p className='col-span-2 justify-self-end font-medium text-primary'>
 										${(item.price * item.quantity).toFixed(2)}
 									</p>
 									<button
@@ -119,9 +117,7 @@ export function Cart() {
 				)}
 			</div>
 			<div className='border dark:border-zinc-900 rounded-lg p-5 w-full md:w-3/12 self-start'>
-				<h1 className='font-semibold 	text-zinc-900 dark:text-zinc-200'>
-					Summary
-				</h1>
+				<h1 className='font-semibold 	text-primary'>Summary</h1>
 				<hr className='h-px my-4 border-0 bg-zinc-200 dark:bg-zinc-900' />
 				<ul className='text-xs mb-5 space-y-2'>
 					{list.map((info) => (
@@ -134,7 +130,7 @@ export function Cart() {
 				<hr className='h-px my-4 border-0 bg-zinc-200 dark:bg-zinc-900' />
 				<div className='flex justify-between my-4'>
 					<h2 className='font-semibold'>Total: </h2>
-					<h2 className='font-semibold text-zinc-900 dark:text-zinc-200'>
+					<h2 className='font-semibold text-primary'>
 						$
 						{cart.products.reduce(
 							(prev, curr, index) => curr.price * curr.quantity + prev,
@@ -164,9 +160,7 @@ function SummaryInfo({
 		<li className='flex justify-between'>
 			<span className='font-medium'>{info.title}: </span>
 
-			<span className='font-semibold text-zinc-900 dark:text-zinc-200'>
-				{info.value}
-			</span>
+			<span className='font-semibold text-primary'>{info.value}</span>
 		</li>
 	)
 }

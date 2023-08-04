@@ -51,9 +51,7 @@ function CreateAccount() {
 	}
 	return (
 		<div className='flex flex-col w-full md:w-[500px] mx-auto rounded-md-lg md:p-10'>
-			<h1 className='font-semibold text-4xl mb-4 text-zinc-900 dark:text-zinc-200'>
-				Welcome!
-			</h1>
+			<h1 className='font-semibold text-4xl mb-4 text-primary'>Welcome!</h1>
 			<div className='flex gap-3 justify-between mb-4'>
 				<div>
 					<label htmlFor='first-name'>First name</label>

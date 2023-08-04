@@ -17,9 +17,7 @@ export function PersonalInfo() {
 	})
 	return (
 		<div>
-			<h2 className='text-2xl font-medium mb-5 text-zinc-900 dark:text-zinc-200'>
-				Personal Info
-			</h2>
+			<h2 className='text-2xl font-medium mb-5 text-primary'>Personal Info</h2>
 			<form>
 				<div className='grid grid-cols-2 gap-3 w-full mb-5'>
 					<div>

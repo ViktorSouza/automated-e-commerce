@@ -48,9 +48,7 @@ function Login() {
 			onSubmit={(e) => e.preventDefault()}
 			className='flex flex-col w-full md:w-[500px] mx-auto rounded-md-lg md:p-10'>
 			<div className='mb-4'>
-				<h1 className='font-semibold text-4xl text-zinc-900 dark:text-zinc-200'>
-					Welcome back :D
-				</h1>
+				<h1 className='font-semibold text-4xl text-primary'>Welcome back :D</h1>
 			</div>
 			<div className='mb-4'>
 				<label htmlFor='email'>Email</label>

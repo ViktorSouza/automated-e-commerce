@@ -5,7 +5,7 @@ export default function ToggleTheme() {
 	return (
 		<button
 			accessKey='t'
-			className='text-zinc-900 dark:text-zinc-200 px-2'
+			className='text-primary  hover:bg-zinc-100 dark:hover:bg-zinc-900  aspect-square h-10 flex items-center justify-center rounded-full transition-colors'
 			type='button'
 			onFocus={(e) => {
 				e.preventDefault()
@@ -18,9 +18,7 @@ export default function ToggleTheme() {
 			title='Toggle theme'>
 			<i
 				className={`bi bi-${
-					theme === 'dark'
-						? 'moon'
-						: 'brightness-high text-zinc-900 dark:text-zinc-200'
+					theme === 'dark' ? 'moon' : 'brightness-high text-primary'
 				} `}></i>
 		</button>
 	)

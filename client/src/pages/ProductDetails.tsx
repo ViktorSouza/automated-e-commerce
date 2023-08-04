@@ -44,20 +44,18 @@ function ProductDetails() {
 					</div>
 					<div className='col-start-2 col-end-3 md:px-5'>
 						<div className='mb-5 flex flex-col'>
-							<h1 className='text-4xl font-semibold order-2 md:order-1 text-zinc-900 dark:text-zinc-200'>
+							<h1 className='text-4xl font-semibold text-primary'>
 								{infos.product.title}
 							</h1>
 							<RatingStars
-								className='text-amber-600 order-1 md:order-2 dark:text-amber-400'
+								className='text-amber-600 md:order-2 dark:text-amber-400'
 								value={infos.product.averageRating || 0}
 							/>
 						</div>
 
 						<div className='my-5 flex gap-2'>
 							<div>
-								<h3 className='text-1xl font-semibold text-zinc-900 dark:text-zinc-200'>
-									Colors
-								</h3>
+								<h3 className='text-1xl font-semibold text-primary'>Colors</h3>
 								<p className='dark:text-zinc-400 text-xs'>in stock</p>
 							</div>
 							<div className='flex gap-2'>
@@ -73,7 +71,7 @@ function ProductDetails() {
 						</div>
 
 						<div className='my-5'>
-							<h2 className='text-3xl font-semibold text-zinc-900 dark:text-zinc-200'>
+							<h2 className='text-3xl font-semibold text-primary'>
 								${infos.product.price.toFixed(2)}
 							</h2>
 							<p className='text-xs dark:text-zinc-400 font-semibold'>
@@ -120,7 +118,7 @@ function ProductDetails() {
 								Buy Now
 							</button>
 							<button
-								className=' dark:bg-zinc-900 dark:text-zinc-200 bg-zinc-200 dark:text-inherit transition ease-in-out hover:bg-zinc-800 px-10 p-2 rounded-lg'
+								className='hover:bg-secondary bg-primary-foreground transition ease-in-out text-primary px-10 p-2 rounded-lg'
 								onClick={() =>
 									updateCart.mutate({
 										product: infos.product._id,
@@ -136,7 +134,7 @@ function ProductDetails() {
 						</div>
 						<div className='my-5 flex items-baseline gap-10'>
 							<button
-								className='text-zinc-900 dark:text-zinc-200'
+								className='text-primary'
 								onClick={() => {
 									isWished
 										? removeFromWishlistMutation.mutate({
@@ -154,7 +152,7 @@ function ProductDetails() {
 							</button>
 
 							<button
-								className='flex items-baseline text-zinc-900 dark:text-zinc-200'
+								className='flex items-baseline text-primary'
 								onClick={() =>
 									navigator.clipboard.writeText(window.location.href)
 								}>
@@ -169,7 +167,7 @@ function ProductDetails() {
 					type='single'
 					collapsible>
 					<AccordionItem value='item-1'>
-						<AccordionTrigger className='text-zinc-900 dark:text-zinc-200'>
+						<AccordionTrigger className='text-primary'>
 							Description
 						</AccordionTrigger>
 						<AccordionContent>{infos.product.description}</AccordionContent>

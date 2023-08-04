@@ -14,6 +14,7 @@ import { UserContext } from '../contexts/UserContext'
 import { Pagination } from '../components/Pagination'
 import { Options } from '../components/Options'
 import { ProductsFilter } from '../components/ProductsFilter'
+import { Filter, SlidersHorizontal } from 'lucide-react'
 
 function MainPage() {
 	const queryClient = useQueryClient()
@@ -64,9 +65,7 @@ function MainPage() {
 		<>
 			<main className='w-full'>
 				<div className='sm:flex items-center justify-between'>
-					<h1 className='py-4 font-semibold text-4xl text-zinc-900 dark:text-zinc-200'>
-						Products
-					</h1>
+					<h1 className='py-4 font-semibold text-4xl text-primary'>Products</h1>
 					<span className='justify-self-center'>{product.amount} results</span>
 					<div className='flex gap-4 lg:mb-0 mb-5 items-center'>
 						<Options
@@ -74,8 +73,13 @@ function MainPage() {
 							title='Sort by'
 						/>
 						<Dialog>
-							<DialogTrigger className='text-zinc-900 dark:text-zinc-200'>
-								Filter Products
+							<DialogTrigger className='text-primary hover:bg-primary-foreground p-1 rounded-md'>
+								Filter Products{' '}
+								<SlidersHorizontal
+									size={16}
+									strokeWidth={2}
+									className='inline-block'
+								/>
 							</DialogTrigger>
 							<DialogContent>
 								<DialogHeader>

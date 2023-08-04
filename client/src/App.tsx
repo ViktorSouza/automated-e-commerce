@@ -5,11 +5,14 @@ import MyAccount from './pages/MyAccount'
 
 import MainPage from './pages/MainPage'
 import ProductDetails from './pages/ProductDetails'
+import toast from 'react-hot-toast'
 import MainFooter from './components/MainFooter'
 import Admin from './pages/Admin'
+import { Toaster } from 'react-hot-toast'
 function App() {
 	return (
 		<div className='max-w-[1920px] w-full xl:w-[1280px] px-5 xl:mx-auto flex flex-col'>
+			<Toaster />
 			<Routes>
 				<Route
 					element={<MainPage />}
@@ -35,8 +38,7 @@ function App() {
 					path='/products/:id'
 				/>
 			</Routes>
-			{/* <Sign /> */}
-			{/* <MainFooter /> */}
+			<MainFooter />
 		</div>
 	)
 }

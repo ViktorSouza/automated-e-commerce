@@ -55,14 +55,12 @@ function MyAccount() {
 
 	return (
 		<div>
-			<h1 className='text-3xl font-semibold mb-5	text-zinc-900 dark:text-zinc-200'>
-				Account
-			</h1>
+			<h1 className='text-3xl font-semibold mb-5	text-primary'>Account</h1>
 			<div className='flex flex-col lg:flex-row gap-5 items-start'>
 				<div className='lg:flex flex-col lg:border dark:border-zinc-900 lg:py-2 lg:px-5 rounded-lg lg:w-3/12'>
 					<div className='hidden lg:flex flex-col items-center mb-4'>
 						<div className='h-12 w-12 rounded-full bg-zinc-900 mb-3'></div>
-						<p className='text-zinc-900 dark:text-zinc-200'>
+						<p className='text-primary'>
 							{user.name.first} {user.name.last}
 						</p>
 						<p className='dark:text-zinc-500 text-sm'>{user.email}</p>
@@ -79,7 +77,7 @@ function MyAccount() {
 											isActive &&
 											!action &&
 											'bg-zinc-200 dark:bg-zinc-900 sm:bg-sky-500 dark:text-inherit text-zinc-200'
-										} gap-2 flex items-center md:py-2 md:px-4 px-2  rounded-lg text-zinc-900 dark:text-zinc-200`
+										} gap-2 flex items-center md:py-2 md:px-4 px-2  rounded-lg text-primary`
 									}>
 									{
 										<>
