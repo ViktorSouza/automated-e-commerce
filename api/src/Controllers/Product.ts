@@ -117,18 +117,20 @@ const getReviewsFromProduct: RequestHandler = async (req, res) => {
 		sort_by: z.string().optional(),
 	})
 	let {
-		page_number = '1',
+		page_number = '0',
 		page_size = '20',
-		sort_by = 'title',
+		sort_by = '-createdAt',
 	} = querySchema.parse(req.query) ?? {}
 	const page = parseInt(page_number || '0')
 	const size = 20
 	const { id } = req.params
 	const skipIndex = page * size
+
 	const reviews = await Review.find({ product: id })
+		.sort(sort_by)
 		.skip(skipIndex)
-		.populate('user')
 		.limit(size)
+		.populate('user')
 		.exec()
 
 	let amount = await Review.countDocuments({ product: id }).exec()

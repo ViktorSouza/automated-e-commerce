@@ -1,30 +1,34 @@
+'use client'
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
-import RatingStars from '../components/RatingStars'
-import { CartContext } from '../contexts/CartContext'
-import { UserContext } from '../contexts/UserContext'
-import { Pagination } from '../components/Pagination'
+import Link from 'next/link'
+import RatingStars from '@/components/RatingStars'
+import { CartContext } from '@/contexts/CartContext'
+import { UserContext } from '@/contexts/UserContext'
+import { Pagination } from '@/components/Pagination'
+import { removeFromWishlist } from '@/services/wishlist'
+import { IProduct } from 'shared/Types/IProduct'
 
-export function Wishlist() {
+export default function Wishlist() {
 	const [currentPage, setCurrentPage] = useState(0)
 	const size = 10
-	const { user, removeFromWishlistMutation } = useContext(UserContext)
-	const { updateCart, cart } = useContext(CartContext)
+	const { user } = useContext(UserContext)
+	const { cart, updateCart } = useContext(CartContext)
+
 	return (
 		<>
 			<h1 className='text-3xl font-semibold mb-5 	text-primary'>Wishlist</h1>
 			<div className='flex gap-5 flex-col '>
-				{cart.products.length ? (
+				{user.wishlist.length ? (
 					<>
 						{user.wishlist
 							.slice(currentPage * size, currentPage * size + size)
-							.map((product) => {
+							.map((product: IProduct) => {
 								return (
 									<div
 										key={product._id}
 										className='grid grid-cols-8 gap-2 items-center'>
 										<Link
-											to={`/products/${product._id}`}
+											href={`/products/${product._id}`}
 											className='flex col-span-4 gap-3 items-center'>
 											<img
 												src={product.image}
@@ -55,13 +59,9 @@ export function Wishlist() {
 										<button
 											className='dark:hover:bg-zinc-800  dark:bg-zinc-900 bg-zinc-200 hover:bg-zinc-300 	text-primary transition ease-in-out  px-10 p-2 rounded-lg col-span-2 justify-self-end w-max '
 											onClick={() =>
-												updateCart.mutate({
+												updateCart({
 													product: product._id,
-													quantity:
-														(cart.products.find(
-															(cproduct) =>
-																cproduct.product._id === product._id,
-														)?.quantity ?? 0) + 1,
+													quantity: 1,
 												})
 											}>
 											Add to cart
@@ -69,7 +69,7 @@ export function Wishlist() {
 										<button
 											title='Remove from the wishlist'
 											onClick={() =>
-												removeFromWishlistMutation.mutate({
+												removeFromWishlist({
 													product: product._id,
 												})
 											}>
@@ -81,7 +81,7 @@ export function Wishlist() {
 						<Pagination
 							currentPage={currentPage}
 							setCurrentPage={setCurrentPage}
-							totalPages={Math.ceil(cart.products.length / size)}
+							totalPages={Math.ceil(user.wishlist.length / size)}
 						/>
 					</>
 				) : (

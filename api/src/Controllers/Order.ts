@@ -29,6 +29,7 @@ const getAllOrders: RequestHandler = async (req, res) => {
 	const page = parseInt(page_number || '0')
 	const size = parseInt(page_size || '20')
 	const skipIndex = page * size
+	console.log(req.user)
 	const allOrders = await Order.find({ user: req.user._id })
 		// .skip(skipIndex)
 		// .limit(size)

@@ -1,10 +1,13 @@
+'use client'
 import { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { IProduct } from 'shared/Types/IProduct'
-import { CartContext } from '../contexts/CartContext'
-import { UserContext } from '../contexts/UserContext'
 import RatingStars from './RatingStars'
 import toast from 'react-hot-toast'
+import { addToWishlist, removeFromWishlist } from '../services/wishlist'
+import { UserContext } from '../contexts/UserContext'
+import { useRouter } from 'next/navigation'
+import { CartContext } from '../contexts/CartContext'
 
 function ProductCard({
 	product,
@@ -14,13 +17,12 @@ function ProductCard({
 	isWished: boolean
 }) {
 	const [isHeartHovered, setHeartHovered] = useState(false)
-	const { updateCart } = useContext(CartContext)
+	const router = useRouter()
+	const { updateCart, cart } = useContext(CartContext)
 
-	const { addToWishlistMutation, removeFromWishlistMutation } =
-		useContext(UserContext)
 	return (
 		<div className='relative'>
-			<Link to={`/products/${product._id}`}>
+			<Link href={`/products/${product._id}`}>
 				<div className='relative overflow-hidden rounded-lg bg-zinc-900 min-h-[200px]'>
 					<img
 						className='object-cover w-full'
@@ -55,7 +57,8 @@ function ProductCard({
 				<button
 					className='w-full px-4 py-2 text-center transition-all border rounded-lg dark:border-zinc-900 dark:hover:bg-zinc-900 hover:bg-zinc-200 text-primary'
 					onClick={() => {
-						updateCart.mutate({ product: product._id, quantity: 1 })
+						updateCart({ product: product._id, quantity: 1 })
+						// router.refresh()
 						toast.success('Product added')
 					}}>
 					<i className='mr-1 bi bi-cart'></i>Add to Cart
@@ -63,10 +66,11 @@ function ProductCard({
 				<button
 					title='Add or remove from wishlist'
 					className='text-center text-primary'
-					onClick={() => {
+					onClick={async () => {
 						isWished
-							? removeFromWishlistMutation.mutate({ product: product._id })
-							: addToWishlistMutation.mutate({ product: product._id })
+							? await removeFromWishlist({ product: product._id })
+							: await addToWishlist({ product: product._id })
+						router.refresh()
 					}}>
 					<i
 						onMouseEnter={() => setHeartHovered(true)}

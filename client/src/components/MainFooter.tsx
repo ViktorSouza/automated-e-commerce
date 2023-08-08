@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 
 function MainFooter() {
 	return (
@@ -50,7 +50,7 @@ function MainFooter() {
 					<li className='dark:'>
 						<Link
 							className=' space-x-2'
-							to={'/my-account'}>
+							href={'/my-account'}>
 							<i className='bi bi-person'></i>
 							<span>My Account</span>
 						</Link>
@@ -58,7 +58,7 @@ function MainFooter() {
 					<li className='dark: '>
 						<Link
 							className='space-x-2'
-							to='/my-account/cart'>
+							href='/my-account/cart'>
 							<i className='bi bi-cart2'></i>
 							<span>Cart</span>
 						</Link>
@@ -66,7 +66,7 @@ function MainFooter() {
 					<li className='dark: '>
 						<Link
 							className='space-x-2'
-							to='/my-account/wishlist'>
+							href='/my-account/wishlist'>
 							<i className='bi bi-heart'></i>
 							<span>Wishlist</span>
 						</Link>
@@ -74,7 +74,7 @@ function MainFooter() {
 					<li className='dark: '>
 						<Link
 							className='space-x-2'
-							to='/my-account/orders'>
+							href='/my-account/orders'>
 							<i className='bi bi-file-text'></i>
 							<span>Orders</span>
 						</Link>

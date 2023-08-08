@@ -1,19 +1,25 @@
+'use client'
 import React, { useContext, useEffect, useState } from 'react'
-import { ProductContext } from '../contexts/ProductContext'
 import { InputNumber } from './InputNumber'
 import { Slider } from '@/components/ui/slider'
 import { cn } from '../lib/utils'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 export function ProductsFilter({ className }: { className?: string }) {
 	const [minValue, setMinValue] = useState<number>(0)
 	const [maxValue, setMaxValue] = useState<number>(99999)
 	const [range, setRange] = useState([0, 1000])
-	const { setSearchParams, searchParams } = useContext(ProductContext)
+	const searchParams = useSearchParams()
+	const pathname = usePathname()
+	const router = useRouter()
 
 	useEffect(() => {
-		searchParams.set('max_value', maxValue.toString())
-		searchParams.set('min_value', minValue.toString())
-		setSearchParams(new URLSearchParams(searchParams).toString())
+		const searchParams1 = new URLSearchParams(searchParams?.toString())
+		searchParams1.set('max_value', maxValue.toString())
+		searchParams1.set('min_value', minValue.toString())
+		const url = `${pathname}?${searchParams1}`
+		router.replace(url)
 	}, [maxValue, minValue])
 
 	return (

@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react'
+'use client'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import React from 'react'
 
 export function Pagination({
 	totalPages,
@@ -7,9 +9,13 @@ export function Pagination({
 }: {
 	totalPages: number
 	currentPage: number | string
-	setCurrentPage: (old: number) => void
+	setCurrentPage?: (old: number) => void
 }) {
 	let actualPage = Number(currentPage)
+	const router = useRouter()
+	const searchParams = useSearchParams()
+	const pathname = usePathname()
+
 	return (
 		<div className='flex my-10 rounded justify-between items-center'>
 			<p className='dark:text-zinc-400'>
@@ -18,14 +24,25 @@ export function Pagination({
 			<div className='space-x-3'>
 				<button
 					className='py-2 px-4 border text-primary dark:border-zinc-900 rounded-md'
-					onClick={() => setCurrentPage(Math.max(actualPage - 1, 0))}>
+					onClick={() => {
+						const searchParams1 = new URLSearchParams(searchParams?.toString())
+						searchParams1.set('page_number', '' + Math.max(actualPage - 1, 0))
+						const url = `${pathname}?${searchParams1}`
+						router.replace(url)
+					}}>
 					Previous
 				</button>
 				<button
 					className='py-2 px-4 border text-primary dark:border-zinc-900 rounded-md'
-					onClick={() =>
-						setCurrentPage(Math.min(actualPage + 1, totalPages - 1))
-					}>
+					onClick={() => {
+						const searchParams1 = new URLSearchParams(searchParams?.toString())
+						searchParams1.set(
+							'page_number',
+							'' + Math.min(actualPage + 1, totalPages),
+						)
+						const url = `${pathname}?${searchParams1}`
+						router.replace(url)
+					}}>
 					Next
 				</button>
 			</div>

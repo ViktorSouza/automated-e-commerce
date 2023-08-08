@@ -1,37 +1,41 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react'
-import { useNavigate, Routes, Route, NavLink } from 'react-router-dom'
-import { UserContext } from '../contexts/UserContext'
-import { PersonalInfo } from '../components/PersonalInfo'
-import { Cart } from './Cart'
-import { Wishlist } from './Wishlist'
-import { Orders } from './Orders'
+'use client'
+import React, {
+	Fragment,
+	ReactNode,
+	useContext,
+	useEffect,
+	useState,
+} from 'react'
+import Link from 'next/link'
+import { UserContext } from '../../contexts/UserContext'
+import { useRouter } from 'next/router'
+import { getUser, logoutUser } from '../../services/user'
+import { redirect } from 'next/navigation'
 
-function MyAccount() {
+function MyAccount({ children }: { children: ReactNode }) {
 	const { user, logout, isLogin, userStatus } = useContext(UserContext)
+	// const user = await getUser()
+	// if (!user?._id) redirect('/')
 	const tabsData = [
 		{
 			icon: 'bi bi-person',
 			text: 'Personal info',
-			// action: () => navigate('personal-info'),
-			to: 'personal-info',
+			to: '',
 		},
 		{
 			icon: 'bi bi-cart',
 			text: 'Cart',
-			// action: () => navigate('cart'),
 			to: 'cart',
 		},
 		{
 			icon: 'bi bi-heart',
 			text: 'Wishlist',
-			// action: () => navigate('favorites'),
 			to: 'wishlist',
 		},
 		{
 			icon: 'bi bi-file-text',
 			text: 'Orders',
 			lineBreak: true,
-			// action: () => navigate('orders'),
 			to: 'orders',
 		},
 		{
@@ -39,19 +43,12 @@ function MyAccount() {
 			text: 'Logout',
 			action: async () => {
 				// navigate('/')
-				await logout()
+				await logoutUser()
 			},
 			//TODO patch this
 			to: '/',
 		},
 	]
-	const navigate = useNavigate()
-
-	useEffect(() => {
-		if (!isLogin && userStatus == 'error') navigate('/')
-	})
-
-	if (!isLogin) return null
 
 	return (
 		<div>
@@ -68,24 +65,18 @@ function MyAccount() {
 					<div className='flex gap-6 lg:gap-0 lg:flex-col'>
 						{tabsData.map(({ icon, text, lineBreak, to, action }) => (
 							<Fragment key={text}>
-								<NavLink
+								<Link
 									key={text}
 									onClick={action}
-									to={to}
-									className={({ isActive }) =>
-										`${
-											isActive &&
-											!action &&
-											'bg-zinc-200 dark:bg-zinc-900 sm:bg-sky-500 dark:text-inherit text-zinc-200'
-										} gap-2 flex items-center md:py-2 md:px-4 px-2  rounded-lg text-primary`
-									}>
+									href={`/my-account/${to}`}
+									className={` gap-2 flex items-center md:py-2 md:px-4 px-2  rounded-lg text-primary`}>
 									{
 										<>
 											<i className={icon}></i>
 											<h2 className='hidden sm:inline'>{text}</h2>
 										</>
 									}
-								</NavLink>
+								</Link>
 								{lineBreak && (
 									<hr className='h-px my-4 border-0 bg-zinc-200 dark:bg-zinc-900'></hr>
 								)}
@@ -93,30 +84,7 @@ function MyAccount() {
 						))}
 					</div>
 				</div>
-				<div className='w-full'>
-					<Routes>
-						<Route
-							path='/'
-							element={<PersonalInfo />}
-						/>
-						<Route
-							path='personal-info'
-							element={<PersonalInfo />}
-						/>
-						<Route
-							path='cart'
-							element={<Cart />}
-						/>
-						<Route
-							path='wishlist'
-							element={<Wishlist />}
-						/>
-						<Route
-							path='orders'
-							element={<Orders />}
-						/>
-					</Routes>
-				</div>
+				<div className='w-full'>{children}</div>
 			</div>
 		</div>
 	)

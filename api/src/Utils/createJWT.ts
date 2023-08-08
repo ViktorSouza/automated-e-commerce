@@ -15,11 +15,11 @@ export function createJWT({ res, user }: createJWTParams) {
 		'token',
 		JWT.sign({ email, roles, name, _id }, process.env.SECRET ?? ''),
 		{
-			//TODO chage this settings
-			signed: true,
+			//TODO change this settings
+			// signed: true,
 			sameSite: 'none',
 			secure: true,
-			httpOnly: true,
+			// httpOnly: true,
 		},
 	)
 }

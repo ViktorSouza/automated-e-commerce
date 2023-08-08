@@ -1,50 +1,59 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { IProduct } from '../../../shared/Types/IProduct'
-import { IReview } from '../../../shared/Types/IReview'
-import RatingStars from '../components/RatingStars'
-import { api } from '../services/api'
-import { Pagination } from '../components/Pagination'
+import { IProduct } from 'shared/Types/IProduct'
+import { IReview } from 'shared/Types/IReview'
+import RatingStars from '@/components/RatingStars'
+import { api } from '@/services/api'
+import { Pagination } from '@/components/Pagination'
 import { useContext, useEffect, useState } from 'react'
-import { ProductContext } from '../contexts/ProductContext'
-import Review from '../components/Review'
-
-export default function Reviews({ product }: { product: IProduct }) {
-	const [currentPage, setCurrentPage] = useState(0)
-	const { data } = useQuery<{
+import Review from '@/components/Review'
+import CreateReview from '@/components/CreateReview'
+import { Options } from '@/components/Options'
+import { useSearchParams } from 'next/navigation'
+import SortBy from './SortBy'
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+export default async function Reviews({
+	product,
+	searchParams,
+}: {
+	product: IProduct
+	searchParams: Record<string, string>
+}) {
+	// const [currentPage, setCurrentPage] = useState(0)
+	// const searchParams = useSearchParams()
+	console.log(searchParams)
+	const data: {
 		reviews: IReview[]
 		totalPages: 0
 		currentPage: 0
 		totalResults: 0
 		amount: 0
-	}>({
-		keepPreviousData: true,
-		placeholderData: {
-			reviews: [],
-			totalPages: 0,
-			currentPage: 0,
-			totalResults: 0,
-			amount: 0,
+	} = (
+		await api.get(`/products/${product._id}/reviews`, { params: searchParams })
+	).data
+
+	const sortOptions = [
+		{
+			name: 'Date',
+			value: 'createdAt',
 		},
-		enabled: product._id !== '',
-		async queryFn() {
-			const res = await api.get(`/products/${product._id}/reviews`, {
-				params: { page_number: currentPage },
-			})
-			return res.data
+		{
+			name: 'Highest Rate',
+			value: '-rating',
 		},
-		queryKey: ['reviews', currentPage],
-	})
-
-	const { setSearchParams, searchParams } = useContext(ProductContext)
-
-	const queryClient = useQueryClient()
-	//TODO refractor
-	useEffect(() => {
-		searchParams.set('page_number', currentPage.toString())
-		setSearchParams(new URLSearchParams(searchParams.toString()))
-
-		queryClient.refetchQueries({ queryKey: ['reviews', currentPage] })
-	}, [data?.totalPages, currentPage])
+		{
+			name: 'Lowest Rate',
+			value: 'rating',
+		},
+		{
+			name: 'Most Liked',
+			value: 'vote',
+		},
+	]
+	function sortBy(by: string) {
+		// searchParams.set('sort_by', by)
+		// setSearchParams(new URLSearchParams(searchParams.toString()))
+		// queryClient.invalidateQueries({ queryKey: ['reviews'] })
+	}
 
 	if (!data) return null
 	return (
@@ -87,6 +96,10 @@ export default function Reviews({ product }: { product: IProduct }) {
 						})}
 				</div>
 			</div>
+			<div className='flex justify-between'>
+				<CreateReview />
+				<SortBy sortOptions={sortOptions} />
+			</div>
 			{data.reviews.map((review) => (
 				<Review
 					key={review._id}
@@ -95,8 +108,7 @@ export default function Reviews({ product }: { product: IProduct }) {
 			))}
 			<Pagination
 				totalPages={data.totalPages}
-				setCurrentPage={setCurrentPage}
-				currentPage={currentPage}
+				currentPage={data.currentPage}
 			/>
 		</div>
 	)

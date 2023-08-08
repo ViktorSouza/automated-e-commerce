@@ -1,14 +1,17 @@
+'use client'
+export const fetchCache = 'force-no-store'
+export const dynamic = 'force-dynamic'
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { CartContext } from '../contexts/CartContext'
-import { InputNumber } from '../components/InputNumber'
-import { updateCart } from '../services/cart'
-import { Pagination } from '../components/Pagination'
+import { CartContext } from '@/contexts/CartContext'
+import { InputNumber } from '@/components/InputNumber'
+import Link from 'next/link'
+import { Pagination } from '@/components/Pagination'
 
-export function Cart() {
+export default function Cart() {
 	const size = 10
 	const [currentPage, setCurrentPage] = useState(0)
 	const { cart, updateCart } = useContext(CartContext)
+	console.log(cart.products)
 	const list = [
 		{
 			title: 'Subtotal',
@@ -52,7 +55,7 @@ export function Cart() {
 											width={150}
 										/>
 										<Link
-											to={`/product/${item.product._id}`}
+											href={`/product/${item.product._id}`}
 											nonce={'yes'}>
 											<h2 className='text-lg font-medium text-primary'>
 												{item.product.title}
@@ -77,13 +80,13 @@ export function Cart() {
 										value={item.quantity}
 										className='col-span-2 justify-self-center'
 										onClickIncrease={() =>
-											updateCart.mutate({
+											updateCart({
 												product: item.product._id,
 												quantity: item.quantity + 1,
 											})
 										}
 										onClickDecrease={() =>
-											updateCart.mutate({
+											updateCart({
 												product: item.product._id,
 												quantity: item.quantity - 1,
 											})
@@ -98,8 +101,10 @@ export function Cart() {
 										<i
 											className='bi bi-x text-xl'
 											onClick={() => {
-												updateCart.mutate({
+												updateCart({
 													product: item.product._id,
+													//TODO enable
+													quantity: 1,
 												})
 											}}></i>
 									</button>
@@ -139,9 +144,7 @@ export function Cart() {
 					</h2>
 				</div>
 				<form
-					action={`${
-						import.meta.env.VITE_API_URL
-					}/api/v1/orders/create-checkout-session`}
+					action={`${process.env.NEXT_PUBLIC_API_URL}/api/v1/orders/create-checkout-session`}
 					method='POST'>
 					<button className='bg-sky-500 text-zinc-100  transition ease-in-out hover:bg-sky-400  px-10 p-2 rounded-lg w-max'>
 						Check out

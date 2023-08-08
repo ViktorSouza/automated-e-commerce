@@ -2,6 +2,7 @@
 *.env
 *node_modules
 
+client-1
 
 .VSCodeCounter
 logs

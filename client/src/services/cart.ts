@@ -1,4 +1,4 @@
-import { ICartPopulated } from '../../../shared/Types/ICart'
+import { ICartPopulated } from 'shared/Types/ICart'
 import { api } from './api'
 
 export async function updateCart({
@@ -13,7 +13,15 @@ export async function updateCart({
 		quantity: Math.max(0, quantity),
 	})
 
-	return res.data as ICartPopulated
+	return res.data.cart as ICartPopulated
+}
+export async function getCart(): Promise<ICartPopulated | null> {
+	try {
+		const res = (await api.get('/carts')).data.cart
+		return res
+	} catch (error) {
+		return null
+	}
 }
 
 export async function deleteProductFromCart({ product }: { product: string }) {

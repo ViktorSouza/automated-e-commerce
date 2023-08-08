@@ -17,20 +17,20 @@ const createReview: RequestHandler = async (req, res) => {
 	const productDB = await Product.findOne({ _id: product }).exec()
 	if (!productDB) throw new Error('Product not found')
 
-	const review = new Review({
+	const review = await Review.create({
 		product,
 		rating,
 		comment,
 		user: req.user._id,
 	})
-	try {
-		await review.save()
-	} catch (error) {
-		if (error instanceof MongooseError) {
-			throw new Error(error.name)
-		}
-		throw new Error('Server Internal Error')
-	}
+	// try {
+	// 	await review.save()
+	// } catch (error) {
+	// 	if (error instanceof MongooseError) {
+	// 		throw new Error(error.name)
+	// 	}
+	// 	throw new Error('Internal Server Error')
+	// }
 	res.json({ review })
 }
 const updateReview: RequestHandler = async (req, res) => {

@@ -10,8 +10,8 @@ export type GetProductsResponse = {
 }
 
 export const getProducts =
-	async (queryParams: {}): Promise<GetProductsResponse> => {
-		const response = await api.get('/products', { params: queryParams })
+	async (queryParams?: {}): Promise<GetProductsResponse> => {
+		const response = await api.get('/products', { params: queryParams ?? {} })
 
 		return response.data as GetProductsResponse
 	}

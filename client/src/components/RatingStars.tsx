@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 
 function RatingStars({
@@ -8,7 +9,7 @@ function RatingStars({
 	value: number
 }) {
 	return (
-		<div>
+		<div className='shrink-0'>
 			{Array(5)
 				.fill('')
 				.map((_s, index) => {

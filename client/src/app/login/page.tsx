@@ -1,20 +1,20 @@
+'use client'
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
-import { UserContext } from '../contexts/UserContext'
-import { api } from '../services/api'
-import { useQueryClient } from '@tanstack/react-query'
+// import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { UserContext } from '../../contexts/UserContext'
+import { api } from '../../services/api'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 function Login() {
-	const navigate = useNavigate()
+	const router = useRouter()
 	const { login, isLogin, userStatus, setIsLogin } = useContext(UserContext)
 	const email = useRef<HTMLInputElement>(null)
 	const password = useRef<HTMLInputElement>(null)
-	const queryClient = useQueryClient()
 	function handleRandomLogin() {
 		api.post('/auth/AUTlogin').then((res) => {
 			setIsLogin(true)
-			queryClient.invalidateQueries(['user', 'cart'])
-			queryClient.setQueryData(['user'], res.data.user)
+			router.push('/')
 		})
 	}
 	function handleLogin() {
@@ -36,13 +36,13 @@ function Login() {
 	useEffect(() => {
 		if (isLogin) {
 			if (userStatus === 'loading') return
-			navigate('/')
+			router.push('/')
 		}
 	})
 	console.log({ userStatus, isLogin })
 
-	if (isLogin) return null
-	if (userStatus === 'loading') return null
+	// if (isLogin) return null
+	// if (userStatus === 'loading') return null
 	return (
 		<form
 			onSubmit={(e) => e.preventDefault()}
@@ -79,12 +79,12 @@ function Login() {
 			</div>
 			<div className='flex flex-row justify-between content-between mb-4'>
 				<Link
-					to='/create-account'
+					href='/create-account'
 					className='text-sky-500 hover:underline hover:text-sky-300'>
 					Create account
 				</Link>
 				<Link
-					to='/forget-password'
+					href='/forget-password'
 					className='text-sky-500 hover:underline hover:text-sky-300'>
 					Forget the password?
 				</Link>

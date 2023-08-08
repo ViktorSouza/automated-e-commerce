@@ -1,14 +1,17 @@
+'use client'
 import {
-	useMutation,
-	UseMutationResult,
-	useQuery,
-	useQueryClient,
-} from '@tanstack/react-query'
-import { createContext, ReactNode, useContext, useMemo } from 'react'
+	createContext,
+	ReactNode,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react'
 import { ICart, ICartPopulated } from 'shared/Types/ICart'
 import { api } from '../services/api'
 import { updateCart as updateProductFromCart } from '../services/cart'
 import { UserContext } from './UserContext'
+import { getUser } from '../services/user'
 const defaultCart: ICartPopulated = {
 	createdAt: new Date(0),
 	shippingFee: 0,
@@ -18,55 +21,52 @@ const defaultCart: ICartPopulated = {
 	user: '',
 	_id: '',
 }
-type IUpdateCart = UseMutationResult<
-	ICartPopulated,
-	unknown,
-	{
-		product?: string
-		quantity?: number
-	},
-	unknown
->
+// type IUpdateCart = UseMutationResult<
+// 	ICartPopulated,
+// 	unknown,
+// 	{
+// 		product?: string
+// 		quantity?: number
+// 	},
+// 	unknown
+// >
 
 const CartContext = createContext<{
 	cart: ICartPopulated
-	updateCart: IUpdateCart
+	updateCart: ({}: { product: string; quantity: number }) => any
 }>({
-	updateCart: {} as IUpdateCart,
+	updateCart: () => {},
 	cart: defaultCart,
 })
 
 const CartProvider = ({ children }: { children: ReactNode }) => {
-	const queryClient = useQueryClient()
 	const { isLogin } = useContext(UserContext)
-	const { data: cart, status: cartStatus } = useQuery<ICartPopulated>(
-		['cart'],
-		{
-			enabled: isLogin,
-			keepPreviousData: true,
-			placeholderData: defaultCart,
-			queryFn: async () => (await api.get('/carts')).data.cart,
-		},
-	)
+	const [cart, setCart] = useState(defaultCart)
+	useEffect(() => {
+		if (!isLogin) return
+		api.get('/carts').then((res) => {
+			setCart(res.data.cart)
+		})
+	}, [isLogin])
 
-	const updateCart = useMutation({
-		mutationFn: ({
-			product = '',
-			quantity = 0,
-		}: {
-			product?: string
-			quantity?: number
-		}) => updateProductFromCart({ product, quantity }),
-		onSuccess() {
-			queryClient.invalidateQueries(['cart'])
-		},
-	})
+	const updateCart = async ({
+		product,
+		quantity,
+	}: {
+		product: string
+		quantity: number
+	}) => {
+		return updateProductFromCart({ product, quantity }).then((data) => {
+			setCart(data)
+			return data
+		})
+	}
 	const value = useMemo(
 		() => ({
-			cart: cartStatus === 'success' ? cart : defaultCart,
+			cart: cart,
 			updateCart,
 		}),
-		[cart, updateCart],
+		[cart],
 	)
 	return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }

@@ -1,21 +1,22 @@
+'use client'
 import React, { useContext, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { UserContext } from '../contexts/UserContext'
+import { UserContext } from '../../contexts/UserContext'
+import { useRouter } from 'next/navigation'
 
 function CreateAccount() {
 	const firstName = useRef<HTMLInputElement>(null)
 	const lastName = useRef<HTMLInputElement>(null)
 	const email = useRef<HTMLInputElement>(null)
 	const password = useRef<HTMLInputElement>(null)
-	const navigate = useNavigate()
+	const router = useRouter()
 	const { register, isLogin, userStatus } = useContext(UserContext)
 
 	useEffect(() => {
 		if (isLogin) {
-			navigate('/')
+			router.push('/')
 		}
 	}, [isLogin])
-	if (isLogin || userStatus === 'loading') return null
+	if (isLogin) return null
 
 	function handleCreateAccount() {
 		if (

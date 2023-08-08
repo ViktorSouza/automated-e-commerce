@@ -2,23 +2,15 @@ import {
 	createContext,
 	ReactNode,
 	SetStateAction,
+	useCallback,
 	useEffect,
 	useMemo,
 	useState,
 } from 'react'
 import { loginUser, getUser, logoutUser, createAccount } from '../services/user'
 import { IUser, RegisterUserRequest } from 'shared/Types/IUser'
-import { useCookies } from 'react-cookie'
-import {
-	useQuery,
-	useMutation,
-	useQueryClient,
-	UseMutationResult,
-	UseMutationOptions,
-} from '@tanstack/react-query'
-import { AxiosError } from 'axios'
-import { useLocation } from 'react-router-dom'
 import { addToWishlist, removeFromWishlist } from '../services/wishlist'
+import { api } from '../services/api'
 
 const defaultUser: IUser = {
 	roles: [''],
@@ -34,18 +26,6 @@ type IUserAddon = {
 	isLogin: boolean
 	setIsLogin: React.Dispatch<SetStateAction<boolean>>
 	userStatus: 'error' | 'success' | 'loading'
-	addToWishlistMutation: UseMutationResult<
-		unknown,
-		unknown,
-		{ product: string },
-		unknown
-	>
-	removeFromWishlistMutation: UseMutationResult<
-		unknown,
-		unknown,
-		{ product: string },
-		unknown
-	>
 	login: (userData: { email: string; password: string }) => Promise<void>
 	logout: () => Promise<void>
 	register: ({
@@ -58,18 +38,6 @@ type IUserAddon = {
 const UserContext = createContext<{ user: IUser } & IUserAddon>({
 	isLogin: false,
 	setIsLogin() {},
-	addToWishlistMutation: {} as UseMutationResult<
-		unknown,
-		unknown,
-		{ product: string },
-		unknown
-	>,
-	removeFromWishlistMutation: {} as UseMutationResult<
-		unknown,
-		unknown,
-		{ product: string },
-		unknown
-	>,
 	login: async () => {},
 	logout: async () => {},
 	userStatus: 'loading',
@@ -92,67 +60,40 @@ const UserContext = createContext<{ user: IUser } & IUserAddon>({
 })
 
 const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-	const queryClient = useQueryClient()
-	const { data: user, status: userStatus } = useQuery<IUser>({
-		queryKey: ['user'],
-		keepPreviousData: true,
-		staleTime: 5000,
-		retry: false,
-		queryFn: getUser,
-		onSuccess() {
-			setIsLogin(true)
-		},
-	})
+	const [user, setUser] = useState(defaultUser)
+	const [userStatus, setUserStatus] = useState<'success' | 'loading'>('loading')
+	// user._id === '' ? 'loading' : 'success'
 
 	//TODO change this value
-	const [isLogin, setIsLogin] = useState<boolean>(
-		userStatus === 'success' && user._id !== '',
+	const [isLogin, setIsLogin] = useState<boolean>(false)
+
+	const login = useCallback(
+		async (userData: { email: string; password: string }) => {
+			await loginUser(userData)
+			setIsLogin(true)
+		},
+		[],
 	)
 
-	const userMutation = useMutation({
-		mutationFn: ({
-			firstName,
-			lastName,
-			email,
-			password,
-		}: RegisterUserRequest) =>
-			createAccount({ firstName, lastName, email, password }),
-		onSuccess() {
-			queryClient.invalidateQueries(['user'])
-		},
-	})
-
-	const addToWishlistMutation = useMutation({
-		mutationFn: ({ product }: { product: string }) =>
-			addToWishlist({ product }),
-		onSuccess: () => {
-			queryClient.invalidateQueries(['user'])
-		},
-	})
-	const removeFromWishlistMutation = useMutation({
-		mutationFn: ({ product }: { product: string }) =>
-			removeFromWishlist({ product }),
-		onSuccess() {
-			queryClient.invalidateQueries(['user'])
-		},
-	})
-
-	const login = async (userData: { email: string; password: string }) => {
-		const userRes = await loginUser(userData)
-		queryClient.invalidateQueries(['user', 'cart'])
-		queryClient.setQueryData(['user'], userRes)
-		setIsLogin(true)
-	}
-
-	console.log(user)
+	useEffect(() => {
+		api
+			.get('/users/showMe')
+			.then((res) => {
+				if (res.data.user) {
+					setUser(res.data.user)
+					setIsLogin(true)
+					setUserStatus('success')
+				}
+			})
+			.catch((error) => {
+				setIsLogin(false)
+				setUserStatus('success')
+			})
+	}, [])
 
 	const logout = async () => {
 		await logoutUser()
 		//TODO the data is still available, so the data must be deleted
-		// queryClient.refetchQueries(['user'])
-		// queryClient.refetchQueries(['cart'])
-		queryClient.removeQueries(['user'])
-		queryClient.removeQueries(['cart'])
 		setIsLogin(false)
 	}
 	const register = async ({
@@ -161,7 +102,7 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 		email,
 		password,
 	}: RegisterUserRequest) => {
-		userMutation.mutate({ firstName, lastName, email, password })
+		// userMutation.mutate({ firstName, lastName, email, password })
 	}
 	const value = useMemo(
 		() => ({
@@ -172,20 +113,8 @@ const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 			logout,
 			register,
 			userStatus,
-			addToWishlistMutation,
-			removeFromWishlistMutation,
 		}),
-		[
-			user,
-			isLogin,
-			setIsLogin,
-			login,
-			logout,
-			register,
-			userStatus,
-			addToWishlistMutation,
-			removeFromWishlistMutation,
-		],
+		[user, isLogin, setIsLogin, login, logout, register, userStatus],
 	)
 	return (
 		<UserContext.Provider

@@ -1,3 +1,4 @@
+'use client'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import React, { useState } from 'react'
 
@@ -9,6 +10,7 @@ export function Options({
 	title: string
 }) {
 	const [isOpened, setIsOpened] = useState(false)
+
 	return (
 		<div className='relative text-primary'>
 			<button

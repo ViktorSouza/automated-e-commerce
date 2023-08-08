@@ -1,28 +1,43 @@
+'use client'
 import React, { useContext } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { ProductContext } from '../contexts/ProductContext'
+import Link from 'next/link'
+// import { Link, useLocation } from 'react-router-dom'
 import { UserContext } from '../contexts/UserContext'
 import ToggleTheme from './ToggleTheme'
 import { Search, User2 } from 'lucide-react'
+import {
+	useParams,
+	useSearchParams,
+	useRouter,
+	usePathname,
+} from 'next/navigation'
 
 function MainHeader() {
 	const { isLogin } = useContext(UserContext)
-	const location = useLocation()
-	const { setSearchParams, searchParams } = useContext(ProductContext)
+	const searchParams = useSearchParams()
+
+	const router = useRouter()
+	const pathname = usePathname()
 	function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-		console.log(searchParams)
-		searchParams.set('search', e.target.value)
-		setSearchParams(new URLSearchParams(searchParams.toString()))
+		const searchParams1 = new URLSearchParams(searchParams?.toString())
+		searchParams1.set('search', e.target.value)
+		const url = `${pathname}?${searchParams1}`
+
+		console.log(url)
+		// router.push(`?${searchParams?.toString()}search=${e.target.value}`)
+		router.replace(url)
+		// setSearchParams(new URLSearchParams(searchParams.toString()))
 	}
 	return (
 		<header className='mb-5 border-b w-12/12 dark:border-zinc-900'>
 			<div className='xl:w-[1280px] w-full xl:mx-auto px-5 p-4 gap-5 flex justify-between items-center'>
 				<Link
-					to='/'
+					href='/'
 					className='shrink-0'>
-					<h1 className='md:text-xl font-medium text-primary'>
+					<h1 className='hidden md:inline font-medium text-primary'>
 						Automated E-Commerce
 					</h1>
+					<h1 className='md:hidden font-medium text-primary'>E-Commerce</h1>
 				</Link>
 				<div className='relative  sm:w-full'>
 					<button
@@ -34,7 +49,7 @@ function MainHeader() {
 						<input
 							type='text'
 							disabled={location.pathname !== '/'}
-							defaultValue={searchParams.get('search') ?? ''}
+							defaultValue={searchParams?.get('search') ?? ''}
 							onChange={(e) => handleSearch(e)}
 							name='product-search'
 							placeholder='Search for something...'
@@ -51,12 +66,12 @@ function MainHeader() {
 					{isLogin ? (
 						<>
 							<Link
-								to='my-account/cart'
+								href='/my-account/cart'
 								className='px-2 py-1 transition-colors rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-900 text-primary aspect-square h-10 flex items-center justify-center'>
 								<i className='bi bi-bag'></i>
 							</Link>
 							<Link
-								to='/my-account'
+								href='/my-account'
 								className='px-2 py-1 transition-colors rounded-full  hover:bg-zinc-100 dark:hover:bg-zinc-900  text-primary aspect-square h-10 flex items-center justify-center'>
 								<i className='bi bi-person'></i>
 							</Link>
@@ -65,13 +80,13 @@ function MainHeader() {
 						<div className='flex items-stretch justify-between gap-3 overflow-hidden'>
 							<div>
 								<Link
-									to='/login'
+									href='/login'
 									className='text-xs font-bold hover:underline text-primary'>
 									Login
 								</Link>
 								<span className='text-xs'> or</span>
 								<Link
-									to='/create-account'
+									href='/create-account'
 									className='block text-xs font-bold hover:underline text-primary'>
 									Create account
 								</Link>

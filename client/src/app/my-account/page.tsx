@@ -1,9 +1,11 @@
-import React, { useContext } from 'react'
-import { UserContext } from '../contexts/UserContext'
+'use client'
+import React, { useContext, useEffect } from 'react'
+import { UserContext } from '@/contexts/UserContext'
 import { useForm } from 'react-hook-form'
+import { redirect } from 'next/navigation'
 
-export function PersonalInfo() {
-	const { user } = useContext(UserContext)
+export default function PersonalInfo() {
+	const { user, userStatus } = useContext(UserContext)
 	const {
 		register,
 		handleSubmit,
@@ -14,6 +16,9 @@ export function PersonalInfo() {
 			firstName: '',
 			lastName: '',
 		},
+	})
+	useEffect(() => {
+		if (!user._id && userStatus === 'success') redirect('/login')
 	})
 	return (
 		<div>

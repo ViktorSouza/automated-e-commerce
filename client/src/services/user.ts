@@ -11,10 +11,17 @@ const defaultUser: IUser = {
 	},
 	_id: '',
 }
-export async function getUser(): Promise<IUser> {
-	const res = await api.get('/users/showMe')
-	if (res.status !== 200) return defaultUser
-	return res.data.user
+export async function getUser(): Promise<IUser | null> {
+	const { cookies } = require('next/headers')
+	try {
+		const res = await api.get('/users/showMe', {
+			headers: { Cookie: `token=${cookies().get('token')?.value}` },
+		})
+		if (res.status !== 200) return defaultUser
+		return res.data.user
+	} catch (error) {
+		return null
+	}
 }
 export async function loginUser({
 	email,

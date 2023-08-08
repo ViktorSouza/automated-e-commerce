@@ -15,16 +15,17 @@ dotenv.config({ path: './.env' })
 //TODO make some abstrations
 //TODO make the pagination system to everything
 //TODO make statistics, such as number of products, number of users, growth, etc
-
 const app = express()
 app.use(
 	cors({
 		origin: [
 			'https://automated-e-commerce.vercel.app',
-			'http://localhost:5173',
+			'http://localhost:3000',
+			'http://192.168.0.99:3000',
 		],
 		credentials: true,
 		optionsSuccessStatus: 200,
+
 		// exposedHeaders: ['set-cookie'],
 	}),
 )

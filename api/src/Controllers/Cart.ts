@@ -47,7 +47,6 @@ const addProductToCart: RequestHandler<
 		).exec()
 		if (!cartWithDeleted) throw new Error('Internal Error')
 		res.json({ cart: cartWithDeleted })
-		return
 	}
 	const existedProduct = cart.products.findIndex(
 		(value, index) => value.product.toString() === product.toString(),
