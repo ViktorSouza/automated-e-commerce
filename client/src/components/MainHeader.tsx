@@ -17,16 +17,14 @@ function MainHeader() {
 	const searchParams = useSearchParams()
 
 	const router = useRouter()
-	const pathname = usePathname()
-	function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-		const searchParams1 = new URLSearchParams(searchParams?.toString())
-		searchParams1.set('search', e.target.value)
-		const url = `${pathname}?${searchParams1}`
+	function handleSearch(e: React.KeyboardEvent<HTMLInputElement>) {
+		if (e.key === 'Enter') {
+			const searchParams1 = new URLSearchParams(searchParams?.toString())
+			searchParams1.set('search', e.currentTarget.value)
+			const url = `/?${searchParams1}`
 
-		console.log(url)
-		// router.push(`?${searchParams?.toString()}search=${e.target.value}`)
-		router.replace(url)
-		// setSearchParams(new URLSearchParams(searchParams.toString()))
+			router.push(url)
+		}
 	}
 	return (
 		<header className='mb-5 border-b w-12/12 dark:border-zinc-900'>
@@ -48,9 +46,9 @@ function MainHeader() {
 					<div className=' transition hidden peer-focus-within:flex sm:flex focus-within:flex hover:flex max-sm:fixed max-sm:w-screen max-sm:left-0 max-sm:top-16 sm:relative duration-500 input dark:hover:bg-zinc-800 hover:bg-zinc-100 bg-zinc-100 rounded-full sm:px-4 p-2 '>
 						<input
 							type='text'
-							disabled={location.pathname !== '/'}
+							// disabled={!['/', ''].includes(location.pathname)}
 							defaultValue={searchParams?.get('search') ?? ''}
-							onChange={(e) => handleSearch(e)}
+							onKeyDown={(e) => handleSearch(e)}
 							name='product-search'
 							placeholder='Search for something...'
 							id='product-seach'
