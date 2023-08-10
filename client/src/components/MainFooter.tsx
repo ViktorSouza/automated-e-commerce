@@ -10,10 +10,12 @@ function MainFooter() {
 				</h1>
 				<ul className=' space-y-1'>
 					<li className='dark: space-x-2'>
-						<i className='bi bi-github'></i>
+						<i className='bi bi-github text-primary'></i>
 						{/* TODO put the link here */}
 						<a
 							target='_blank'
+							rel='noopener'
+							href='https://automated-e-commerce.vercel.app/'
 							className='space-x-2'>
 							<span>GitHub repository</span>
 						</a>
@@ -50,15 +52,15 @@ function MainFooter() {
 						<Link
 							className=' space-x-2'
 							href={'/my-account'}>
-							<i className='bi bi-person'></i>
+							<i className='bi bi-person text-primary'></i>
 							<span>My Account</span>
 						</Link>
 					</li>
 					<li className='dark: '>
 						<Link
 							className='space-x-2'
-							href='/my-account/cart'>
-							<i className='bi bi-cart2'></i>
+							href='/my-account/cart '>
+							<i className='bi bi-cart2 text-primary'></i>
 							<span>Cart</span>
 						</Link>
 					</li>
@@ -66,7 +68,7 @@ function MainFooter() {
 						<Link
 							className='space-x-2'
 							href='/my-account/wishlist'>
-							<i className='bi bi-heart'></i>
+							<i className='bi bi-heart text-primary'></i>
 							<span>Wishlist</span>
 						</Link>
 					</li>
@@ -74,7 +76,7 @@ function MainFooter() {
 						<Link
 							className='space-x-2'
 							href='/my-account/orders'>
-							<i className='bi bi-file-text'></i>
+							<i className='bi bi-file-text text-primary'></i>
 							<span>Orders</span>
 						</Link>
 					</li>
@@ -89,7 +91,7 @@ function MainFooter() {
 							className=' space-x-2'
 							href='https://www.instagram.com/viktor.dzn/'
 							target='_blank'>
-							<i className='bi bi-instagram'></i>
+							<i className='bi bi-instagram text-primary'></i>
 							<span>Viktor.dzn</span>
 						</a>
 					</li>
@@ -99,7 +101,7 @@ function MainFooter() {
 							className='space-x-2'
 							href='https://github.com/ViktorSouza/'
 							target='_blank'>
-							<i className='bi bi-github'></i>
+							<i className='bi bi-github text-primary'></i>
 							<span>ViktorSouza</span>
 						</a>
 					</li>
@@ -109,7 +111,7 @@ function MainFooter() {
 							className='space-x-2'
 							href='https://wa.me/5516992891261'
 							target='_blank'>
-							<i className='bi bi-whatsapp'></i>
+							<i className='bi bi-whatsapp text-primary'></i>
 							<span>+55 16 9 9289-1261</span>
 						</a>
 					</li>
