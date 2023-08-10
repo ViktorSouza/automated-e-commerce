@@ -1,4 +1,3 @@
-import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { api } from '../services/api'
 import { IProduct } from '../../../shared/Types/IProduct'
@@ -7,15 +6,16 @@ import ProductCard from '../components/ProductCard'
 import Review from '../components/Review'
 
 export default function Admin() {
-	const { data } = useQuery<unknown, unknown, AdminData>({
-		placeholderData: {},
-		keepPreviousData: true,
-		queryFn: async () => {
-			const res = await api.get('/admin')
-			return res.data
-		},
-		queryKey: ['values'],
-	})
+	const data: AdminData = {}
+	// const { data } = useQuery<unknown, unknown, AdminData>({
+	// 	placeholderData: {},
+	// 	keepPreviousData: true,
+	// 	queryFn: async () => {
+	// 		const res = await api.get('/admin')
+	// 		return res.data
+	// 	},
+	// 	queryKey: ['values'],
+	// })
 	if (!data) return null
 	console.log(data)
 	return (

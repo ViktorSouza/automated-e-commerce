@@ -22,7 +22,6 @@ function MainFooter() {
 						<h2 className='font-medium text-primary'>Front-end</h2>
 						<ul className='ml-5'>
 							<li>React</li>
-							<li>TanStack Query</li>
 							<li>TypeScript</li>
 							<li>Axios</li>
 							<li>Shadcn/ui</li>

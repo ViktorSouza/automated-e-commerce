@@ -18,7 +18,6 @@ import { UserContext } from '../contexts/UserContext'
 import { api } from '../services/api'
 import { useParams } from 'next/navigation'
 import { toast } from 'react-hot-toast'
-// import { useQueryClient } from '@tanstack/react-query'
 
 export default function CreateReview() {
 	// const [rating, setRating] = useState(0)
