@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react'
-import { api } from '../services/api'
-import { IProduct } from '../../../shared/Types/IProduct'
-import { IReview } from '../../../shared/Types/IReview'
-import ProductCard from '../components/ProductCard'
-import Review from '../components/Review'
+import { IProduct } from 'shared/Types/IProduct'
+import { IReview } from 'shared/Types/IReview'
+import ProductCard from '@/components/ProductCard'
+import Review from '@/components/Review'
 
 export default function Admin() {
 	const data: AdminData = {}

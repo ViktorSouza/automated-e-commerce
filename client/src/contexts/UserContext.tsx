@@ -9,7 +9,6 @@ import {
 } from 'react'
 import { loginUser, getUser, logoutUser, createAccount } from '../services/user'
 import { IUser, RegisterUserRequest } from 'shared/Types/IUser'
-import { addToWishlist, removeFromWishlist } from '../services/wishlist'
 import { api } from '../services/api'
 
 const defaultUser: IUser = {
