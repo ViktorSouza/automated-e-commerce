@@ -18,7 +18,7 @@ import { getUser } from '@/services/user'
 import { AddToWishlist } from '../../../components/AddToWishlist'
 import ProductCard from '../../../components/ProductCard'
 
-export async function ProductDetails({
+export default async function ProductDetails({
 	params,
 	searchParams,
 }: {
@@ -210,4 +210,3 @@ const defaultData = {
 	},
 	reviews: [],
 }
-export default ProductDetails

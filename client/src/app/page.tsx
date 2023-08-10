@@ -8,30 +8,13 @@ import {
 } from '@/components/ui/dialog'
 import ProductCard from '../components/ProductCard'
 import { Pagination } from '../components/Pagination'
-import { Options } from '../components/Options'
 import { ProductsFilter } from '../components/ProductsFilter'
-import { Filter, SlidersHorizontal } from 'lucide-react'
-import { useSearchParams } from 'next/navigation'
-import { api } from '../services/api'
-import { GetProductsResponse, getProducts } from '../services/product'
+import { SlidersHorizontal } from 'lucide-react'
+import { getProducts } from '../services/product'
 import { getUser } from '../services/user'
 import SortBy from '../components/SortBy'
-import { cookies } from 'next/headers'
 
-const defaultProduct: GetProductsResponse = {
-	amount: 0,
-	totalResults: 0,
-	totalPages: 0,
-	currentPage: 0,
-	products: [],
-}
-export default async function MainPage({
-	searchParams,
-	req,
-}: {
-	req: any
-	searchParams: {}
-}) {
+export default async function MainPage({ searchParams }: { searchParams: {} }) {
 	const product = await getProducts(searchParams)
 	const user = await getUser()
 	const sortOptions = [
@@ -80,30 +63,23 @@ export default async function MainPage({
 					</div>
 				</div>
 				<div className='grid grid-cols-5 gap-5'>
-					{/* <ProductsFilter /> */}
 					<div className='flex flex-col col-span-5'>
 						<div className='grid gap-6 lg:grid-cols-3 2xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 auto-cols-fr'>
-							{product.products.map((product) => {
-								{
-									/* {[].map((product) => { */
-								}
-								return (
-									<ProductCard
-										key={product._id}
-										product={product}
-										//TODO change here
-										// isWished={false}
-										isWished={
-											user!.wishlist?.some((wish) => wish._id == product._id) ||
-											false
-										}
-									/>
-								)
-							})}
+							{product.products.map((product) => (
+								<ProductCard
+									key={product._id}
+									product={product}
+									//TODO change here
+									// isWished={false}
+									isWished={
+										user?.wishlist?.some((wish) => wish._id == product._id) ||
+										false
+									}
+								/>
+							))}
 						</div>
 						<Pagination
 							totalPages={product.totalPages}
-							// setCurrentPage={setCurrentPage}
 							currentPage={product.currentPage}
 						/>
 					</div>
