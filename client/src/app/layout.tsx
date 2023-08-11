@@ -5,6 +5,7 @@ import Providers from '../components/Providers'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import MainHeader from '../components/MainHeader'
 import MainFooter from '../components/MainFooter'
+import Script from 'next/script'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,6 +21,16 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang='en'>
+			<Script src='https://www.googletagmanager.com/gtag/js?id=G-T73PYN72WM' />
+			<Script id='google-analytics'>
+				{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+ 
+          gtag('config', 'G-T73PYN72WM');
+        `}
+			</Script>
 			<body
 				className={`${inter.className} min-h-screen bg-white min-w-screen dark:text-zinc-400 dark:bg-zinc-950 text-zinc-600 `}>
 				<main className=''>
