@@ -156,7 +156,7 @@ const getSingleProduct: RequestHandler = async (req, res) => {
 			get_reviews: z
 				.enum(['true', 'false'])
 				.transform((value) => value === 'true'),
-		})
+		}).partial()
 		.parse(req.query)
 	const { get_reviews } = query
 
