@@ -178,10 +178,7 @@ export default async function ProductDetails({
 								<ProductCard
 									key={product._id}
 									product={product}
-									isWished={
-										user!.wishlist?.some((wish) => wish._id == product._id) ||
-										false
-									}
+									isWished={isWished}
 								/>
 							))}
 					</div>
