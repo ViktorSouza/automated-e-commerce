@@ -168,7 +168,7 @@ export default async function ProductDetails({
 				</Accordion>
 				<section className='my-5'>
 					<h1 className='py-4 font-semibold text-4xl text-primary'>
-						You can also like
+						You may also like
 					</h1>
 					<div className='grid gap-6 lg:grid-cols-3 2xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 auto-cols-fr'>
 						{fiveProducts.products
